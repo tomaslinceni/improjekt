@@ -1,0 +1,235 @@
+---
+import { Image } from 'astro:assets';
+import vykres from '../assets/brand/vykres.png';
+/**
+ * A drawing sheet: ruled border, grid-reference zones (A–F across, 1–4 down) and,
+ * optionally, IM Projekt's own floor plan as the underlay.
+ */
+interface Props {
+  class?: string;
+  underlay?: boolean;
+  underlayPosition?: 'right' | 'center';
+  /** move the floor plan on scroll (opening sheets only) */
+  drift?: boolean;
+}
+const { class: cls = '', underlay = true, underlayPosition = 'right', drift = true } = Astro.props;
+const cols = ['A', 'B', 'C', 'D', 'E', 'F'];
+const rows = ['1', '2', '3', '4'];
+---
+<div class:list={['sheet', cls]} data-sheet>
+  <span class="sheet__corner mono" aria-hidden="true" data-sheet-zone></span>
+  <div class="sheet__zones sheet__zones--top" aria-hidden="true">
+    {cols.map((c) => <span data-col>{c}</span>)}
+  </div>
+  <div class="sheet__zones sheet__zones--left" aria-hidden="true">
+    {rows.map((r) => <span data-row>{r}</span>)}
+  </div>
+  <span class="sheet__cx" aria-hidden="true"></span>
+  <span class="sheet__cy" aria-hidden="true"></span>
+  <div class="sheet__inner">
+    {
+      underlay && (
+        <div class:list={['sheet__underlay', `sheet__underlay--${underlayPosition}`, { parallax: drift }]} aria-hidden="true">
+          <Image src={vykres} alt="" widths={[900, 1400, 1800]} sizes="80vw" loading="eager" />
+        </div>
+      )
+    }
+    <slot />
+  </div>
+</div>
+
+<style>
+  .sheet {
+    --z: 22px;
+    position: relative;
+    border: 1px solid var(--ink);
+    padding: var(--z) 0 0 var(--z);
+    background: var(--paper);
+  }
+
+  .sheet__zones {
+    position: absolute;
+    display: grid;
+    font-family: var(--f-mono);
+    font-size: 0.6875rem;
+    color: var(--muted);
+  }
+
+  .sheet__zones--top {
+    top: 0;
+    left: var(--z);
+    right: 0;
+    height: var(--z);
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .sheet__zones--left {
+    top: var(--z);
+    left: 0;
+    bottom: 0;
+    width: var(--z);
+    grid-template-rows: repeat(4, 1fr);
+    border-right: 1px solid var(--ink);
+  }
+
+  .sheet__zones span {
+    display: grid;
+    place-items: center;
+  }
+
+  .sheet__zones--top span + span {
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .sheet__zones--left span + span {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .sheet__inner {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* the drawing lies under the sheet's content, never over it */
+  .sheet__inner > :global(:not(.sheet__underlay)) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .sheet__underlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+  }
+
+  .sheet__underlay :global(img) {
+    position: absolute;
+    width: min(1500px, 120%);
+    max-width: none;
+    height: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .sheet__underlay--right :global(img) {
+    right: -14%;
+  }
+
+  .sheet__underlay--center :global(img) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* E4: drafting crosshair. The cursor's zone lights up on the sheet border, like a grid reference. */
+  .sheet__corner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--z);
+    height: var(--z);
+    display: grid;
+    place-items: center;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    z-index: 3;
+  }
+
+  .sheet__zones span {
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .sheet__zones span.is-hot {
+    background: var(--orange);
+    color: var(--ink);
+  }
+
+  .sheet__cx,
+  .sheet__cy {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    background: var(--orange-lo);
+  }
+
+  .sheet__cx {
+    left: 0;
+    right: 0;
+    height: 1px;
+    top: var(--cy, 0);
+  }
+
+  .sheet__cy {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    left: var(--cx, 0);
+  }
+
+  .sheet.is-aim .sheet__cx,
+  .sheet.is-aim .sheet__cy {
+    opacity: 0.55;
+  }
+
+  .sheet.is-aim .sheet__inner {
+    cursor: crosshair;
+  }
+
+  @media (max-width: 720px) {
+    .sheet {
+      --z: 16px;
+    }
+
+    .sheet__zones {
+      font-size: 0.5625rem;
+    }
+
+    .sheet__underlay :global(img) {
+      width: 220%;
+      right: -60%;
+    }
+  }
+</style>
+
+<script>
+  // Drafting crosshair: only with a fine pointer; it steps aside over panels, links and buttons.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-sheet]').forEach((sheet) => {
+      const cols = [...sheet.querySelectorAll<HTMLElement>('[data-col]')];
+      const rows = [...sheet.querySelectorAll<HTMLElement>('[data-row]')];
+      const zone = sheet.querySelector<HTMLElement>('[data-sheet-zone]');
+      const inner = sheet.querySelector<HTMLElement>('.sheet__inner');
+      if (!inner) return;
+      const off = () => {
+        sheet.classList.remove('is-aim');
+        cols.concat(rows).forEach((z) => z.classList.remove('is-hot'));
+        if (zone) zone.textContent = '';
+      };
+      inner.addEventListener('pointermove', (e) => {
+        const t = e.target as HTMLElement;
+        if (t.closest('a, button, input, textarea, .glass')) return off();
+        const s = sheet.getBoundingClientRect();
+        const r = inner.getBoundingClientRect();
+        const fx = (e.clientX - r.left) / r.width;
+        const fy = (e.clientY - r.top) / r.height;
+        const ci = Math.min(cols.length - 1, Math.floor(fx * cols.length));
+        const ri = Math.min(rows.length - 1, Math.floor(fy * rows.length));
+        sheet.style.setProperty('--cx', `${e.clientX - s.left - 1}px`);
+        sheet.style.setProperty('--cy', `${e.clientY - s.top - 1}px`);
+        cols.forEach((c, i) => c.classList.toggle('is-hot', i === ci));
+        rows.forEach((c, i) => c.classList.toggle('is-hot', i === ri));
+        if (zone) zone.textContent = `${cols[ci]?.textContent}${rows[ri]?.textContent}`;
+        sheet.classList.add('is-aim');
+      });
+      inner.addEventListener('pointerleave', off);
+    });
+  }
+</script>

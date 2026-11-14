@@ -1,0 +1,964 @@
+[
+  {
+    "id": "administrativni-budova-vyrtych",
+    "title": "Administrativní budova Vyrtych",
+    "category": "komercni",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/administrativni-budova-vyrtych.webp",
+    "featured": -1,
+    "published": "2026-02-19T03:11:16"
+  },
+  {
+    "id": "bytove-domy-bezdecin",
+    "title": "Bytové domy Bezděčín",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí",
+      "dokumentace skutečného provedení",
+      "dokumentace změny stavby před jejím dokončením"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytove-domy-bezdecin.webp",
+    "featured": -1,
+    "published": "2026-02-19T03:55:25"
+  },
+  {
+    "id": "bytove-domy-svatovitska",
+    "title": "Bytové domy Svatovítská",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring",
+      "dokumentace skutečného provedení stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytove-domy-svatovitska.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:07:33"
+  },
+  {
+    "id": "bytove-domy-vranovice",
+    "title": "Bytové domy Vranovice",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro povolení záměru a inženýring",
+      "dokumentace pro provádění stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytove-domy-vranovice.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:09:11"
+  },
+  {
+    "id": "bytovy-dum-debr",
+    "title": "Bytový dům Debř",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-debr.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:10:08"
+  },
+  {
+    "id": "bytovy-dum-husova",
+    "title": "Bytový dům Husova",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring",
+      "dokumentace skutečného provedení",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-husova.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:11:34"
+  },
+  {
+    "id": "bytovy-dum-chocen",
+    "title": "Bytový dům Choceň",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-chocen.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:12:26"
+  },
+  {
+    "id": "bytovy-dum-kino-bela",
+    "title": "Bytový dům Kino Bělá",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-kino-bela.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:13:20"
+  },
+  {
+    "id": "bytovy-dum-kovadlina",
+    "title": "Bytový dům Kovadlina",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-kovadlina.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:14:09"
+  },
+  {
+    "id": "bytovy-dum-na-kozine",
+    "title": "Bytový dům Na Kozině",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace skutečného provedení stavby",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-na-kozine.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:15:11"
+  },
+  {
+    "id": "bytovy-dum-palackeho",
+    "title": "Bytový dům Palackého",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring",
+      "dokumentace skutečného provedení",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-palackeho.webp",
+    "featured": 4,
+    "published": "2026-02-19T04:16:47"
+  },
+  {
+    "id": "bytovy-dum-tovacovskeho-ptacka",
+    "title": "Bytový dům Tovačovského Ptácká",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-tovacovskeho-ptacka.webp",
+    "featured": 5,
+    "published": "2026-02-19T04:17:39"
+  },
+  {
+    "id": "bytovy-dum-trida-vaclava-klementa",
+    "title": "Bytový dům Třída Václava Klementa",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro odstranění stavby a inženýring",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/bytovy-dum-trida-vaclava-klementa.webp",
+    "featured": 2,
+    "published": "2026-02-19T04:18:46"
+  },
+  {
+    "id": "dreveny-dum-08",
+    "title": "Dřevěný dům 08",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/dreveny-dum-08.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:19:15"
+  },
+  {
+    "id": "et-estate",
+    "title": "ET Estate",
+    "category": "komercni",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace změny stavby před jejím dokončením"
+    ],
+    "notes": [
+      "zpracovatel předchozích stupňů dokumentace: TRIEN s.r.o."
+    ],
+    "image": "../assets/reference/et-estate.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:20:21"
+  },
+  {
+    "id": "farsky-dvur-v-predmericich",
+    "title": "Farský dvůr v Předměřicích",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/farsky-dvur-v-predmericich.webp",
+    "featured": 0,
+    "published": "2026-02-19T04:24:10"
+  },
+  {
+    "id": "hasicska-zbrojnice-pro-jsdho-jilove-u-prahy",
+    "title": "Hasičská zbrojnice pro JSDHO Jílové u Prahy",
+    "category": "verejne",
+    "realizace": "novostavba",
+    "services": [
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace skutečného provedení"
+    ],
+    "notes": [
+      "oceněná stavba soutěže STAVBA ROKU STŘEDOČESKÉHO KRAJE 2025",
+      "dokumentace pro společné povolení: Ing. Josef Fuk"
+    ],
+    "image": "../assets/reference/hasicska-zbrojnice-pro-jsdho-jilove-u-prahy.webp",
+    "featured": 3,
+    "published": "2026-02-19T04:25:43"
+  },
+  {
+    "id": "hobbyhouse-hole-vrchy",
+    "title": "Hobbyhouse Holé Vrchy",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/hobbyhouse-hole-vrchy.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:27:25"
+  },
+  {
+    "id": "hotel-excelsior",
+    "title": "Hotel Excelsior",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby – část architektonicko-stavební"
+    ],
+    "notes": [
+      "nositel zakázky: Ingpro Praha s.r.o."
+    ],
+    "image": "../assets/reference/hotel-excelsior.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:28:30"
+  },
+  {
+    "id": "hotel-smichov",
+    "title": "Hotel Smíchov",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby",
+      "dokumentace změny stavby před jejím dokončením"
+    ],
+    "notes": [
+      "autor a nositel zakázky: Studio Anarchitekt s.r.o."
+    ],
+    "image": "../assets/reference/hotel-smichov.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:35:16"
+  },
+  {
+    "id": "jidelna-m2-skoda-auto",
+    "title": "Jídelna M2 Škoda Auto",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/jidelna-m2-skoda-auto.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:36:02"
+  },
+  {
+    "id": "jidelna-v6-skoda-auto",
+    "title": "Jídelna V6 Škoda Auto",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/jidelna-v6-skoda-auto.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:36:52"
+  },
+  {
+    "id": "kancelare-erbenova",
+    "title": "Kanceláře Erbenova",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro územní rozhodnutí"
+    ],
+    "notes": [],
+    "image": "../assets/reference/kancelare-erbenova.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:38:54"
+  },
+  {
+    "id": "kiosek-h3-skoda-auto",
+    "title": "Kiosek H3 Škoda Auto",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/kiosek-h3-skoda-auto.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:39:37"
+  },
+  {
+    "id": "kuchyn-a-vydejna-jidel-oblastni-nemocnice-mlada-boleslav",
+    "title": "Kuchyň a výdejna jídel ONMB",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby",
+      "dokumentace skutečného provedení stavby",
+      "dokumentace změny stavby před jejím dokončením"
+    ],
+    "notes": [],
+    "image": "../assets/reference/kuchyn-a-vydejna-jidel-oblastni-nemocnice-mlada-boleslav.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:40:44"
+  },
+  {
+    "id": "materska-skolka-markvartice",
+    "title": "Mateřská školka Markvartice",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace skutečného provedení"
+    ],
+    "notes": [],
+    "image": "../assets/reference/materska-skolka-markvartice.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:41:43"
+  },
+  {
+    "id": "materska-skolka-radlicka",
+    "title": "Mateřská školka Radlická",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby",
+      "dokumentace pro výběr zhotovitele"
+    ],
+    "notes": [],
+    "image": "../assets/reference/materska-skolka-radlicka.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:42:34"
+  },
+  {
+    "id": "modernizace-vyukoveho-strediska",
+    "title": "Modernizace výukového střediska",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení"
+    ],
+    "notes": [],
+    "image": "../assets/reference/modernizace-vyukoveho-strediska.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:43:36"
+  },
+  {
+    "id": "nastavba-bytoveho-domu-kosmonosy",
+    "title": "Nástavba bytového domu Kosmonosy",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/nastavba-bytoveho-domu-kosmonosy.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:44:32"
+  },
+  {
+    "id": "outlet-radouc",
+    "title": "Outlet Radouč",
+    "category": "komercni",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/outlet-radouc.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:45:02"
+  },
+  {
+    "id": "plavecky-bazen-mlada-boleslav",
+    "title": "Plavecký bazén Mladá Boleslav",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby",
+      "studie proveditelnosti"
+    ],
+    "notes": [],
+    "image": "../assets/reference/plavecky-bazen-mlada-boleslav.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:45:51"
+  },
+  {
+    "id": "podkrovni-byty-kovadlina",
+    "title": "Podkrovní byty Kovadlina",
+    "category": "bytove-domy",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/podkrovni-byty-kovadlina.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:46:42"
+  },
+  {
+    "id": "polyfunkcni-dum-debr",
+    "title": "Polyfunkční dům Debř",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/polyfunkcni-dum-debr.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:47:20"
+  },
+  {
+    "id": "porotherm-06",
+    "title": "Porotherm 06",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/porotherm-06.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:47:47"
+  },
+  {
+    "id": "porotherm-07",
+    "title": "Porotherm 07",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/porotherm-07.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:48:16"
+  },
+  {
+    "id": "porotherm-08",
+    "title": "Porotherm 08",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/porotherm-08.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:48:42"
+  },
+  {
+    "id": "pristavba-baumax-mlada-boleslav",
+    "title": "Přístavba Baumax Mladá Boleslav",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/pristavba-baumax-mlada-boleslav.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:49:27"
+  },
+  {
+    "id": "pristavba-haly-m2-skoda-auto",
+    "title": "Přístavba haly M2 Škoda Auto",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/pristavba-haly-m2-skoda-auto.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:50:04"
+  },
+  {
+    "id": "restaurace-na-ruzku",
+    "title": "Restaurace Na Růžku",
+    "category": "komercni",
+    "realizace": "rekonstrukce",
+    "services": [
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/restaurace-na-ruzku.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:50:56"
+  },
+  {
+    "id": "rezidence-bradlec",
+    "title": "Rezidence Bradlec",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rezidence-bradlec.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:51:21"
+  },
+  {
+    "id": "rezidence-michalovice",
+    "title": "Rezidence Michalovice",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rezidence-michalovice.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:52:03"
+  },
+  {
+    "id": "rockhouse",
+    "title": "Rockhouse",
+    "category": "komercni",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rockhouse.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:52:54"
+  },
+  {
+    "id": "rodinne-domy-laskov",
+    "title": "Rodinné domy Láskov",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring",
+      "dokumentace skutečného provedení stavby",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinne-domy-laskov.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:53:57"
+  },
+  {
+    "id": "rodinny-dum-bousov",
+    "title": "Rodinný dům Bousov",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-bousov.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:54:46"
+  },
+  {
+    "id": "rodinny-dum-bradlec",
+    "title": "Rodinný dům Bradlec",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-bradlec.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:55:23"
+  },
+  {
+    "id": "rodinny-dum-crookston",
+    "title": "Rodinný dům Crookston",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-crookston.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:56:09"
+  },
+  {
+    "id": "rodinny-dum-kosmonosy",
+    "title": "Rodinný dům Kosmonosy",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-kosmonosy.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:56:55"
+  },
+  {
+    "id": "rodinny-dum-lipovka",
+    "title": "Rodinný dům Lipovka",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro povolení záměru a inženýring",
+      "dokumentace pro provádění stavby"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-lipovka.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:57:35"
+  },
+  {
+    "id": "rodinny-dum-michalovice",
+    "title": "Rodinný dům Michalovice",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-michalovice.webp",
+    "featured": 1,
+    "published": "2026-02-19T04:58:09"
+  },
+  {
+    "id": "rodinny-dum-na-dubcich",
+    "title": "Rodinný dům Na Dubcích",
+    "category": "rodinne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-na-dubcich.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:58:51"
+  },
+  {
+    "id": "rodinny-dum-slunecnice",
+    "title": "Rodinný dům Slunečnice",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro povolení záměru a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-slunecnice.webp",
+    "featured": -1,
+    "published": "2026-02-19T04:59:36"
+  },
+  {
+    "id": "rodinny-dum-sternberk",
+    "title": "Rodinný dům Šternberk",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-sternberk.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:00:07"
+  },
+  {
+    "id": "rodinny-dum-zelena",
+    "title": "Rodinný dům Zelená",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dum-zelena.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:00:42"
+  },
+  {
+    "id": "rodinny-dvojdum-neprevazka",
+    "title": "Rodinný dvojdům Nepřevázka",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/rodinny-dvojdum-neprevazka.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:01:20"
+  },
+  {
+    "id": "radove-domy-brodce",
+    "title": "Řadové domy Brodce",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/radove-domy-brodce.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:01:55"
+  },
+  {
+    "id": "radove-domy-dobrovice",
+    "title": "Řadové domy Dobrovice",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/radove-domy-dobrovice.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:02:27"
+  },
+  {
+    "id": "seniorske-bydleni-klasterec-nad-ohri",
+    "title": "Seniorské bydlení Klášterec nad Ohří",
+    "category": "bytove-domy",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/seniorske-bydleni-klasterec-nad-ohri.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:03:06"
+  },
+  {
+    "id": "soukromy-bazen-klasicky",
+    "title": "Soukromý bazén klasický",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/soukromy-bazen-klasicky.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:03:38"
+  },
+  {
+    "id": "soukromy-bazen-moderni",
+    "title": "Soukromý bazén moderní",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/soukromy-bazen-moderni.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:04:03"
+  },
+  {
+    "id": "soukromy-bazen-podzemni",
+    "title": "Soukromý bazén podzemní",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/soukromy-bazen-podzemni.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:04:36"
+  },
+  {
+    "id": "stavba-pro-deti-a-mladez-zahorskeho",
+    "title": "Stavba pro děti a mládež Záhorského",
+    "category": "verejne",
+    "realizace": "rekonstrukce",
+    "services": [
+      "architektonická studie",
+      "autorský dozor",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro výběr zhotovitele",
+      "dokumentace změny stavby před jejím dokončením a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/stavba-pro-deti-a-mladez-zahorskeho.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:05:50"
+  },
+  {
+    "id": "vila-bradlec",
+    "title": "Vila Bradlec",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro stavební povolení a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/vila-bradlec.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:06:40"
+  },
+  {
+    "id": "vila-michalovice",
+    "title": "Vila Michalovice",
+    "category": "rodinne",
+    "realizace": "novostavba",
+    "services": [
+      "architektonická studie",
+      "dokumentace pro provádění stavby",
+      "dokumentace pro společné povolení stavby a inženýring",
+      "dokumentace pro územní rozhodnutí a inženýring"
+    ],
+    "notes": [],
+    "image": "../assets/reference/vila-michalovice.webp",
+    "featured": -1,
+    "published": "2026-02-19T05:07:20"
+  },
+  {
+    "id": "motorest-perna",
+    "title": "Motorest Perná",
+    "category": "komercni",
+    "realizace": null,
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/motorest-perna.webp",
+    "featured": -1,
+    "published": "2026-03-06T01:49:19"
+  },
+  {
+    "id": "vila-picasso",
+    "title": "Vila Picasso",
+    "category": "rodinne",
+    "realizace": null,
+    "services": [
+      "architektonická studie"
+    ],
+    "notes": [],
+    "image": "../assets/reference/vila-picasso.webp",
+    "featured": -1,
+    "published": "2026-03-06T01:50:46"
+  }
+]

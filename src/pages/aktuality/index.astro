@@ -1,0 +1,168 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import { formatDate } from '../../lib/stages';
+
+const news = (await getCollection('aktuality')).sort((a, b) => +b.data.date - +a.data.date);
+const [first, ...rest] = news;
+---
+<Base title="Aktuality" description="Co se děje na projektech IM Projektu: realizace, inženýring a autorský dozor.">
+  <PageHead
+    title="Aktuality"
+    lead="Nahlédněte s námi do aktuálního dění na našich projektech. Sdílíme průběh realizací, novinky z projektové a inženýrské činnosti i momenty, které formují naši každodenní práci."
+  />
+
+  <section class="section wrap news" aria-label="Články">
+    <a class="lead-item" href={`/aktuality/${first.id}/`}>
+      <span class="lead-item__img frame fold duo">
+        <Image src={first.data.image} alt="" widths={[720, 1080, 1440]} sizes="(min-width: 980px) 58vw, 94vw" loading="eager" />
+      </span>
+      <span class="lead-item__text">
+        <time class="mono" datetime={first.data.date.toISOString()}>{formatDate(first.data.date)}</time>
+        <span class="lead-item__title">{first.data.title}</span>
+        <span class="lead-item__excerpt">{first.data.excerpt}</span>
+        <span class="lead-item__more">Číst článek</span>
+      </span>
+    </a>
+
+    <ol class="list">
+      {
+        rest.map((n) => (
+          <li>
+            <a class="item" href={`/aktuality/${n.id}/`}>
+              <span class="item__img frame reveal fold duo">
+                <Image src={n.data.image} alt="" widths={[480, 720]} sizes="(min-width: 980px) 28vw, 94vw" />
+              </span>
+              <time class="mono" datetime={n.data.date.toISOString()}>{formatDate(n.data.date)}</time>
+              <span class="item__title">{n.data.title}</span>
+              <span class="item__excerpt">{n.data.excerpt}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Base>
+
+<style>
+  .lead-item {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    text-decoration: none;
+    margin-bottom: var(--space-7);
+  }
+
+  .lead-item__img {
+    border: 0;
+    border-right: 1px solid var(--ink);
+    aspect-ratio: 16 / 10;
+  }
+
+  .lead-item__text {
+    display: grid;
+    gap: var(--space-4);
+    align-content: center;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .lead-item time,
+  .item time {
+    color: var(--muted);
+  }
+
+  .lead-item__title {
+    font-size: var(--t-lg);
+    font-stretch: 110%;
+    font-weight: 680;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .lead-item__excerpt {
+    color: var(--ink-2);
+  }
+
+  .lead-item__more {
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--orange);
+    width: fit-content;
+  }
+
+  .list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+  }
+
+  .item {
+    display: grid;
+    gap: var(--space-3);
+    text-decoration: none;
+  }
+
+  .item__img {
+    aspect-ratio: 16 / 10;
+    margin-bottom: var(--space-2);
+  }
+
+  .item__title {
+    font-size: var(--t-md);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .item__excerpt {
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+
+  .lead-item__title,
+  .item__title {
+    transition: color 0.25s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lead-item:hover .lead-item__title,
+    .item:hover .item__title {
+      color: var(--orange-lo);
+    }
+  }
+
+  .frame :global(img) {
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .lead-item:hover .frame :global(img),
+    .item:hover .frame :global(img) {
+      transform: scale(1.035);
+    }
+  }
+
+  @media (max-width: 980px) {
+    .lead-item {
+      grid-template-columns: 1fr;
+    }
+
+    .lead-item__img {
+      border-right: 0;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

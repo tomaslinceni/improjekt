@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { categories } from '../content.config';
+import { realizaceLabel } from '../lib/stages';
+import StageBar from './StageBar.astro';
+
+interface Props {
+  item: CollectionEntry<'reference'>;
+  sizes?: string;
+  eager?: boolean;
+}
+const { item, sizes = '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 92vw', eager = false } = Astro.props;
+const d = item.data;
+---
+<article
+  class="ref"
+  data-category={d.category}
+  data-realizace={d.realizace ?? ''}
+>
+  <a class="ref__link" href={`/reference/${item.id}/`}>
+    <div class="ref__img frame reveal">
+      <Image
+        src={d.image}
+        alt=""
+        widths={[480, 720, 960, 1280]}
+        sizes={sizes}
+        loading={eager ? 'eager' : 'lazy'}
+      />
+    </div>
+    <div class="ref__body">
+      <h3 class="ref__title">{d.title}</h3>
+      <p class="ref__meta">
+        <span>{categories[d.category]}</span>
+        {d.realizace && <span>{realizaceLabel[d.realizace]}</span>}
+      </p>
+      <StageBar services={d.services} />
+    </div>
+  </a>
+</article>
+
+<style>
+  .ref {
+    min-width: 0;
+  }
+
+  .ref__link {
+    display: grid;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .ref__img {
+    aspect-ratio: 16 / 10;
+  }
+
+  .ref__img :global(img) {
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  .ref__body {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0.85rem 0.9rem 1rem;
+    border: 1px solid var(--ink);
+    border-top: 0;
+    background: var(--sheet);
+    transition: background-color 0.3s var(--ease-out);
+  }
+
+  .ref__title {
+    font-size: 1.125rem;
+    font-weight: 640;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .ref__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.9rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .ref__meta span + span::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: var(--line-strong);
+    margin-right: 0.9rem;
+    vertical-align: 0.15em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ref__link:hover .ref__img :global(img) {
+      transform: scale(1.035);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ref__link:hover .ref__body {
+      background: #fff;
+    }
+  }
+
+  .ref__title {
+    transition: color 0.25s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ref__link:hover .ref__title {
+      color: var(--orange-lo);
+    }
+  }
+
+  .ref__link:focus-visible {
+    outline-offset: 4px;
+  }
+</style>

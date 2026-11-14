@@ -1,0 +1,65 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import TitleBlock from '../../components/TitleBlock.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate } from '../../lib/stages';
+
+export async function getStaticPaths() {
+  const jobs = await getCollection('pozice');
+  return jobs.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+interface Props {
+  item: CollectionEntry<'pozice'>;
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+<Base
+  title={item.data.title}
+  description={item.data.lead}
+  contactKind="cv"
+  contactTitle="Pošlete nám své CV"
+  contactText="Zaujala vás nějaká pozice anebo se chcete na něco zeptat? Vyplňte, prosíme, kontaktní formulář a my se vám obratem ozveme."
+>
+  <PageHead title={item.data.title} lead={item.data.lead} crumb={{ href: '/kariera/', label: 'Všechny volné pozice' }} underlay>
+    <div class="actions">
+      <a class="btn" href="#kontaktujte-nas">Mám zájem <Icon name="arrow" /></a>
+    </div>
+    <Fragment slot="aside">
+      <TitleBlock
+        class="facts"
+        rows={[
+          ...item.data.info.map((i) => ({ label: i.label, value: i.value, wide: i.value.length > 22 })),
+          { label: 'Zveřejněno', value: formatDate(item.data.date), mono: true },
+        ]}
+      />
+    </Fragment>
+  </PageHead>
+
+  <section class="section wrap body">
+    <div class="prose job-body">
+      <Content />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .actions {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  :global(.facts) {
+    background: var(--sheet);
+  }
+
+  .job-body {
+    max-width: 72ch;
+  }
+
+  .job-body :global(h2:first-of-type) {
+    margin-top: var(--space-6);
+  }
+</style>

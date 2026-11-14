@@ -1,0 +1,276 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import DrawingUnderlay from '../components/DrawingUnderlay.astro';
+import LogoConstruction from '../components/LogoConstruction.astro';
+import HistoryTrack from '../components/HistoryTrack.astro';
+import { values } from '../data/site';
+import odznak from '../assets/brand/odznak.webp';
+---
+<Base
+  title="O nás"
+  description="IM Projekt je projekční a inženýrská kancelář z Mladé Boleslavi s více než 33 lety zkušeností."
+>
+  <PageHead
+    title="Partner pro vaši ideu"
+    lead="Už více než tři desetiletí proměňujeme myšlenky investorů, architektů i soukromých klientů v realizované projekty. Hledáme cesty, jak spojit funkčnost, estetiku a ekonomickou efektivitu – od prvního návrhu až po realizaci."
+  >
+    <Fragment slot="aside">
+      <div class="construct-panel glass"><LogoConstruction /></div>
+    </Fragment>
+  </PageHead>
+
+  <section class="section wrap company" aria-labelledby="company-title">
+    <div class="company__text">
+      <h2 class="h2" id="company-title">O společnosti</h2>
+      <p class="lead">
+        IM Projekt je projekční a inženýrská kancelář s více než 33 lety zkušeností. Naše práce stojí na profesionalitě,
+        zodpovědnosti a osobním přístupu.
+      </p>
+      <p class="lead company__body">
+        Spolupracujeme s firmami, městy i soukromými investory na projektech, které dávají smysl a přinášejí dlouhodobou
+        hodnotu.
+      </p>
+    </div>
+    <figure class="company__img frame reveal">
+      <Image src={odznak} alt="Odznak IM Projekt na klopě saka" widths={[480, 830]} sizes="(min-width: 900px) 40vw, 92vw" />
+    </figure>
+  </section>
+
+  <section class="values" aria-labelledby="values-title">
+    <div class="wrap">
+      <h2 class="h2 values__title" id="values-title">Proč si partneři vybírají právě nás</h2>
+      <ul class="values__list">
+        {
+          values.map((v, i) => (
+            <li class="value">
+              <span class="value__axis mono" aria-hidden="true">{'ABC'[i]}</span>
+              <h3 class="value__name">{v.title}</h3>
+              <p class="value__motto">
+                {v.motto[0]}
+                <br />
+                {v.motto[1]}
+              </p>
+              <p class="value__text">{v.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section wrap history" aria-labelledby="history-title">
+    <div class="section-head">
+      <h2 class="h2" id="history-title">Historie IM Projektu</h2>
+    </div>
+    <HistoryTrack />
+  </section>
+
+  <section class="more orange-field" aria-labelledby="more-title">
+    <DrawingUnderlay />
+    <div class="wrap more__inner">
+      <h2 class="h2" id="more-title">Chcete vědět více o naší práci?</h2>
+      <div class="more__side">
+        <p class="lead">Prohlédněte si naše služby a vybrané projekty, které formují prostor kolem nás.</p>
+        <div class="more__actions">
+        <a class="btn" href="/sluzby/">Naše služby <Icon name="arrow" /></a>
+        <a class="btn btn--ghost" href="/reference/">Reference <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .company {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: center;
+  }
+
+  .company__text {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .company__body {
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  .construct-panel {
+    padding: clamp(1rem, 2.5vw, 2rem);
+    max-width: 380px;
+    margin-left: auto;
+  }
+
+  .company__img {
+    margin: 0;
+    aspect-ratio: 830 / 768;
+  }
+
+  .values {
+    background: var(--graphite);
+    color: var(--on-dark);
+    padding-block: var(--space-8);
+  }
+
+  .values__title {
+    margin-bottom: var(--space-7);
+    max-width: 18ch;
+  }
+
+  .values__list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid rgb(232 233 231 / 0.3);
+  }
+
+  .value {
+    padding: var(--space-6) var(--space-6) var(--space-5) 0;
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+
+  .value + .value {
+    border-left: 1px solid rgb(232 233 231 / 0.3);
+    padding-left: var(--space-6);
+  }
+
+  /* K4: each value hangs on a structural axis A, B, C */
+  .values__list {
+    margin-top: calc(var(--space-7) + 3.25rem);
+  }
+
+  .values__title {
+    margin-bottom: 0;
+  }
+
+  .value {
+    position: relative;
+  }
+
+  .value__axis {
+    position: absolute;
+    top: -3.25rem;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid var(--on-dark);
+    border-radius: 50%;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+  }
+
+  .value__axis::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    height: 1.25rem;
+    border-left: 1px dashed rgb(232 233 231 / 0.45);
+  }
+
+  .value + .value .value__axis {
+    left: var(--space-6);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .value:hover .value__axis {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--ink);
+    }
+  }
+
+  .value__name {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 620;
+  }
+
+  .value__motto {
+    font-size: var(--t-lg);
+    font-stretch: 112%;
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .value__text {
+    color: var(--on-dark-muted);
+  }
+
+  .more {
+    padding-block: var(--space-8);
+  }
+
+  .more__inner {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-6);
+  }
+
+  .more__side {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+  }
+
+  .more__actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 980px) {
+    .company {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .values__list {
+      grid-template-columns: 1fr;
+    }
+
+    .value,
+    .value + .value {
+      padding: var(--space-5) 0;
+      border-left: 0;
+    }
+
+    .value + .value {
+      border-top: 1px solid rgb(232 233 231 / 0.3);
+    }
+
+    .values__list {
+      margin-top: 0;
+    }
+
+    .value__axis {
+      position: static;
+    }
+
+    .value__axis::after {
+      display: none;
+    }
+  }
+  /* desktop: title on the left, text and buttons on the right */
+  @media (min-width: 981px) {
+    .more__inner {
+      grid-template-columns: var(--split);
+      column-gap: var(--split-gap);
+      align-items: start;
+    }
+  }
+</style>

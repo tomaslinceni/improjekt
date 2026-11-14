@@ -1,0 +1,263 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import RefCard from '../../components/RefCard.astro';
+import Kota from '../../components/Kota.astro';
+import { categories } from '../../content.config';
+import { plural } from '../../lib/stages';
+
+const refs = (await getCollection('reference')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'cs'));
+const count = (c: string) => refs.filter((r) => r.data.category === c).length;
+const real = (k: string) => refs.filter((r) => r.data.realizace === k).length;
+const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů')}`;
+---
+<Base
+  title="Reference"
+  description="65 projektů IM Projektu: bytové domy, rodinné bydlení, komerční i veřejné stavby. U každého rozsah dokumentace, kterou jsme zpracovali."
+>
+  <PageHead
+    title="Reference"
+    lead="Důvěra klientů je pro nás největší potvrzení dobře odvedené práce. Spolupracujeme s veřejnými institucemi, developery i soukromými investory."
+  />
+
+  <section class="section wrap refs" aria-label="Seznam referencí">
+    <form class="filters" data-filters aria-label="Filtr referencí" onsubmit="return false">
+      <fieldset class="filters__group">
+        <legend>Kategorie</legend>
+        <div class="chips">
+          <label class="chip">
+            <input type="radio" name="kategorie" value="" checked />
+            <span>Vše <b class="mono">{refs.length}</b></span>
+          </label>
+          {
+            Object.entries(categories).map(([id, name]) => (
+              <label class="chip">
+                <input type="radio" name="kategorie" value={id} />
+                <span>
+                  {name} <b class="mono">{count(id)}</b>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+      <fieldset class="filters__group">
+        <legend>Typ realizace</legend>
+        <div class="chips">
+          <label class="chip">
+            <input type="radio" name="realizace" value="" checked />
+            <span>Vše</span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="realizace" value="novostavba" />
+            <span>Novostavby <b class="mono">{real('novostavba')}</b></span>
+          </label>
+          <label class="chip">
+            <input type="radio" name="realizace" value="rekonstrukce" />
+            <span>Rekonstrukce a přestavby <b class="mono">{real('rekonstrukce')}</b></span>
+          </label>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="refs__count" aria-live="polite">
+      <Kota tone="ink" label={label(refs.length)} />
+      <span class="visually-hidden" data-count-text>Zobrazeno {label(refs.length)}</span>
+    </div>
+
+    <div class="refs__grid" data-grid>
+      {refs.map((r) => <RefCard item={r} />)}
+    </div>
+    <p class="refs__empty" hidden data-empty>
+      V této kombinaci nemáme žádný projekt. Zkuste jinou kategorii nebo typ realizace.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .refs {
+    padding-top: var(--space-7);
+  }
+
+  .filters {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .filters__group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .filters__group legend {
+    float: left;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 620;
+    color: var(--muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .chip span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    font-size: 0.9375rem;
+    font-weight: 560;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+
+  .chip b {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 0.8125rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .chip:hover span {
+      background: #fff;
+    }
+  }
+
+  .chip input:checked + span {
+    background: var(--ink);
+    color: var(--on-dark);
+  }
+
+  .chip input:checked + span b {
+    color: var(--on-dark-muted);
+  }
+
+  .chip input:checked + span {
+    box-shadow: inset 0 -2px 0 var(--orange);
+  }
+
+  :global(:root[data-accent='vyrazna']) .chip input:checked + span {
+    background: var(--orange);
+    color: var(--ink);
+    box-shadow: none;
+  }
+
+  :global(:root[data-accent='vyrazna']) .chip input:checked + span b {
+    color: var(--ink);
+  }
+
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+  }
+
+  .refs__count {
+    margin-bottom: var(--space-5);
+  }
+
+
+  .refs__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+  }
+
+  .refs__grid :global(.ref[hidden]) {
+    display: none;
+  }
+
+  .refs__empty {
+    padding: var(--space-7);
+    border: 1px dashed var(--line-strong);
+    text-align: center;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 1100px) {
+    .refs__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .filters__group {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+
+    .refs__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-filters]');
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-grid] .ref')];
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  const kotaLabel = document.querySelector<HTMLElement>('.refs__count .kota__label');
+  const srText = document.querySelector<HTMLElement>('[data-count-text]');
+  const kota = document.querySelector<HTMLElement>('.refs__count .kota');
+  const word = (n: number) => (n === 1 ? 'projekt' : n >= 2 && n <= 4 ? 'projekty' : 'projektů');
+
+  const apply = () => {
+    if (!form) return;
+    const data = new FormData(form);
+    const cat = String(data.get('kategorie') || '');
+    const real = String(data.get('realizace') || '');
+    let n = 0;
+    cards.forEach((c) => {
+      const ok = (!cat || c.dataset.category === cat) && (!real || c.dataset.realizace === real);
+      c.hidden = !ok;
+      if (ok) n++;
+    });
+    if (kotaLabel) kotaLabel.textContent = `${n} ${word(n)}`;
+    if (srText) srText.textContent = `Zobrazeno ${n} ${word(n)}`;
+    if (empty) empty.hidden = n > 0;
+    if (kota && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      kota.classList.add('pre');
+      requestAnimationFrame(() => requestAnimationFrame(() => kota.classList.remove('pre')));
+    }
+    const params = new URLSearchParams();
+    if (cat) params.set('kategorie', cat);
+    if (real) params.set('realizace', real);
+    const q = params.toString();
+    history.replaceState(null, '', q ? `?${q}` : location.pathname);
+  };
+
+  if (form) {
+    const params = new URLSearchParams(location.search);
+    for (const key of ['kategorie', 'realizace']) {
+      const v = params.get(key);
+      const input = v ? form.querySelector<HTMLInputElement>(`input[name="${key}"][value="${v}"]`) : null;
+      if (input) input.checked = true;
+    }
+    form.addEventListener('change', apply);
+    apply();
+  }
+</script>

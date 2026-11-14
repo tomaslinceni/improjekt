@@ -1,0 +1,751 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Kota from '../components/Kota.astro';
+import Icon from '../components/Icon.astro';
+import RefCard from '../components/RefCard.astro';
+import AudienceIcon from '../components/AudienceIcon.astro';
+import { audiences, services, clients } from '../data/site';
+import { formatDate, plural } from '../lib/stages';
+import imgProjekce from '../assets/sluzby/projekcni-kancelar.webp';
+import imgInzenyring from '../assets/sluzby/inzenyrska-cinnost.webp';
+import imgMarketing from '../assets/sluzby/marketing.webp';
+import DrawingUnderlay from '../components/DrawingUnderlay.astro';
+import { FOUNDED, YEAR } from '../data/site';
+
+const allRefs = await getCollection('reference');
+// Six projects with the widest scope, one or two per category, not already in the hero.
+const pool = allRefs
+  .filter((r) => r.data.featured < 0)
+  .sort((a, b) => b.data.services.length - a.data.services.length);
+const picked: typeof pool = [];
+const perCat: Record<string, number> = {};
+for (const r of pool) {
+  if ((perCat[r.data.category] ?? 0) >= 2) continue;
+  perCat[r.data.category] = (perCat[r.data.category] ?? 0) + 1;
+  picked.push(r);
+  if (picked.length === 6) break;
+}
+
+const jobs = (await getCollection('pozice')).filter((p) => p.data.open);
+const news = (await getCollection('aktuality')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': imgInzenyring, 'marketing-a-branding': imgMarketing } as const;
+---
+<Base title="IM Projekt">
+  <Hero />
+
+  <section class="section about wrap" aria-labelledby="about-title">
+    <div class="about__text">
+      <h2 class="h2" id="about-title">Jsme IM Projekt</h2>
+      <p class="lead">Naše projekční kancelář působí na českém trhu od roku 1992.</p>
+      <p class="lead about__body">
+        Během více než tří desetiletí jsme navrhli a projektovali stovky staveb různých typů – od velkých developerských
+        projektů přes nemocnice a veřejné budovy až po rodinné a bytové domy.
+      </p>
+      <div class="nums" data-count-group>
+        <div class="num">
+          <p class="num__val mono" data-count={YEAR - FOUNDED}>{YEAR - FOUNDED}</p>
+          <p class="num__label">let na trhu</p>
+        </div>
+        <div class="num">
+          <p class="num__val mono" data-count={allRefs.length}>{allRefs.length}</p>
+          <p class="num__label">projektů v referencích</p>
+        </div>
+        <div class="num">
+          <p class="num__val mono" data-count={audiences.length}>{audiences.length}</p>
+          <p class="num__label">skupiny klientů</p>
+        </div>
+      </div>
+      <a class="btn btn--ghost" href="/o-nas/">O společnosti <Icon name="arrow" /></a>
+    </div>
+
+    <nav class="legend" aria-label="Služby podle typu klienta">
+      <p class="legend__head">
+        <span>Legenda</span>
+        <span class="mono">pro koho projektujeme</span>
+      </p>
+      <ul>
+        {
+          audiences.map((a) => (
+            <li>
+              <a href={`/sluzby/#${a.id}`}>
+                <AudienceIcon id={a.id} />
+                <span class="legend__name">{a.name}</span>
+                <span class="legend__title">{a.title}</span>
+                <Icon name="arrow" class="legend__arrow" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+
+  <div class="hatch-rule hatch-rule--zdivo" aria-hidden="true"></div>
+  <section class="section services" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h2" id="services-title">Čím se zabýváme</h2>
+        <p class="lead">
+          Navrhujeme stavby nebo soubory staveb všech měřítek – od prvních studií až po realizační dokumentaci. Vždy s
+          důrazem na přesnost, funkčnost a detail.
+        </p>
+      </div>
+
+      <div class="stack">
+        {
+          services.map((s, i) => (
+            <a class="sheetcard" href={`/sluzby/#${s.id}`} style={`--i:${i}`}>
+              <span class="sheetcard__head">
+                <span class="mono sheetcard__no">{String(i + 1).padStart(2, '0')}</span>
+                <span class="sheetcard__name">{s.title}</span>
+                <span class="mono sheetcard__list">list {i + 1}/{services.length}</span>
+              </span>
+              <span class="sheetcard__body">
+                <span class="sheetcard__text">
+                  <h3 class="h3">{s.title}</h3>
+                  <span class="sheetcard__p">{s.text}</span>
+                  <span class="svc__more">
+                    Více o službě <Icon name="arrow" size={18} />
+                  </span>
+                </span>
+                <span class="sheetcard__img frame">
+                  <Image
+                    src={serviceImg[s.id as keyof typeof serviceImg]}
+                    alt=""
+                    widths={[480, 800, 1200]}
+                    sizes="(min-width: 900px) 55vw, 92vw"
+                  />
+                </span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section refs section-rule" aria-labelledby="refs-title">
+    <div class="wrap">
+      <div class="refs__head">
+        <div class="section-head">
+          <h2 class="h2" id="refs-title">Reference</h2>
+          <p class="lead">
+            Důvěra klientů je pro nás největší potvrzení dobře odvedené práce. Spolupracujeme s veřejnými institucemi,
+            developery i soukromými investory.
+          </p>
+        </div>
+        <a class="btn btn--ghost" href="/reference/">
+          Zobrazit všechny reference
+          <Icon name="arrow" />
+        </a>
+      </div>
+      <Kota tone="ink" label={`${allRefs.length} ${plural(allRefs.length, 'projekt', 'projekty', 'projektů')} v referencích`} class="refs__kota" />
+      <div class="refs__grid">
+        {picked.map((r) => <RefCard item={r} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="clients" aria-labelledby="clients-title">
+    <div class="wrap clients__grid">
+      <div class="clients__text">
+        <h2 class="h2" id="clients-title">Naši klienti</h2>
+        <p>Spolupracujeme s firmami všech velikostí, městy i obcemi.</p>
+        <p>
+          Naše zkušenosti sahají od velkých developerských a průmyslových projektů až po řadu rodinných domů, které jsme
+          pomohli proměnit ve skutečnost.
+        </p>
+      </div>
+      <ul class="clients__logos">
+        {
+          clients.map((c) => (
+            <li>
+              <Image src={c.logo} alt={c.name} widths={[240, 480]} sizes="200px" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="career orange-field" aria-labelledby="career-title">
+    <DrawingUnderlay />
+    <div class="wrap career__grid">
+      <div class="career__text">
+        <h2 class="h2 career__title" id="career-title">Tvořte s námi projekty, na které budete hrdí</h2>
+        <p>
+          V IM Projektu věříme, že za každým úspěšným výkresem a realizovanou stavbou stojí lidé, které jejich práce baví.
+          Jsme tým, který si zakládá na vzájemném respektu, sdílení zkušeností a přátelské atmosféře.
+        </p>
+        <a class="btn career__btn" href={jobs.length > 0 ? '/kariera/#pozice' : '/kariera/#kontaktujte-nas'}>
+          {jobs.length > 0 ? 'Aktuální příležitosti' : 'Pošlete nám své CV'}
+          <Icon name="arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="hatch-rule hatch-rule--izolace" aria-hidden="true"></div>
+  <section class="section news wrap" aria-labelledby="news-title">
+    <div class="news__head">
+      <div class="section-head">
+        <h2 class="h2" id="news-title">Aktuality</h2>
+        <p class="lead">
+          Nahlédněte s námi do aktuálního dění na našich projektech. Sdílíme průběh realizací, novinky z projektové a
+          inženýrské činnosti i momenty, které formují naši každodenní práci.
+        </p>
+      </div>
+      <a class="btn btn--ghost" href="/aktuality/">Všechny aktuality <Icon name="arrow" /></a>
+    </div>
+    <ol class="news__list">
+      {
+        news.map((n) => (
+          <li>
+            <a class="news-row" href={`/aktuality/${n.id}/`}>
+              <time class="mono news-row__date" datetime={n.data.date.toISOString()}>
+                {formatDate(n.data.date)}
+              </time>
+              <span class="news-row__title">{n.data.title}</span>
+              <Icon name="arrow" class="news-row__arrow" />
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+</Base>
+
+<style>
+  /* about + legend */
+  .about {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: start;
+  }
+
+  .about__text {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-6));
+  }
+
+  .about__body {
+    color: var(--ink-2);
+    max-width: 52ch;
+  }
+
+  .legend {
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+  }
+
+  .legend__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--ink);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .legend__head .mono {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .legend ul {
+    list-style: none;
+  }
+
+  .legend li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .legend a {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    grid-template-areas: 'icon name arrow' 'icon title arrow';
+    column-gap: 1.1rem;
+    align-items: center;
+    padding: 1.2rem 1.25rem;
+    text-decoration: none;
+    transition: background-color 0.25s var(--ease-out);
+  }
+
+  .legend a :global(.aud-icon) {
+    grid-area: icon;
+    color: var(--ink);
+    transition: color 0.25s var(--ease-out);
+  }
+
+  .legend__name {
+    grid-area: name;
+    font-size: 1.25rem;
+    font-weight: 650;
+    font-stretch: 108%;
+    letter-spacing: -0.015em;
+  }
+
+  .legend__title {
+    grid-area: title;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .legend a :global(.legend__arrow) {
+    grid-area: arrow;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .legend a:hover {
+      background: #fff;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .legend a:hover .legend__name,
+    .sheetcard:hover .h3 {
+      color: var(--orange-lo);
+    }
+  }
+
+  .legend__name,
+  .sheetcard .h3,
+  .news-row__title {
+    transition: color 0.25s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .legend a:hover :global(.aud-icon) {
+      color: var(--orange-lo);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .legend a:hover :global(.legend__arrow) {
+      transform: translateX(4px);
+    }
+  }
+
+  /* numbers (E8): plain figures that count up once */
+  .nums {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+    width: 100%;
+    padding-block: var(--space-2);
+  }
+
+  .num {
+    display: grid;
+    gap: 0.3rem;
+    align-content: start;
+  }
+
+  .num__val {
+    font-size: clamp(2.25rem, 1.6rem + 2vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .num__label {
+    color: var(--muted);
+    font-size: var(--t-sm);
+  }
+
+  /* services (E5): sheets laid one on another while scrolling; only the title strip stays visible */
+  .stack {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .sheetcard {
+    --head: 3.1rem;
+    position: sticky;
+    top: calc(var(--header-h) + var(--space-5) + var(--i) * var(--head));
+    display: grid;
+    text-decoration: none;
+    background: var(--sheet);
+    border: 1.5px solid var(--ink);
+    box-shadow: 0 -14px 32px -26px rgb(29 31 33 / 0.55);
+    transition: background-color 0.3s var(--ease-out);
+  }
+
+  .sheetcard__head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    height: var(--head);
+    padding-inline: 1.25rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .sheetcard__no {
+    color: var(--orange-ink);
+    font-size: var(--t-sm);
+    font-weight: 600;
+  }
+
+  .sheetcard__name {
+    font-weight: 620;
+  }
+
+  .sheetcard__list {
+    font-size: var(--t-xs);
+    color: var(--muted);
+  }
+
+  .sheetcard__body {
+    display: grid;
+    grid-template-columns: var(--split);
+  }
+
+  .sheetcard__text {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    padding: clamp(1.25rem, 2.5vw, 2.25rem);
+  }
+
+  .sheetcard__p {
+    color: var(--ink-2);
+    max-width: 46ch;
+  }
+
+  .sheetcard__img {
+    border: 0;
+    border-left: 1px solid var(--ink);
+    height: clamp(260px, 30vw, 420px);
+  }
+
+  .sheetcard__img :global(img) {
+    transition: transform 0.9s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .sheetcard:hover {
+      background: #fff;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .sheetcard:hover .sheetcard__img :global(img) {
+      transform: scale(1.04);
+    }
+  }
+
+  .svc__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+    margin-top: var(--space-2);
+    border-bottom: 1.5px solid var(--orange);
+    width: fit-content;
+  }
+
+  /* references */
+  .refs__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .refs__head .section-head {
+    margin-bottom: 0;
+  }
+
+  .refs :global(.refs__kota) {
+    margin-bottom: var(--space-5);
+  }
+
+  .refs__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+  }
+
+  /* clients */
+  .clients {
+    background: var(--graphite);
+    color: var(--on-dark);
+    padding-block: var(--space-8);
+  }
+
+  .clients__grid {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: center;
+  }
+
+  .clients__text {
+    display: grid;
+    gap: var(--space-4);
+    color: var(--on-dark-muted);
+  }
+
+  .clients__text h2 {
+    color: var(--on-dark);
+  }
+
+  .clients__logos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid rgb(232 233 231 / 0.25);
+    border-left: 1px solid rgb(232 233 231 / 0.25);
+  }
+
+  .clients__logos li {
+    display: grid;
+    place-items: center;
+    padding: 1.25rem 1rem;
+    border-right: 1px solid rgb(232 233 231 / 0.25);
+    border-bottom: 1px solid rgb(232 233 231 / 0.25);
+    min-height: 110px;
+  }
+
+  .clients__logos :global(img) {
+    max-height: 64px;
+    width: auto;
+    opacity: 0.88;
+    transition: opacity 0.3s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .clients__logos li:hover :global(img) {
+      opacity: 1;
+    }
+  }
+
+  /* career – a second drawing sheet: the floor plan under tracing paper */
+  .career {
+    padding-block: var(--space-8);
+  }
+
+  .career__grid {
+    position: relative;
+  }
+
+
+  .career__grid {
+    display: grid;
+  }
+
+  .career__text {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+  }
+
+  .career__btn {
+    margin-top: var(--space-2);
+  }
+
+  .career__title {
+    max-width: 16ch;
+  }
+
+  .career__text p {
+    max-width: 52ch;
+    font-size: var(--t-md);
+    line-height: 1.5;
+  }
+
+  /* news */
+  .news__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .news__head .section-head {
+    margin-bottom: 0;
+  }
+
+  .news__list {
+    list-style: none;
+    border-top: 1px solid var(--ink);
+  }
+
+  .news__list li {
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .news-row {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr) auto;
+    gap: var(--space-5);
+    align-items: baseline;
+    padding: var(--space-4) 0;
+    text-decoration: none;
+  }
+
+  .news-row__date {
+    color: var(--muted);
+  }
+
+  .news-row__title {
+    font-size: var(--t-md);
+    font-weight: 620;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    transition: color 0.25s var(--ease-out);
+  }
+
+  .news-row :global(.news-row__arrow) {
+    align-self: center;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .news-row:hover .news-row__title {
+      color: var(--orange-lo);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .news-row:hover :global(.news-row__arrow) {
+      transform: translateX(4px);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .refs__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 980px) {
+    .about,
+    .clients__grid,
+    .career__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .about__text {
+      position: static;
+    }
+
+    .sheetcard__body {
+      grid-template-columns: 1fr;
+    }
+
+    .sheetcard__img {
+      order: -1;
+      border-left: 0;
+      border-bottom: 1px solid var(--ink);
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
+
+  }
+
+  @media (max-width: 640px) {
+    .refs__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sheetcard {
+      position: static;
+    }
+
+    /* not stacked on phones, so the strip only needs the sheet number, not the title again */
+    .sheetcard__list,
+    .sheetcard__name {
+      display: none;
+    }
+
+    .clients__logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+
+    .news-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.25rem var(--space-4);
+    }
+
+    .news-row__date {
+      grid-column: 1 / -1;
+    }
+
+    .legend a {
+      padding: 1rem;
+      column-gap: 0.8rem;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+    }
+
+    .legend a :global(.aud-icon) {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  /* desktop: title on the left, text and button on the right */
+  @media (min-width: 981px) {
+    .career__text {
+      grid-template-columns: var(--split);
+      column-gap: var(--split-gap);
+      align-items: start;
+    }
+
+    .career__title {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+
+    .career__text > :not(.career__title) {
+      grid-column: 2;
+    }
+  }
+</style>
+
+<script>
+  // E8: numbers count up once when they come into view.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          io.unobserve(e.target);
+          e.target.querySelectorAll<HTMLElement>('[data-count]').forEach((n) => {
+            const target = Number(n.dataset.count);
+            const t0 = performance.now();
+            const step = (t: number) => {
+              const k = Math.min(1, (t - t0) / 1400);
+              const eased = 1 - Math.pow(1 - k, 3);
+              n.textContent = String(Math.round(target * eased));
+              if (k < 1) requestAnimationFrame(step);
+            };
+            requestAnimationFrame(step);
+          });
+        }
+      },
+      { threshold: 0.6 },
+    );
+    document.querySelectorAll('[data-count-group]').forEach((el) => io.observe(el));
+  }
+</script>

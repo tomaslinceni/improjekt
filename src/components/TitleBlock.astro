@@ -1,0 +1,86 @@
+---
+/**
+ * Rohové razítko – the title block from the corner of a drawing sheet.
+ * Label/value rows in a ruled grid; values in mono when they are data.
+ */
+interface Row {
+  label: string;
+  value: string;
+  mono?: boolean;
+  wide?: boolean;
+}
+interface Props {
+  rows: Row[];
+  class?: string;
+  dark?: boolean;
+}
+const { rows, class: cls = '', dark = false } = Astro.props;
+---
+<dl class:list={['tb', { 'tb--dark': dark }, cls]}>
+  {
+    rows.map((r) => (
+      <div class:list={['tb__cell', { 'tb__cell--wide': r.wide }]}>
+        <dt class="tb__label">{r.label}</dt>
+        <dd class:list={['tb__value', { mono: r.mono }]}>{r.value}</dd>
+      </div>
+    ))
+  }
+  <slot />
+</dl>
+
+<style>
+  .tb {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--ink);
+  }
+
+  .tb__cell {
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 0.45rem 0.7rem 0.55rem;
+    min-width: 0;
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .tb__cell--wide {
+    grid-column: 1 / -1;
+  }
+
+  .tb__label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-stretch: 105%;
+    font-weight: 560;
+  }
+
+  .tb__value {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 560;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .tb__value.mono {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .tb--dark {
+    border-color: rgb(232 233 231 / 0.35);
+  }
+
+  .tb--dark .tb__cell {
+    border-color: rgb(232 233 231 / 0.35);
+  }
+
+  .tb--dark .tb__label {
+    color: var(--on-dark-muted);
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+import raw from '../assets/brand/logo.svg?raw';
+interface Props {
+  class?: string;
+  label?: string;
+}
+const { class: cls = '', label = 'IM Projekt – úvodní stránka' } = Astro.props;
+// The wordmark path has no fill in the source file; it takes the text colour so the
+// same logo works on paper (grey) and on graphite (light).
+const svg = raw
+  .replace(/<\?xml[^>]*\?>/, '')
+  .trim()
+  .replace('<svg ', `<svg class="logo ${cls}" role="img" aria-label="${label}" `)
+  .replace('<path d="M49', '<path fill="currentColor" d="M49');
+---
+<Fragment set:html={svg} />

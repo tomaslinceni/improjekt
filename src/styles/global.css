@@ -1,0 +1,932 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource/red-hat-mono/400.css';
+@import '@fontsource/red-hat-mono/500.css';
+
+/*
+ * improjekt – "výkres"
+ * Drafting-film ground, graphite ink, orange only as the red pencil.
+ * Single light theme by choice: the world is a drawing sheet read at a desk in daylight.
+ */
+:root {
+  color-scheme: light;
+
+  --paper: #ecedeb;
+  --paper-2: #e2e4e1;
+  --sheet: #f6f7f5;
+  --ink: #1d1f21;
+  --ink-2: #3f4346;
+  --muted: #5d6266;
+  --line: #c3c7c4;
+  --line-strong: #8d9290;
+  --grid: rgb(29 31 33 / 0.055);
+  --grid-major: rgb(29 31 33 / 0.085);
+  --orange: #f58220;
+  --orange-ink: #a64d05;
+  --orange-hi: #ffa55a;
+  --orange-lo: #d96c0c;
+  --graphite: #1d1f21;
+  --graphite-2: #2a2d30;
+  --on-dark: #e8e9e7;
+  --on-dark-muted: #a7acae;
+  --ok: #2f6f4a;
+  --error: #b3261e;
+
+  --f-sans: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --f-mono: 'Red Hat Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* type scale (1.25) */
+  --t-xs: 0.75rem;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.25rem;
+  --t-lg: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);
+  --t-xl: clamp(2rem, 1.4rem + 2vw, 2.875rem);
+  --t-2xl: clamp(2.5rem, 1.5rem + 3.6vw, 4.25rem);
+  --t-hero: clamp(2.75rem, 1.2rem + 5.4vw, 5.75rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 7rem;
+
+  /* 8 mm drawing grid, rendered at 24px */
+  --cell: 24px;
+  /* layout system: every two-column section uses the same split – narrow text column, wide content column */
+  --split: minmax(0, 5fr) minmax(0, 7fr);
+  --split-gap: var(--space-8);
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --wrap: 1360px;
+  --header-h: 68px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* glass – default variant "pauzák" (tracing paper) */
+  --glass-bg: rgb(246 247 245 / 0.66);
+  --glass-filter: blur(14px) saturate(1.05);
+  --glass-border: rgb(29 31 33 / 0.14);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 18px 40px -28px rgb(29 31 33 / 0.45);
+  --btn-bg: var(--ink);
+  --btn-ink: var(--on-dark);
+  --btn-shadow: none;
+  --btn-border: var(--ink);
+  --btn2-bg: rgb(246 247 245 / 0.55);
+  --btn2-filter: blur(10px);
+  --glass-sheen: none;
+}
+
+[data-glass-local='pauzak'] {
+  --glass-bg: rgb(246 247 245 / 0.66);
+  --glass-filter: blur(14px) saturate(1.05);
+  --glass-border: rgb(29 31 33 / 0.14);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 18px 40px -28px rgb(29 31 33 / 0.45);
+  --glass-sheen: none;
+  --btn2-bg: rgb(246 247 245 / 0.55);
+  --btn2-filter: blur(10px);
+}
+
+/* glass variant "sklo": a clear pane – more transparent, deeper blur, one fine lit edge */
+:root[data-glass='sklo'],
+[data-glass-local='sklo'] {
+  --glass-bg: rgb(255 255 255 / 0.3);
+  --glass-filter: blur(24px) saturate(1.7) brightness(1.03);
+  --glass-border: rgb(255 255 255 / 0.7);
+  --glass-shadow: 0 1px 0 rgb(255 255 255 / 0.85) inset, 0 0 0 0.5px rgb(29 31 33 / 0.1),
+    0 30px 60px -42px rgb(29 31 33 / 0.4);
+  --glass-sheen: linear-gradient(125deg, rgb(255 255 255 / 0.42) 0%, rgb(255 255 255 / 0) 38%,
+      rgb(255 255 255 / 0) 70%, rgb(255 255 255 / 0.18) 100%);
+  --btn2-bg: rgb(255 255 255 / 0.32);
+  --btn2-filter: blur(16px) saturate(1.6);
+}
+
+/* glass variant "plocha": no glass at all, for comparison */
+:root[data-glass='plocha'],
+[data-glass-local='plocha'] {
+  --glass-bg: var(--sheet);
+  --glass-filter: none;
+  --glass-border: var(--line);
+  --glass-shadow: none;
+  --btn2-bg: var(--sheet);
+  --btn2-filter: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* mobile-native: taps fire at once (no double-tap-zoom wait) */
+a,
+button,
+label,
+summary,
+[role='button'],
+[role='tab'] {
+  touch-action: manipulation;
+}
+
+/* controls are not content: a long press must not select their label */
+.btn,
+button,
+[role='tab'],
+.chip {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* mobile-native: no grey flash on tap – every control has its own :active state instead */
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-size: var(--t-base);
+  font-stretch: 100%;
+  line-height: 1.6;
+  font-feature-settings: 'ss01';
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--orange);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+html {
+  scrollbar-color: var(--line-strong) var(--paper);
+  accent-color: var(--orange);
+  caret-color: var(--orange-lo);
+}
+
+img,
+svg,
+picture {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--orange);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    text-decoration-color: var(--ink);
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + var(--gutter) + var(--gutter-r));
+  margin-inline: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter-r);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+/* measurement text: dimensions, codes, title-block values */
+.mono {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.display {
+  font-stretch: 118%;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.h2 {
+  font-size: var(--t-xl);
+  font-stretch: 112%;
+  font-weight: 680;
+  letter-spacing: -0.03em;
+}
+
+.h3 {
+  font-size: var(--t-lg);
+  font-weight: 640;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  font-size: var(--t-md);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 58ch;
+}
+
+.prose {
+  max-width: 68ch;
+  min-width: 0;
+  overflow-wrap: break-word;
+  color: var(--ink-2);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.prose h2 {
+  font-size: var(--t-lg);
+  color: var(--ink);
+  margin-top: var(--space-6);
+}
+
+.prose h3 {
+  font-size: var(--t-md);
+  color: var(--ink);
+  margin-top: var(--space-4);
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 0;
+  list-style: none;
+}
+
+.prose li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.prose li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 0.85rem;
+  height: 1.5px;
+  background: var(--orange);
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 620;
+}
+
+/* frosted sheet – the "pauzák" laid over a drawing or photo */
+.glass {
+  background-color: var(--glass-bg);
+  background-image: var(--glass-sheen);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* buttons */
+.btn {
+  --pad-x: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 48px;
+  padding: 0.7rem var(--pad-x);
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  box-shadow: var(--btn-shadow);
+  color: var(--btn-ink);
+  font-weight: 620;
+  font-size: 1rem;
+  line-height: 1.1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), filter 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    box-shadow: inset 0 -3px 0 var(--orange), var(--btn-shadow);
+  }
+}
+
+.btn svg {
+  color: var(--orange);
+}
+
+/* press feedback the moment the finger lands, not when it lifts */
+.btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  transition: transform 0.3s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.btn--ghost {
+  color: var(--ink);
+  background: var(--btn2-bg);
+  -webkit-backdrop-filter: var(--btn2-filter);
+  backdrop-filter: var(--btn2-filter);
+  border-color: var(--ink);
+  box-shadow: none;
+}
+
+:root[data-glass='sklo'] .btn--ghost,
+[data-glass-local='sklo'] .btn--ghost {
+  border-color: rgb(29 31 33 / 0.45);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.8) inset;
+}
+
+.btn--ghost svg {
+  color: currentColor;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn--ghost:hover {
+    box-shadow: inset 0 -3px 0 var(--orange);
+  }
+}
+
+/*
+ * Orange intensity (review switch).
+ * střídmá – orange only as the pencil line; vyvážená – orange primary actions and survey points;
+ * výrazná – plus orange fields for the career and closing bands.
+ */
+:root:is([data-accent='vyvazena'], [data-accent='vyrazna']) {
+  --btn-bg: var(--orange);
+  --btn-ink: var(--ink);
+  --btn-border: var(--orange);
+}
+
+:root:is([data-accent='vyvazena'], [data-accent='vyrazna']) .btn:not(.btn--ghost, .btn--light) svg {
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :root:is([data-accent='vyvazena'], [data-accent='vyrazna']) .btn:not(.btn--ghost, .btn--light):hover {
+    box-shadow: inset 0 -3px 0 var(--ink), var(--btn-shadow);
+    background: var(--orange-hi);
+  }
+}
+
+:root[data-accent='vyrazna'] .footer {
+  border-top: 4px solid var(--orange);
+}
+
+/*
+ * Surfaces – three:
+ *  papír (paper + grid)    all content; sections are separated by a 1px ink rule, like frames on a sheet
+ *  grafit                  one band per page at most: trust (clients, values)
+ *  oranžová + výkres       one band per page at most: the call to action, always with the floor plan under it
+ * The footer is the sheet's title block, on paper.
+ */
+.section-rule {
+  border-top: 1px solid var(--ink);
+}
+
+.orange-field {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.orange-field > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.orange-field .btn:not(.btn--ghost) {
+  --btn-bg: var(--ink);
+  --btn-ink: var(--on-dark);
+  --btn-border: var(--ink);
+}
+
+/* black button on orange: white label, white icon */
+.orange-field .btn:not(.btn--ghost),
+.orange-field .btn:not(.btn--ghost) svg {
+  color: var(--on-dark) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orange-field .btn:not(.btn--ghost):hover {
+    background: var(--graphite-2) !important;
+    box-shadow: inset 0 -3px 0 var(--orange) !important;
+  }
+}
+
+.orange-field .btn--ghost {
+  background: transparent;
+  border-color: var(--ink);
+}
+
+:root[data-accent='vyrazna'] .orange-field {
+  background-color: var(--orange) !important;
+  color: var(--ink) !important;
+  background-image: linear-gradient(rgb(29 31 33 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(29 31 33 / 0.07) 1px, transparent 1px) !important;
+  background-size: var(--cell) var(--cell) !important;
+}
+
+:root[data-accent='vyrazna'] .orange-field :is(p, .h2, h2, h3) {
+  color: var(--ink) !important;
+}
+
+:root[data-accent='vyrazna'] .orange-field .btn--light {
+  --btn-bg: var(--ink);
+  --btn-ink: var(--on-dark);
+  --btn-border: var(--ink);
+}
+
+:root[data-accent='vyrazna'] .orange-field .q {
+  color: var(--ink) !important;
+}
+
+:root[data-accent='vyrazna'] .orange-field :focus-visible {
+  outline-color: var(--ink);
+}
+
+/*
+ * Corner shape (review switch). ostré = the drawing world, square everywhere (default);
+ * jemné = small radius on controls and objects; oblé = pill controls, soft objects.
+ * The drawing sheet frame and the title-block grids always stay square.
+ */
+:root {
+  --r-ctl: 0px;
+  --r-obj: 0px;
+}
+
+:root[data-shape='jemne'],
+[data-shape-local='jemne'] {
+  --r-ctl: 5px;
+  --r-obj: 10px;
+}
+
+:root[data-shape='oble'],
+[data-shape-local='oble'] {
+  --r-ctl: 999px;
+  --r-obj: 20px;
+}
+
+:where(
+    .btn,
+    .chip span,
+    .field input,
+    .field textarea,
+    .file,
+    .hero__btn,
+    .dp__opts,
+    .site-header__menu,
+    .tags li,
+    .footer__fb
+  ) {
+  border-radius: var(--r-ctl);
+}
+
+:where(.dp__opts button:first-child) {
+  border-radius: var(--r-ctl) 0 0 var(--r-ctl);
+}
+
+:where(.dp__opts button:last-child) {
+  border-radius: 0 var(--r-ctl) var(--r-ctl) 0;
+}
+
+:where(
+    .glass:not(.site-header),
+    .form,
+    .legend,
+    .svc,
+    .ref__link,
+    .job,
+    .lead-item,
+    .item__img,
+    .news-row__img,
+    .checklist,
+    .mkt__dev,
+    .detail__img,
+    .company__img,
+    .split__img,
+    .mkt__img,
+    .article__img,
+    .form__done,
+    .refs__empty,
+    .tile__stage,
+    .kit__stage,
+    .gscene__stage,
+    .motion__demo
+  ) {
+  border-radius: var(--r-obj);
+  overflow: hidden;
+}
+
+:root:not([data-shape='ostre']) .aud__tabs {
+  border-radius: var(--r-obj) var(--r-obj) 0 0;
+  overflow: hidden;
+}
+
+:root:not([data-shape='ostre']) .aud__panel {
+  border-radius: 0 0 var(--r-obj) var(--r-obj);
+}
+
+:root:not([data-shape='ostre']) [data-tabs]:not(.is-ready) .aud__panel {
+  border-radius: var(--r-obj);
+}
+
+.btn--light {
+  --btn-bg: var(--sheet);
+  --btn-ink: var(--ink);
+  --btn-border: var(--sheet);
+}
+
+.btn--light svg {
+  color: var(--orange-lo);
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--orange);
+  padding-bottom: 2px;
+}
+
+.link-arrow svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-arrow:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+/* section rhythm */
+/* vertical rhythm: paper sections breathe with space-9, coloured bands (graphite, orange) with space-8 */
+.section {
+  padding-block: var(--space-9);
+}
+
+.section--tight {
+  padding-block: var(--space-8);
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+  max-width: 60ch;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ruled photo frame with registration ticks at the corners */
+.frame {
+  position: relative;
+  border: 1px solid var(--ink);
+  background: var(--paper-2);
+  overflow: hidden;
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+ * Scroll motion – one grammar: things come into register like a sheet laid on the drawing.
+ * Scroll-driven where the browser supports it; everything is fully visible without it.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* photographs develop as they enter: the frame opens from the baseline, the image settles */
+    .frame.reveal {
+      animation: frame-open linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 85%;
+    }
+
+    .frame.reveal img {
+      animation: img-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+
+    /* headings slide into register */
+    .h2,
+    .section-head .lead {
+      animation: register linear both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 70%;
+    }
+
+    /* the drawing under the tracing paper moves at its own pace */
+    .parallax {
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 120vh;
+    }
+
+    .parallax-view {
+      animation: drift-view linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes frame-open {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes img-settle {
+  from {
+    scale: 1.12;
+  }
+
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes register {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(0, var(--drift, -90px), 0);
+  }
+}
+
+@keyframes drift-view {
+  from {
+    transform: translate3d(0, 70px, 0);
+  }
+
+  to {
+    transform: translate3d(0, -70px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * Lettering (E9): the main title is set like hand lettering on a drawing. Two thin guide
+ * lines (cap height and baseline) are ruled across first, the letters ink in between them,
+ * then the guides fade. Repeats per line via the 1lh period. Fully visible without motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .pen {
+    --cap: 0.16em;
+    --base: 0.8em;
+    position: relative;
+    isolation: isolate;
+    animation: pen-ink 0.9s cubic-bezier(0.33, 0, 0.2, 1) 0.55s both;
+  }
+
+  .pen::before {
+    content: '';
+    position: absolute;
+    inset: 0 -0.35em;
+    z-index: -1;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      180deg,
+      transparent 0 var(--cap),
+      var(--orange-lo) var(--cap) calc(var(--cap) + 1px),
+      transparent calc(var(--cap) + 1px) var(--base),
+      var(--orange-lo) var(--base) calc(var(--base) + 1px),
+      transparent calc(var(--base) + 1px) 1lh
+    );
+    transform-origin: left center;
+    animation: pen-guides 2.4s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+}
+
+@keyframes pen-guides {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pen-ink {
+  from {
+    color: transparent;
+  }
+}
+
+/* Duotone (G3): thumbnails in graphite + orange, colour returns on hover. Detail pages stay in full colour. */
+.duo img {
+  filter: url(#duo);
+  transition: filter 0.5s var(--ease-out);
+}
+
+a:focus-visible .duo img {
+  filter: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover .duo img {
+    filter: none;
+  }
+}
+
+/* Folded corner (K2): the picture is a sheet folded to A4; it unfolds on hover. */
+.fold {
+  position: relative;
+}
+
+.fold::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  background:
+    linear-gradient(225deg, var(--paper) calc(50% - 0.5px), var(--ink) calc(50% - 0.5px) calc(50% + 0.5px), var(--paper-2) calc(50% + 0.5px));
+  border-left: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  transition: width 0.45s var(--ease-out), height 0.45s var(--ease-out), opacity 0.3s;
+  pointer-events: none;
+}
+
+a:focus-visible .fold::after {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover .fold::after {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* Hatch rule (G1): a strip of section hatching between two sections, alternating with plain ink lines. */
+.hatch-rule {
+  height: 12px;
+  border-block: 1px solid var(--ink);
+}
+
+.hatch-rule--zdivo {
+  background: repeating-linear-gradient(45deg, var(--line-strong) 0 1px, transparent 1px 9px);
+}
+
+.hatch-rule--izolace {
+  background:
+    linear-gradient(135deg, transparent 46%, var(--line-strong) 46% 54%, transparent 54%) 0 50% / 10px 10px repeat-x,
+    linear-gradient(45deg, transparent 46%, var(--line-strong) 46% 54%, transparent 54%) 5px 50% / 10px 10px repeat-x;
+}
+
+.hatch-rule--beton {
+  background:
+    radial-gradient(circle at 30% 40%, var(--ink) 1px, transparent 1.4px) 0 0 / 11px 11px,
+    radial-gradient(circle at 70% 75%, var(--ink-2) 0.7px, transparent 1.1px) 0 0 / 7px 7px;
+}
+
+/* mobile-native: on touch screens every text link that stands on its own line is at least 44 px tall */
+@media (pointer: coarse) {
+  .footer li a,
+  .footer .consent,
+  .person__links a,
+  .page-head__crumb {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer .cell ul,
+  .footer .legal {
+    gap: 0;
+  }
+
+  .footer .contact-list li {
+    align-items: center;
+  }
+
+  .footer .contact-list li:first-child {
+    align-items: start;
+  }
+}

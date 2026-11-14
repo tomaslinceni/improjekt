@@ -1,0 +1,95 @@
+---
+import Sheet from './Sheet.astro';
+import Icon from './Icon.astro';
+/** Opening sheet for inner pages: the page title on a pauzák panel on the left, the floor plan around it. */
+interface Props {
+  title: string;
+  lead?: string;
+  crumb?: { href: string; label: string };
+  underlay?: boolean;
+}
+const { title, lead, crumb, underlay = true } = Astro.props;
+---
+<div class="wrap page-head">
+  <Sheet underlay={underlay}>
+    <div class="page-head__body">
+      <div class="page-head__panel glass">
+        {
+          crumb && (
+            <a class="page-head__crumb" href={crumb.href}>
+              <Icon name="arrow-left" size={16} />
+              {crumb.label}
+            </a>
+          )
+        }
+        <h1 class:list={['display page-head__title pen', { 'page-head__title--long': title.length > 36 }]}>{title}</h1>
+        {lead && <p class="lead page-head__lead">{lead}</p>}
+        <slot />
+      </div>
+      <div class="page-head__aside">
+        <slot name="aside" />
+      </div>
+    </div>
+  </Sheet>
+</div>
+
+<style>
+  .page-head {
+    padding-top: var(--space-5);
+  }
+
+  .page-head__body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-6);
+    padding: clamp(1.25rem, 4vw, 3.5rem);
+    min-height: clamp(300px, 34vw, 440px);
+    align-items: end;
+  }
+
+  .page-head__panel {
+    display: grid;
+    gap: var(--space-5);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    align-content: start;
+  }
+
+  .page-head__crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 560;
+    text-decoration: none;
+    color: var(--ink-2);
+    width: fit-content;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .page-head__crumb:hover {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-color: var(--orange);
+    }
+  }
+
+  .page-head__title {
+    font-size: var(--t-2xl);
+  }
+
+  .page-head__title--long {
+    font-size: var(--t-xl);
+    line-height: 1.04;
+  }
+
+  .page-head__aside:empty {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .page-head__body {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+  }
+</style>

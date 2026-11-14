@@ -1,0 +1,94 @@
+---
+import markPath from '../assets/brand/mark-path.txt?raw';
+/**
+ * G2 – the mark set into construction lines: axes, circles and its own dimensions.
+ * The mark's shape is the untouched logo path. Draws once when it enters the viewport.
+ */
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+---
+<div class:list={['construct', cls]} data-construct aria-hidden="true">
+  <svg viewBox="-14 -10 64 60">
+    <g class="construct__guides">
+      <circle cx="17.3" cy="19.25" r="19.6" pathLength="1" style="--d:0" />
+      <circle cx="17.3" cy="19.25" r="11" pathLength="1" style="--d:.1" />
+      <path d="M17.3 -8V46M-12 19.25H47" pathLength="1" style="--d:.15" />
+      <path d="M-8 44L42 -6" pathLength="1" style="--d:.2" />
+      <path d="M0 -5V44M34.6 -5V44" class="dash" />
+    </g>
+    <path d={markPath} class="construct__mark" />
+    <g class="construct__dims">
+      <path d="M0 43H34.6M-1.4 44.4l2.8-2.8M33.2 44.4l2.8-2.8" pathLength="1" style="--d:.5" />
+      <path d="M41 0V38.5M39.6 1.4l2.8-2.8M39.6 39.9l2.8-2.8" pathLength="1" style="--d:.55" />
+    </g>
+    <text x="17.3" y="47.6" class="construct__t">34,6</text>
+    <text x="45.2" y="20" class="construct__t" transform="rotate(-90 45.2 20)">38,5</text>
+  </svg>
+</div>
+
+<style>
+  .construct svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .construct__guides * {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 0.2;
+  }
+
+  .construct__guides .dash {
+    stroke-dasharray: 0.8 0.8;
+    opacity: clamp(0, (var(--p, 1) - 0.25) * 5, 1);
+  }
+
+  .construct__guides :not(.dash),
+  .construct__dims path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - clamp(0, (var(--p, 1) - var(--d)) * 3, 1));
+  }
+
+  .construct__mark {
+    fill: var(--orange);
+    opacity: clamp(0, (var(--p, 1) - 0.35) * 5, 1);
+  }
+
+  .construct__dims path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.25;
+  }
+
+  .construct__t {
+    font-family: var(--f-mono);
+    font-size: 2px;
+    fill: var(--ink);
+    text-anchor: middle;
+    opacity: clamp(0, (var(--p, 1) - 0.6) * 5, 1);
+  }
+</style>
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-construct]').forEach((el) => {
+      el.style.setProperty('--p', '0');
+      const io = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        const t0 = performance.now();
+        const step = (t: number) => {
+          const k = Math.min(1, (t - t0) / 2200);
+          el.style.setProperty('--p', String(k));
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+      io.observe(el);
+    });
+  }
+</script>

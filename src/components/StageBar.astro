@@ -1,0 +1,171 @@
+---
+import { phasesFor, hasEngineering } from '../lib/stages';
+/**
+ * The project's path through the documentation phases, drawn as a measured chain.
+ * Filled orange square = phase delivered by IM Projekt.
+ */
+interface Props {
+  services: string[];
+  labels?: boolean;
+  class?: string;
+}
+const { services, labels = false, class: cls = '' } = Astro.props;
+const phases = phasesFor(services);
+const done = phases.filter((p) => p.done).length;
+const eng = hasEngineering(services);
+const summary = `Fáze zpracované IM Projektem: ${phases
+  .filter((p) => p.done)
+  .map((p) => p.label)
+  .join(', ')}${eng ? ', včetně inženýringu' : ''}.`;
+---
+<div class:list={['stages', { 'stages--labels': labels }, cls]} role="img" aria-label={summary} title={labels ? undefined : summary} data-stages data-draw>
+  <ol class="stages__track" aria-hidden="true">
+    {
+      phases.map((p, i) => (
+        <li class:list={['stages__node', { 'is-done': p.done }]} style={`--i:${i}`}>
+          <span class="stages__mark" />
+          {labels && <span class="stages__label mono">{p.label}</span>}
+        </li>
+      ))
+    }
+  </ol>
+  {
+    !labels && (
+      <span class="stages__count mono" aria-hidden="true">
+        {done}/{phases.length}
+        {eng && <span class="stages__eng">+ inženýring</span>}
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .stages {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  .stages__track {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    flex: 1;
+    position: relative;
+    min-width: 0;
+  }
+
+  .stages__track::before {
+    content: '';
+    position: absolute;
+    left: calc(100% / 12);
+    right: calc(100% / 12);
+    top: 5px;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  .stages__node {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.45rem;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .stages__mark {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--sheet);
+    border: 1.25px solid var(--line-strong);
+    position: relative;
+    transition: transform 0.5s calc(var(--i) * 110ms) var(--ease-out),
+      box-shadow 0.5s calc(var(--i) * 110ms) var(--ease-out);
+  }
+
+  /* delivered phase: an inked survey point with the red-pencil ring */
+  .stages__node.is-done .stages__mark {
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 2px var(--sheet), 0 0 0 3.25px var(--orange-lo);
+  }
+
+  :global(:root:is([data-accent='vyvazena'], [data-accent='vyrazna'])) .stages__node.is-done .stages__mark {
+    background: var(--orange);
+    border-color: var(--orange-lo);
+    box-shadow: none;
+  }
+
+  :global(.stages.pre) .stages__node.is-done .stages__mark {
+    transform: scale(0.2);
+    box-shadow: 0 0 0 2px var(--sheet), 0 0 0 2px var(--orange-lo);
+    transition: none;
+  }
+
+  .stages__label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    color: var(--muted);
+    max-width: 100%;
+    padding-inline: 2px;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .stages__node.is-done .stages__label {
+    color: var(--ink);
+  }
+
+  .stages__count {
+    flex: none;
+    font-size: 0.75rem;
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .stages__eng {
+    margin-left: 0.5rem;
+    color: var(--orange-ink);
+  }
+
+  /* with labels, a narrow column (phone, sidebar) reads the phases as a vertical chain:
+     one phase per row, whole words, the line running down through the points */
+  .stages--labels {
+    container-type: inline-size;
+  }
+
+  @container (max-width: 520px) {
+    .stages__track {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0.7rem;
+    }
+
+    .stages__track::before {
+      left: 5px;
+      right: auto;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      height: auto;
+    }
+
+    .stages__node {
+      grid-template-columns: 11px minmax(0, 1fr);
+      justify-items: start;
+      align-items: center;
+      column-gap: 0.8rem;
+      text-align: left;
+    }
+
+    .stages__label {
+      font-size: 0.8125rem;
+      overflow-wrap: normal;
+      hyphens: manual;
+      padding: 0;
+    }
+  }
+</style>

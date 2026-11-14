@@ -1,0 +1,65 @@
+---
+/** Consent bar. Analytics would load only after "Přijmout vše"; nothing is loaded in the design phase. */
+---
+<div class="cookie glass" role="region" aria-label="Souhlas s cookies" hidden data-cookie>
+  <p>
+    Používáme cookies, aby web fungoval a abychom mohli měřit návštěvnost. Statistické a marketingové cookies uložíme
+    jen s vaším souhlasem. <a href="/zasady-cookies/">Zásady cookies</a>
+  </p>
+  <div class="cookie__actions">
+    <button type="button" class="btn btn--ghost" data-cookie-choice="nezbytne">Jen nezbytné</button>
+    <button type="button" class="btn" data-cookie-choice="vse">Přijmout vše</button>
+  </div>
+</div>
+
+<style>
+  .cookie {
+    position: fixed;
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 70;
+    width: min(440px, calc(100vw - 24px));
+    padding: 1rem 1.1rem 1.1rem;
+    display: grid;
+    gap: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .cookie__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .cookie .btn {
+    min-height: 42px;
+    font-size: 0.9375rem;
+  }
+</style>
+
+<script>
+  const KEY = 'imp-consent';
+  const bar = document.querySelector<HTMLElement>('[data-cookie]');
+  if (bar) {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(KEY);
+    } catch {}
+    if (!saved) bar.hidden = false;
+    bar.querySelectorAll<HTMLButtonElement>('[data-cookie-choice]').forEach((b) =>
+      b.addEventListener('click', () => {
+        try {
+          localStorage.setItem(KEY, b.dataset.cookieChoice || 'nezbytne');
+        } catch {}
+        bar.hidden = true;
+      }),
+    );
+    document.querySelectorAll('[data-cookie-open]').forEach((b) =>
+      b.addEventListener('click', () => {
+        bar.hidden = false;
+        bar.querySelector<HTMLButtonElement>('button')?.focus();
+      }),
+    );
+  }
+</script>

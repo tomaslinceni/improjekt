@@ -1,0 +1,258 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav, company } from '../data/site';
+
+interface Props {
+  contactHref?: string;
+}
+const { contactHref = '#kontaktujte-nas' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.slice(base.length) || '/';
+const isActive = (href: string) => path === href || path.startsWith(href);
+---
+<header class="site-header glass" data-header>
+  <div class="site-header__inner wrap">
+    <a class="site-header__logo" href="/">
+      <Logo />
+    </a>
+
+    <nav class="site-nav" aria-label="Hlavní navigace">
+      <ul>
+        {
+          nav.map((n) => (
+            <li>
+              <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn site-header__cta" href={contactHref}>Kontaktujte nás</a>
+
+    <button class="site-header__menu" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <span class="visually-hidden" data-menu-label>Otevřít menu</span>
+      <Icon name="menu" size={26} class="i-open" />
+      <Icon name="close" size={26} class="i-close" />
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden data-menu>
+    <nav class="wrap" aria-label="Mobilní navigace">
+      <ul>
+        {
+          nav.map((n) => (
+            <li>
+              <a href={n.href} aria-current={isActive(n.href) ? 'page' : undefined}>
+                {n.label}
+                <Icon name="arrow" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mobile-menu__contact">
+        <a href={`tel:${company.phoneHref}`} class="mono">{company.phone}</a>
+        <a href={`mailto:${company.email}`} class="mono">{company.email}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    /* landscape / installed: keep the bar clear of the notch */
+    padding-top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    border-width: 0 0 1px;
+    border-color: var(--glass-border);
+  }
+
+  :root[data-glass='plocha'] .site-header {
+    border-bottom-color: var(--ink);
+  }
+
+  .site-header__inner {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .site-header__logo {
+    display: block;
+    /* the wordmark has no fill in logo.svg, so the original renders black */
+    color: #000;
+    flex: none;
+  }
+
+  .site-header__logo :global(.logo) {
+    height: 38px;
+    width: auto;
+  }
+
+  .site-nav {
+    margin-left: auto;
+  }
+
+  .site-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+  }
+
+  .site-nav a {
+    display: block;
+    padding: 0.55rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 540;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .site-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.3rem;
+    height: 1.5px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .site-nav a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .site-nav a:hover::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .site-header__cta {
+    min-height: 42px;
+    padding-block: 0.5rem;
+  }
+
+  .site-header__menu {
+    display: none;
+    margin-left: auto;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    background: none;
+    border: 1px solid var(--ink);
+    cursor: pointer;
+  }
+
+  .site-header__menu :global(.i-close) {
+    display: none;
+  }
+
+  .site-header[data-open] :global(.i-open) {
+    display: none;
+  }
+
+  .site-header[data-open] :global(.i-close) {
+    display: block;
+  }
+
+  .mobile-menu {
+    border-top: 1px solid var(--glass-border);
+    padding-block: var(--space-4) var(--space-6);
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+  }
+
+  .mobile-menu li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    font-size: 1.5rem;
+    font-weight: 620;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-menu li a[aria-current='page'] {
+    color: var(--orange-ink);
+  }
+
+  .mobile-menu__contact {
+    display: grid;
+    gap: 0.4rem;
+    margin-top: var(--space-5);
+  }
+
+  @media (max-width: 1080px) {
+    .site-nav {
+      display: none;
+    }
+
+    .site-header__cta {
+      margin-left: auto;
+    }
+
+    .site-header__menu {
+      display: grid;
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .site-header__cta {
+      display: none;
+    }
+
+    .site-header__menu {
+      margin-left: auto;
+    }
+
+    .site-header__logo :global(.logo) {
+      height: 32px;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = header?.querySelector<HTMLElement>('[data-menu]');
+  const label = header?.querySelector<HTMLElement>('[data-menu-label]');
+  if (header && toggle && menu && label) {
+    const set = (open: boolean) => {
+      menu.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Zavřít menu' : 'Otevřít menu';
+      header.toggleAttribute('data-open', open);
+    };
+    toggle.addEventListener('click', () => set(menu.hidden));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        set(false);
+        toggle.focus();
+      }
+    });
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) set(false);
+    });
+  }
+</script>

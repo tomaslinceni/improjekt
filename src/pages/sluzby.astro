@@ -1,0 +1,733 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import AudienceIcon from '../components/AudienceIcon.astro';
+import DrawingUnderlay from '../components/DrawingUnderlay.astro';
+import { audiences } from '../data/site';
+import imgInzenyring from '../assets/sluzby/inzenyrska-cinnost.webp';
+import imgMarketing from '../assets/sluzby/marketing.webp';
+
+const engineering = [
+  'koordinaci povolovacích procesů staveb',
+  'komunikaci s dotčenými orgány státní správy',
+  'jednání se správci technické infrastruktury',
+  'zajištění potřebných stanovisek a vyjádření',
+  'administrativní podporu jednotlivých stupňů povolování',
+];
+
+const marketing = [
+  {
+    title: 'Strategický základ každého projektu',
+    intro: [
+      'Každý projekt má jiné ambice, jiné publikum i jinou obchodní dynamiku.',
+      'Navrhujeme komunikační strategii, která odpovídá fázi projektu i jeho dlouhodobým cílům.',
+      'Zaměřujeme se zejména na:',
+    ],
+    items: ['poziční strategii projektu', 'definici cílových skupin', 'tvorbu značky a její identity', 'nastavení komunikačního tónu', 'dlouhodobý obsahový plán'],
+    outro: 'Marketing vnímáme jako investici, která má jasné cíle – podporu prodeje, vyšší hodnotu projektu a silnější postavení na trhu.',
+  },
+  {
+    title: 'Branding a vizuální identita',
+    intro: ['Navrhujeme značky, které mají charakter a dlouhodobou životnost.', 'Zajišťujeme:'],
+    items: ['návrh názvu projektu', 'tvorbu logotypu a vizuální identity', 'kompletní brand manuál', 'aplikaci identity napříč online i offline výstupy'],
+    outro: 'Každý vizuální prvek vychází ze strategie. Nepracujeme s izolovanými návrhy, ale s uceleným systémem.',
+  },
+  {
+    title: 'Online i offline komunikace',
+    intro: ['Zajišťujeme kompletní realizaci marketingových výstupů:'],
+    items: ['webové prezentace projektů', 'obsah pro sociální sítě', 'výkonnostní kampaně', 'prezentační materiály', 'tiskoviny a prodejní podklady', 'vizuály pro stavbu a prodejní místa'],
+    outro: 'Propojujeme architektonickou kvalitu projektu s obchodní efektivitou komunikace.',
+  },
+];
+
+const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'architektonická studia', 'společnosti vstupující na trh s novým projektem', 'umíme poradit i státním institucím'];
+---
+<Base
+  title="Služby"
+  description="Projekce, inženýring a marketing na jednom místě. Komplexní projekční a inženýrské služby pro developery, stavebníky, města i architekty."
+>
+  <PageHead
+    title="Projekce, inženýring a marketing na jednom místě"
+    lead="Každá zakázka je pro nás závazkem. Držíme se technických standardů, termínů a rozpočtů. A vždy hledáme cestu, která propojí ideu s realitou."
+  >
+    <nav class="jump" aria-label="Služby na této stránce">
+      <a href="#projekcni-kancelar">Projekční kancelář</a>
+      <a href="#inzenyrska-cinnost">Inženýrská činnost</a>
+      <a href="#marketing-a-branding">Marketing a branding</a>
+    </nav>
+  </PageHead>
+
+  <section class="section wrap intro">
+    <p class="lead">IM Projekt poskytuje komplexní projekční a inženýrské služby pro všechny typy investorů.</p>
+    <div class="intro__body">
+      <p class="lead">
+        Naše práce stojí na preciznosti a dlouholetých zkušenostech v oblasti projektování, inženýrské činnosti a
+        autorského dozoru. Spolupracujeme s developery, investory, městy i projektanty či architekty a vždy hledáme
+        řešení, která propojují kvalitu, funkčnost a ekonomickou efektivitu.
+      </p>
+      <p class="lead">Ke každé spolupráci přistupujeme individuálně, s respektem k cíli projektu i jeho budoucímu uživateli.</p>
+    </div>
+  </section>
+
+  <section class="svc-block svc-block--line" id="projekcni-kancelar" aria-labelledby="projekce-title">
+    <div class="wrap">
+      <div class="svc-block__head">
+        <h2 class="h2" id="projekce-title">Projekční kancelář</h2>
+        <p class="lead">
+          Poskytujeme komplexní projekční a konzultační služby pro bytové, občanské i průmyslové stavby, včetně koordinace
+          všech přidružených profesí.
+        </p>
+      </div>
+
+      <div class="aud" data-tabs>
+        <div class="aud__tabs" role="tablist" aria-label="Pro koho projektujeme" hidden data-tablist>
+          <span class="aud__ind" aria-hidden="true" data-ind></span>
+          {
+            audiences.map((a, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${a.id}`}
+                aria-controls={a.id}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+                data-tab={a.id}
+              >
+                <AudienceIcon id={a.id} size={36} />
+                <span>{a.name}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="aud__panels">
+          {
+            audiences.map((a) => (
+              <article class="aud__panel" id={a.id} role="tabpanel" aria-labelledby={`tab-${a.id}`} data-panel tabindex="0">
+                <div class="aud__intro">
+                  <p class="aud__who">
+                    <AudienceIcon id={a.id} size={32} />
+                    {a.name}
+                  </p>
+                  <h3 class="h3">{a.title}</h3>
+                  <p>{a.text}</p>
+                  <a class="btn" href="#kontaktujte-nas">
+                    Kontaktujte nás <Icon name="arrow" />
+                  </a>
+                </div>
+                <ol class="aud__list">
+                  {a.items.map((it) => (
+                    <li>
+                      <Icon name="check" size={18} />
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ol>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hatch-rule hatch-rule--zdivo" aria-hidden="true"></div>
+  <section class="svc-block" id="inzenyrska-cinnost" aria-labelledby="inz-title">
+    <div class="wrap eng">
+      <div class="eng__intro">
+        <h2 class="h2" id="inz-title">Inženýrská činnost</h2>
+        <p class="lead">
+          Inženýrská činnost představuje klíčovou fázi přípravy každého stavebního záměru. Zajišťuje, aby byl projekt v souladu s legislativními požadavky a mohl bez komplikací postoupit do realizační fáze. IM Projekt zajišťuje kompletní koordinaci procesů spojených s povolováním staveb. Součástí této činnosti je komunikace s dotčenými orgány státní správy, správci technické infrastruktury i dalšími účastníky řízení, stejně jako zajištění potřebných stanovisek, vyjádření a rozhodnutí.
+        </p>
+      </div>
+      <div class="eng__more">
+        <p class="lead">
+          Díky zkušenostem s administrativními procesy a systematickému přístupu dokážeme jednotlivé kroky efektivně koordinovat a minimalizovat riziko prodlev. Pro investora tak celý proces představuje přehlednou a řízenou cestu od projektového záměru k realizaci.
+        </p>
+        <p class="lead">
+          Naším cílem je, aby povolovací proces probíhal plynule, s jasnou koordinací všech účastníků a s důrazem na kvalitu přípravy projektu.
+        </p>
+      </div>
+      <figure class="frame eng__img reveal">
+        <Image src={imgInzenyring} alt="Projektová dokumentace a razítka na stole" widths={[600, 1000, 1344]} sizes="(min-width: 980px) 56vw, 92vw" />
+      </figure>
+      <div class="checklist eng__list">
+        <h3 class="checklist__title">V rámci inženýrské činnosti zajišťujeme zejména:</h3>
+        <ol>
+          {engineering.map((e) => <li><Icon name="check" size={18} /><span>{e}</span></li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="svc-block svc-block--line" id="marketing-a-branding" aria-labelledby="mkt-title">
+    <div class="wrap">
+      <div class="mkt__head">
+        <div class="mkt__head-text">
+          <h2 class="h2" id="mkt-title">Marketing a branding</h2>
+          <p class="mkt__claim">Značka není vizitka. Je to strategie.</p>
+          <div class="prose">
+            <p>
+              Úspěšný projekt nezačíná pouze vizualizací. Začíná jasně definovanou značkou, správně nastavenou komunikací a
+              schopností oslovit cílovou skupinu srozumitelně a přesvědčivě.
+            </p>
+            <p>
+              Oddělení marketingu v rámci IM Projektu vzniklo jako přirozené rozšíření našich služeb. Rozumíme developmentu,
+              rozumíme projektové přípravě, známe investiční logiku. Marketing proto nestavíme na dojmech, ale na kontextu
+              projektu, trhu a jeho budoucí hodnotě.
+            </p>
+          </div>
+        </div>
+        <figure class="frame mkt__img reveal">
+          <Image src={imgMarketing} alt="Kreativní kompozice s logem IM Projekt, tiskovinami a zařízeními" widths={[600, 1000, 1344]} sizes="(min-width: 900px) 45vw, 92vw" />
+        </figure>
+      </div>
+
+      <div class="mkt__cols">
+        {
+          marketing.map((m) => (
+            <article class="mkt__col">
+              <h3 class="h3">{m.title}</h3>
+              {m.intro.map((p) => <p>{p}</p>)}
+              <ul>
+                {m.items.map((it) => <li>{it}</li>)}
+              </ul>
+              <p class="mkt__outro">{m.outro}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="mkt__dev">
+        <div>
+          <h3 class="h3">Marketing, který rozumí developmentu</h3>
+          <p>
+            Naší výhodou je znalost celého procesu – od projektové přípravy přes povolovací řízení až po prodej a následnou
+            komunikaci.
+          </p>
+          <p>Marketing proto nevzniká odděleně. Je součástí celkové strategie projektu.</p>
+        </div>
+        <div>
+          <h4 class="mkt__for">Pro koho pracujeme</h4>
+          <ul class="tags">
+            {forWhom.map((f) => <li>{f}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta orange-field" aria-labelledby="cta-title">
+    <DrawingUnderlay />
+    <div class="wrap cta__inner">
+      <h2 class="h2 cta__title" id="cta-title">Máte v hlavě projekt<span class="q">?</span></h2>
+      <div class="cta__text">
+        <p class="cta__sub">Pojďme mu společně dát reálné obrysy</p>
+        <p>Každá stavba začíná u precizní přípravy. Využijte našich zkušeností pro hladký průběh vašeho záměru.</p>
+        <a class="btn btn--light" href="#kontaktujte-nas">Kontaktujte nás <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .jump a {
+    font-weight: 600;
+    text-decoration-thickness: 1.5px;
+  }
+
+  .intro {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    padding-block: var(--space-9);
+  }
+
+  .intro__body {
+    display: grid;
+    gap: var(--space-4);
+    color: var(--ink-2);
+    max-width: 64ch;
+  }
+
+  .svc-block {
+    padding-block: var(--space-9);
+  }
+
+  .svc-block--line {
+    border-top: 1px solid var(--ink);
+  }
+
+  .svc-block > .wrap {
+    position: relative;
+  }
+
+  .svc-block__head {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 60ch;
+    margin-bottom: var(--space-7);
+  }
+
+  /* audience tabs */
+  .aud__tabs {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border: 1px solid var(--ink);
+    border-bottom: 0;
+  }
+
+  /* one orange marker that slides to the selected tab */
+  .aud__ind {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    height: 3px;
+    width: 0;
+    background: var(--orange);
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.5s var(--ease-out), width 0.5s var(--ease-out);
+  }
+
+  .aud__tabs:not([hidden]) {
+    display: grid;
+  }
+
+  .aud__tabs button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.1rem;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--ink);
+    text-align: left;
+    font-weight: 620;
+    font-size: 1rem;
+    line-height: 1.2;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.25s var(--ease-out);
+  }
+
+  .aud__tabs button + button {
+    border-left: 1px solid var(--ink);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .aud__tabs button:hover {
+      background: var(--sheet);
+    }
+  }
+
+  .aud__tabs button[aria-selected='true'] {
+    background: var(--sheet);
+    border-bottom-color: transparent;
+  }
+
+  [data-tabs].is-ready .aud__panel {
+    border-top: 0;
+  }
+
+  .aud__panel {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--space-7) var(--split-gap);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+  }
+
+  .aud__panel + .aud__panel {
+    margin-top: var(--space-5);
+  }
+
+  [data-tabs].is-ready .aud__panel + .aud__panel {
+    margin-top: 0;
+  }
+
+  .aud__panel:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .aud__intro {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    justify-items: start;
+  }
+
+  .aud__intro p {
+    color: var(--ink-2);
+  }
+
+  .aud__who {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 620;
+    color: var(--ink) !important;
+  }
+
+  [data-tabs].is-ready .aud__who {
+    display: none;
+  }
+
+  .aud__list {
+    list-style: none;
+  }
+
+  .aud__list li,
+  .checklist li {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0.75rem 0;
+  }
+
+  .aud__list li:first-child {
+    padding-top: 0;
+  }
+
+  .aud__list li + li,
+  .checklist li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .aud__list :global(svg),
+  .checklist :global(svg) {
+    color: var(--orange-lo);
+    margin-top: 0.2rem;
+  }
+
+  /* engineering: text row above, picture + checklist row of equal height below */
+  .eng {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--space-7) var(--split-gap);
+  }
+
+  .eng__intro,
+  .eng__more {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .eng__more {
+    padding-top: calc(var(--t-xl) * 1.1 + var(--space-5));
+  }
+
+  .eng__img {
+    position: relative;
+    margin: 0;
+    aspect-ratio: auto;
+    min-height: 340px;
+  }
+
+  .eng__img :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .checklist {
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    padding: var(--space-5);
+  }
+
+  .checklist__title {
+    font-size: 1rem;
+    font-weight: 640;
+    margin-bottom: var(--space-2);
+  }
+
+  .checklist ol {
+    list-style: none;
+  }
+
+
+  /* marketing */
+  .mkt__head {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .mkt__head-text {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .mkt__claim {
+    font-size: var(--t-lg);
+    font-stretch: 112%;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .mkt__img {
+    margin: 0;
+    aspect-ratio: 1344 / 768;
+  }
+
+  .mkt__cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+
+  .mkt__col {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: var(--space-6) var(--space-6) var(--space-6) 0;
+    color: var(--ink-2);
+  }
+
+  .mkt__col + .mkt__col {
+    border-left: 1px solid var(--line);
+    padding-left: var(--space-6);
+  }
+
+  .mkt__col h3 {
+    color: var(--ink);
+    font-size: var(--t-md);
+  }
+
+  .mkt__col ul {
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .mkt__col li {
+    padding-left: 1.4rem;
+    position: relative;
+    color: var(--ink);
+  }
+
+  .mkt__col li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.8em;
+    width: 0.8rem;
+    height: 1.5px;
+    background: var(--orange);
+  }
+
+  .mkt__outro {
+    font-style: italic;
+    font-size: 0.9375rem;
+  }
+
+  .mkt__dev {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--space-7) var(--split-gap);
+    padding: var(--space-6);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    margin-top: var(--space-6);
+  }
+
+  .mkt__dev > div {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    color: var(--ink-2);
+  }
+
+  .mkt__dev h3 {
+    color: var(--ink);
+  }
+
+  .mkt__for {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 620;
+    color: var(--muted);
+  }
+
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tags li {
+    border: 1px solid var(--ink);
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9375rem;
+    color: var(--ink);
+  }
+
+  /* closing call */
+  .cta {
+    background: var(--graphite);
+    color: var(--on-dark);
+    padding-block: var(--space-8);
+    background-image: linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size: var(--cell) var(--cell);
+  }
+
+  .cta__title .q {
+    color: var(--orange);
+  }
+
+  .cta__text p:not(.cta__sub) {
+    color: var(--on-dark-muted);
+  }
+
+  .cta__inner {
+    display: grid;
+    grid-template-columns: var(--split);
+    column-gap: var(--split-gap);
+    row-gap: var(--space-5);
+    align-items: start;
+  }
+
+  .cta__text {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .cta__sub {
+    font-size: var(--t-md);
+    font-weight: 650;
+  }
+
+
+  @media (max-width: 980px) {
+    .intro,
+    .eng,
+    .mkt__head,
+    .mkt__dev,
+    .cta__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .aud__tabs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .eng__more {
+      padding-top: 0;
+    }
+
+    .eng__img {
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+    }
+
+    .aud__tabs button:nth-child(3) {
+      border-left: 0;
+    }
+
+    .aud__panel {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .mkt__cols {
+      grid-template-columns: 1fr;
+    }
+
+    .mkt__col,
+    .mkt__col + .mkt__col {
+      padding: var(--space-5) 0;
+      border-left: 0;
+    }
+
+    .mkt__col + .mkt__col {
+      border-top: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .aud__tabs button {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+      font-size: 0.9375rem;
+    }
+  }
+</style>
+
+<script>
+  // Progressive tabs: without JS every audience panel is listed; with JS they become tabs
+  // and /sluzby/#developeri style links open the matching tab.
+  const root = document.querySelector<HTMLElement>('[data-tabs]');
+  const list = root?.querySelector<HTMLElement>('[data-tablist]');
+  if (root && list) {
+    const tabs = [...list.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const select = (id: string, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t.dataset.tab === id;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+      });
+      panels.forEach((p) => (p.hidden = p.id !== id));
+      place();
+    };
+    const ind = list.querySelector<HTMLElement>('[data-ind]');
+    const place = () => {
+      const t = tabs.find((x) => x.getAttribute('aria-selected') === 'true');
+      if (!ind || !t) return;
+      ind.style.width = `${t.offsetWidth}px`;
+      ind.style.transform = `translate(${t.offsetLeft}px, ${t.offsetTop}px)`;
+    };
+    window.addEventListener('resize', place);
+    list.hidden = false;
+    root.classList.add('is-ready');
+    const fromHash = () => {
+      const id = location.hash.slice(1);
+      if (tabs.some((t) => t.dataset.tab === id)) {
+        select(id);
+        root.scrollIntoView({ block: 'start' });
+        return true;
+      }
+      return false;
+    };
+    if (!fromHash()) select(tabs[0].dataset.tab!);
+    window.addEventListener('hashchange', fromHash);
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(t.dataset.tab!));
+      t.addEventListener('keydown', (e) => {
+        const k = e.key;
+        if (k !== 'ArrowRight' && k !== 'ArrowLeft' && k !== 'Home' && k !== 'End') return;
+        e.preventDefault();
+        let n = i;
+        if (k === 'ArrowRight') n = (i + 1) % tabs.length;
+        if (k === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+        if (k === 'Home') n = 0;
+        if (k === 'End') n = tabs.length - 1;
+        select(tabs[n].dataset.tab!, true);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,2313 @@
+---
+/**
+ * Nápady – internal brainstorm page with live demos of sections, cards, effects and graphics.
+ * Not linked from navigation, excluded from indexing. Remove before launch.
+ */
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Kota from '../components/Kota.astro';
+import Icon from '../components/Icon.astro';
+import vykres from '../assets/brand/vykres.png';
+import markPath from '../assets/brand/mark-path.txt?raw';
+import { services, history, audiences, FOUNDED, YEAR } from '../data/site';
+import { categories } from '../content.config';
+import { realizaceLabel } from '../lib/stages';
+
+const all = await getCollection('reference');
+const refs = all.filter((r) => r.data.featured).slice(0, 6);
+const table = all.slice(0, 9);
+const r0 = refs[0];
+const r1 = refs[1];
+const r2 = refs[2];
+
+const groups = [
+  { id: 'efekty', n: '01', title: 'Efekty a přechody' },
+  { id: 'karty', n: '02', title: 'Karty' },
+  { id: 'sekce', n: '03', title: 'Sekce' },
+  { id: 'grafika', n: '04', title: 'Grafika' },
+];
+---
+<Base title="Nápady" contact={false} description="Interní stránka s nápady na efekty, karty, sekce a grafiku.">
+  <Fragment slot="head"><meta name="robots" content="noindex, nofollow" /></Fragment>
+
+  <!-- E1: page progress as a dimension line -->
+  <div class="progress" aria-hidden="true">
+    <div class="wrap progress__inner">
+      <span class="progress__tick"></span>
+      <span class="progress__line" data-progress-line></span>
+      <span class="progress__label mono" data-progress-label>0 mm</span>
+    </div>
+  </div>
+
+  <div class="wrap ideas">
+    <header class="ideas__head">
+      <p class="mono ideas__kicker">interní · brainstorm · {YEAR}</p>
+      <h1 class="display ideas__title">Nápady</h1>
+      <p class="lead">
+        Živé ukázky, ne obrázky. Každý nápad má číslo – stačí napsat třeba „E2, K3 a G1 ano“. Nic z toho zatím není na
+        webu.
+      </p>
+      <nav class="ideas__toc" aria-label="Skupiny nápadů">
+        {groups.map((g) => <a href={`#${g.id}`}><span class="mono">{g.n}</span>{g.title}</a>)}
+      </nav>
+    </header>
+
+    <!-- ============ EFEKTY ============ -->
+    <section class="group" id="efekty" aria-labelledby="h-efekty">
+      <h2 class="h2 group__title" id="h-efekty"><span class="mono">01</span> Efekty a přechody</h2>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E1</p>
+          <h3 class="h3">Kóta měří stránku</h3>
+          <p>
+            Tenká kóta pod hlavičkou roste se scrollem a ukazuje ušlou „vzdálenost“ v milimetrech. Vidíte ji právě teď
+            nahoře. Na webu třeba jen u článků a detailů referencí.
+          </p>
+          <p class="idea__where mono">kde: aktuality, detail reference · náročnost: nízká</p>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E2</p>
+          <h3 class="h3">Výkres se kreslí</h3>
+          <p>
+            Pohled na dům se dokresluje čára po čáře podle toho, jak scrollujete – jako plotter. Na konci se dopíšou kóty.
+            Může doprovázet úvod O nás nebo přechod mezi sekcemi.
+          </p>
+          <p class="idea__where mono">kde: o nás, úvod služeb · náročnost: střední</p>
+        </div>
+        <div class="idea__demo demo-plot" data-plot>
+          <svg viewBox="0 0 600 340" class="plot" aria-hidden="true">
+            <g class="plot__ink">
+              <path pathLength="1" style="--d:0" d="M20 300H580" />
+              <path pathLength="1" style="--d:.05" d="M90 300V150H450V300" />
+              <path pathLength="1" style="--d:.15" d="M70 160L270 50L470 160" />
+              <path pathLength="1" style="--d:.25" d="M450 300V200H540V300" />
+              <path pathLength="1" style="--d:.3" d="M440 205L495 170L550 205" />
+              <path pathLength="1" style="--d:.38" d="M130 190h60v60h-60zM210 190h60v60h-60z" />
+              <path pathLength="1" style="--d:.45" d="M320 210h52v90h-52z" />
+              <path pathLength="1" style="--d:.5" d="M470 225h50v40h-50z" />
+              <path pathLength="1" style="--d:.55" d="M160 190v60M240 190v60M130 220h60M210 220h60" class="thin" />
+              <path pathLength="1" style="--d:.6" d="M230 95h30v-40" class="thin" />
+            </g>
+            <g class="plot__dim">
+              <path pathLength="1" style="--d:.7" d="M90 325H450M84 331l12-12M444 331l12-12M90 305v26M450 305v26" />
+              <path pathLength="1" style="--d:.78" d="M565 300V50M559 56l12-12M559 306l12-12M545 50h26M545 300h26" />
+            </g>
+            <text x="270" y="320" class="plot__txt mono" style="--d:.85">12 000</text>
+            <text x="578" y="180" class="plot__txt mono" style="--d:.9" transform="rotate(-90 578 180)">8 450</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E3</p>
+          <h3 class="h3">Výkres ↔ realizace</h3>
+          <p>
+            Posuvník přes fotku: vlevo výkres, vpravo hotová stavba. Nejsilnější, když je to stejný projekt – potřebovali
+            bychom od vás dvojice výkres + fotka. Tady jen ukázka s vaším půdorysem.
+          </p>
+          <p class="idea__where mono">kde: detail reference · náročnost: nízká · potřebuje: podklady</p>
+        </div>
+        <div class="idea__demo compare" data-compare style="--pos:50%">
+          {r0 && <Image src={r0.data.image} alt={r0.data.title} widths={[900, 1400]} sizes="(max-width: 900px) 100vw, 60vw" class="compare__photo" />}
+          <div class="compare__draw">
+            <Image src={vykres} alt="" widths={[1400]} sizes="60vw" />
+          </div>
+          <span class="compare__handle" aria-hidden="true"><span class="mono">⟷</span></span>
+          <span class="compare__tag compare__tag--l mono">výkres</span>
+          <span class="compare__tag compare__tag--r mono">realizace</span>
+          <input type="range" min="0" max="100" value="50" aria-label="Poměr výkresu a fotografie" data-compare-range />
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E4</p>
+          <h3 class="h3">Kurzor jako v CADu</h3>
+          <p>
+            Nad výkresem se kurzor změní na nitkový kříž se souřadnicemi, které se přichytávají k mřížce. Chytrý detail
+            pro úvodní list – technici ho ocení, ostatní se usmějí.
+          </p>
+          <p class="idea__where mono">kde: hero, hlavička podstránek · náročnost: nízká · jen myš</p>
+        </div>
+        <div class="idea__demo cad" data-cad>
+          <span class="cad__x" data-cad-x></span>
+          <span class="cad__y" data-cad-y></span>
+          <span class="cad__box" data-cad-box></span>
+          <span class="cad__read mono" data-cad-read>X 0 · Y 0</span>
+          <p class="cad__hint mono">přejeďte myší</p>
+        </div>
+      </article>
+
+      <article class="idea idea--tall">
+        <div class="idea__meta">
+          <p class="idea__id mono">E5</p>
+          <h3 class="h3">Stoh výkresů</h3>
+          <p>
+            Při scrollu se listy pokládají jeden na druhý a zůstává z nich vidět jen hlavička – jako složka výkresů na
+            stole. Dobré pro tři služby nebo čtyři skupiny klientů.
+          </p>
+          <p class="idea__where mono">kde: služby na úvodní stránce · náročnost: nízká · jen CSS</p>
+        </div>
+        <div class="stack">
+          {
+            services.map((s, i) => (
+              <div class="stack__sheet" style={`--i:${i}`}>
+                <div class="stack__head">
+                  <span class="mono">list {String(i + 1).padStart(2, '0')}</span>
+                  <span class="mono">M 1:100</span>
+                </div>
+                <h4 class="h3">{s.title}</h4>
+                <p>{s.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E6</p>
+          <h3 class="h3">Přechod mezi stránkami</h3>
+          <p>
+            Klik na referenci: fotka z karty plynule „vyroste“ do hlavičky detailu, zbytek se prolne. V Astru je to
+            vestavěné (View Transitions). Klikněte na kartu.
+          </p>
+          <p class="idea__where mono">kde: reference → detail, aktuality → článek · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo vt" data-vt>
+          <button type="button" class="vt__card" data-vt-open>
+            {r1 && <Image src={r1.data.image} alt="" widths={[640]} sizes="320px" class="vt__img" />}
+            <span class="vt__name">{r1?.data.title}</span>
+            <span class="mono vt__cta">otevřít <Icon name="arrow" size={16} /></span>
+          </button>
+          <div class="vt__detail" hidden data-vt-detail>
+            {r1 && <Image src={r1.data.image} alt="" widths={[1200]} sizes="60vw" class="vt__img vt__img--big" />}
+            <div class="vt__body">
+              <p class="mono">{r1 && categories[r1.data.category]}</p>
+              <h4 class="h3 vt__name">{r1?.data.title}</h4>
+              <button type="button" class="btn btn--ghost" data-vt-close><Icon name="arrow-left" size={16} /> zpět</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="idea idea--pin">
+        <div class="idea__meta">
+          <p class="idea__id mono">E7</p>
+          <h3 class="h3">Historie na kótě</h3>
+          <p>
+            Sekce se zastaví a historie firmy jede vodorovně po jedné dlouhé kótě od roku 1990 do dneška. Scroll dolů =
+            posun v čase.
+          </p>
+          <p class="idea__where mono">kde: o nás · náročnost: střední</p>
+        </div>
+        <div class="pin" data-pin>
+          <div class="pin__sticky">
+            <div class="pin__track" data-pin-track>
+              <div class="pin__axis" aria-hidden="true"></div>
+              {
+                history.map((h, i) => (
+                  <div class="pin__item" style={`--i:${i}`}>
+                    <span class="pin__when mono">{h.when}</span>
+                    <span class="pin__dot" aria-hidden="true" />
+                    <p>{h.text}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E8</p>
+          <h3 class="h3">Čísla s měřítkem</h3>
+          <p>
+            Čísla se načtou jako na měřidle: hodnota se dopočítá a pod ní se dokreslí stupnice. Jen pravdivá čísla –
+            roky, počet referencí, počet skupin klientů.
+          </p>
+          <p class="idea__where mono">kde: o nás, úvod · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo nums" data-count-group>
+          <div class="num">
+            <span class="num__val mono" data-count={YEAR - FOUNDED}>{YEAR - FOUNDED}</span>
+            <span class="num__scale" aria-hidden="true"></span>
+            <span class="num__label">let na trhu</span>
+          </div>
+          <div class="num">
+            <span class="num__val mono" data-count={all.length}>{all.length}</span>
+            <span class="num__scale" aria-hidden="true"></span>
+            <span class="num__label">referencí na webu</span>
+          </div>
+          <div class="num">
+            <span class="num__val mono" data-count={audiences.length}>{audiences.length}</span>
+            <span class="num__scale" aria-hidden="true"></span>
+            <span class="num__label">skupiny klientů</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">E9</p>
+          <h3 class="h3">Nadpis pod perem</h3>
+          <p>
+            Velký nadpis se odkryje za oranžovým „perem“, které přejede zleva doprava. Jen u hlavních nadpisů, jinak to
+            zevšední.
+          </p>
+          <p class="idea__where mono">kde: hero, hlavičky podstránek · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo pen-demo">
+          <p class="display pen" data-pen>partner pro vaši ideu.</p>
+          <button type="button" class="btn btn--ghost" data-pen-replay>Přehrát znovu</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ KARTY ============ -->
+    <section class="group" id="karty" aria-labelledby="h-karty">
+      <h2 class="h2 group__title" id="h-karty"><span class="mono">02</span> Karty</h2>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">K1</p>
+          <h3 class="h3">Reference okótovaná</h3>
+          <p>
+            Při najetí se kolem fotky dokreslí kóty s údaji o projektu – typ a druh stavby. Fotka se lehce přiblíží.
+            Varianta k dnešní kartě.
+          </p>
+          <p class="idea__where mono">kde: výpis referencí · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo k1-wrap">
+          {
+            refs.slice(0, 2).map((r) => (
+              <a class="k1" href={`/reference/${r.id}/`}>
+                <span class="k1__photo">
+                  <Image src={r.data.image} alt="" widths={[640]} sizes="320px" />
+                </span>
+                <span class="k1__dim k1__dim--top mono"><span>{realizaceLabel[r.data.realizace as keyof typeof realizaceLabel] ?? ""}</span></span>
+                <span class="k1__dim k1__dim--side mono"><span>{categories[r.data.category]}</span></span>
+                <span class="k1__name">{r.data.title}</span>
+              </a>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">K2</p>
+          <h3 class="h3">Složený výkres</h3>
+          <p>
+            Karta má přehnutý roh jako výkres složený na A4. Při najetí se roh rozloží a ukáže razítko s údaji. Hodí se
+            pro aktuality nebo ke stažení dokumentů.
+          </p>
+          <p class="idea__where mono">kde: aktuality, ke stažení · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo k2-wrap">
+          <a class="k2" href="/aktuality/">
+            <span class="k2__fold" aria-hidden="true"></span>
+            <span class="mono k2__date">13. 11. {YEAR}</span>
+            <span class="h3 k2__title">Hledáme projektanta pozemních staveb</span>
+            <span class="k2__stamp mono">
+              <span>č. listu</span><b>A-07</b>
+              <span>měřítko</span><b>1:50</b>
+            </span>
+          </a>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">K3</p>
+          <h3 class="h3">Pozice s razítkem</h3>
+          <p>
+            Volné místo jako karta s razítkem „hledáme“, které se při zobrazení otiskne. Nábor je urgentní – tohle je
+            způsob, jak ho ukázat hlasitě, ale v jazyce výkresu.
+          </p>
+          <p class="idea__where mono">kde: kariéra, úvodní stránka · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo k3-wrap">
+          <a class="k3" href="/kariera/projektant-pozemnich-staveb-junior/" data-stamp>
+            <span class="k3__row mono"><span>pozice</span><span>rev. {YEAR}-11</span></span>
+            <span class="h3">Projektant/ka pozemních staveb – junior</span>
+            <span class="k3__row mono"><span>Praha</span><span>HPP</span></span>
+            <span class="k3__stamp mono" aria-hidden="true">hledáme</span>
+          </a>
+          <button type="button" class="btn btn--ghost" data-stamp-replay>Otisknout znovu</button>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">K4</p>
+          <h3 class="h3">Osy nad kartami</h3>
+          <p>
+            Karty služeb visí na konstrukčních osách A, B, C jako sloupy na půdorysu. Při najetí se osa protáhne a zbarví.
+            Tichý detail, který drží řadu karet pohromadě.
+          </p>
+          <p class="idea__where mono">kde: služby, hodnoty · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo k4">
+          <span class="k4__axis" aria-hidden="true"></span>
+          {
+            services.map((s, i) => (
+              <a class="k4__card" href={`/sluzby/#${s.id}`}>
+                <span class="k4__bubble mono">{'ABC'[i]}</span>
+                <span class="h3">{s.title}</span>
+                <span class="k4__text">{s.text}</span>
+              </a>
+            ))
+          }
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ SEKCE ============ -->
+    <section class="group" id="sekce" aria-labelledby="h-sekce">
+      <h2 class="h2 group__title" id="h-sekce"><span class="mono">03</span> Sekce</h2>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">S1</p>
+          <h3 class="h3">Výkaz referencí</h3>
+          <p>
+            Reference jako tabulka (výkaz). Při najetí na řádek se vedle kurzoru ukáže fotka. Rychlé pro ty, kdo hledají
+            konkrétní typ stavby; doplněk ke kartám, ne náhrada.
+          </p>
+          <p class="idea__where mono">kde: reference (přepínač karty / tabulka) · náročnost: střední</p>
+        </div>
+        <div class="idea__demo s1" data-peek>
+          <div class="s1__row s1__row--head mono" aria-hidden="true">
+            <span>č.</span><span>projekt</span><span>typ</span><span>druh</span>
+          </div>
+          {
+            table.map((r, i) => (
+              <a class="s1__row" href={`/reference/${r.id}/`} data-peek-row={i}>
+                <span class="mono">{String(i + 1).padStart(2, '0')}</span>
+                <span class="s1__name">{r.data.title}</span>
+                <span class="s1__cat">{categories[r.data.category]}</span>
+                <span class="mono">{realizaceLabel[r.data.realizace as keyof typeof realizaceLabel] ?? ""}</span>
+              </a>
+            ))
+          }
+          <div class="s1__peek" aria-hidden="true" data-peek-box>
+            {table.map((r, i) => <Image src={r.data.image} alt="" widths={[400]} sizes="240px" data-peek-img={i} />)}
+          </div>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">S2</p>
+          <h3 class="h3">Řez budovou</h3>
+          <p>
+            Čtyři skupiny klientů jako podlaží v řezu domem. Klik na podlaží otevře popis vedle. Jiný, hravější způsob
+            dnešních záložek – a připraví půdu pro čtyři budoucí divize.
+          </p>
+          <p class="idea__where mono">kde: služby, úvod · náročnost: střední</p>
+        </div>
+        <div class="idea__demo s2" data-floors>
+          <div class="s2__building" role="tablist" aria-label="Skupiny klientů">
+            <span class="s2__roof" aria-hidden="true"></span>
+            {
+              [...audiences].reverse().map((a, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class="s2__floor"
+                  aria-selected={i === audiences.length - 1 ? 'true' : 'false'}
+                  data-floor={a.id}
+                >
+                  <span class="mono">{String(audiences.length - i).padStart(2, '0')}.NP</span>
+                  {a.name}
+                </button>
+              ))
+            }
+            <span class="s2__ground" aria-hidden="true"></span>
+          </div>
+          <div class="s2__panels">
+            {
+              audiences.map((a, i) => (
+                <div class="s2__panel" role="tabpanel" data-floor-panel={a.id} hidden={i !== 0}>
+                  <p class="mono s2__no">{String(i + 1).padStart(2, '0')}.NP</p>
+                  <h4 class="h3">{a.title}</h4>
+                  <p>{a.text}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">S3</p>
+          <h3 class="h3">Osový navigátor</h3>
+          <p>
+            Na dlouhých stránkách drží vlevo svislá osa s bublinami sekcí. Aktuální sekce se vybarví oranžově, klik skočí
+            na místo. Vlevo od tohoto textu ho vidíte naživo na celé stránce (na širokém displeji).
+          </p>
+          <p class="idea__where mono">kde: služby, o nás, detail reference · náročnost: nízká</p>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">S4</p>
+          <h3 class="h3">Velký úvodní citát přes výkres</h3>
+          <p>
+            Celoplošná oranžová sekce s půdorysem, jen jedna věta velkým písmem a kóta s rokem. Pauza mezi hutnými
+            sekcemi – stejná rodina jako kariéra, takže max. jednou na stránku.
+          </p>
+          <p class="idea__where mono">kde: o nás místo hodnot · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo s4 orange-field">
+          <div class="s4__draw" aria-hidden="true"><Image src={vykres} alt="" widths={[1400]} sizes="60vw" /></div>
+          <p class="display s4__quote">nasloucháme, přemýšlíme, hledáme řešení.</p>
+          <Kota label="od roku" start={String(FOUNDED)} end={String(YEAR)} tone="ink" />
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ GRAFIKA ============ -->
+    <section class="group" id="grafika" aria-labelledby="h-grafika">
+      <h2 class="h2 group__title" id="h-grafika"><span class="mono">04</span> Grafika</h2>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">G1</p>
+          <h3 class="h3">Šrafy materiálů</h3>
+          <p>
+            Normové šrafy jako druhá textura vedle mřížky: pruhy štítků, zvýraznění kategorií, prázdné stavy, okraje
+            sekcí. Každá kategorie referencí může mít „svůj materiál“.
+          </p>
+          <p class="idea__where mono">kde: filtry referencí, štítky, prázdné stavy · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo g1">
+          <figure><span class="hatch hatch--brick"></span><figcaption>zdivo</figcaption></figure>
+          <figure><span class="hatch hatch--concrete"></span><figcaption>beton</figcaption></figure>
+          <figure><span class="hatch hatch--insul"></span><figcaption>izolace</figcaption></figure>
+          <figure><span class="hatch hatch--wood"></span><figcaption>dřevo</figcaption></figure>
+          <figure><span class="hatch hatch--soil"></span><figcaption>zemina</figcaption></figure>
+          <figure><span class="hatch hatch--orange"></span><figcaption>zvýraznění</figcaption></figure>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">G2</p>
+          <h3 class="h3">Konstrukce značky</h3>
+          <p>
+            Značka zakreslená do konstrukčních čar – osy, kružnice, kóty. Organické logo „změřené“ technickým
+            jazykem. Pro 404, O nás nebo jako velká grafika u příběhu firmy. Tvar loga zůstává beze změny.
+          </p>
+          <p class="idea__where mono">kde: o nás, 404, prezentace · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo g2" data-plot>
+          <svg viewBox="-14 -10 64 58" class="g2__svg" aria-hidden="true">
+            <g class="g2__guides">
+              <circle cx="17.3" cy="19.25" r="19.6" pathLength="1" style="--d:0" />
+              <circle cx="17.3" cy="19.25" r="11" pathLength="1" style="--d:.1" />
+              <path d="M17.3 -8V46M-12 19.25H47" pathLength="1" style="--d:.15" />
+              <path d="M-8 44L42 -6" pathLength="1" style="--d:.2" />
+              <path d="M0 -5V44M34.6 -5V44" pathLength="1" style="--d:.25" class="dash" />
+            </g>
+            <path d={markPath} class="g2__mark" />
+            <g class="g2__dims">
+              <path d="M0 43H34.6M-1.4 44.4l2.8-2.8M33.2 44.4l2.8-2.8" pathLength="1" style="--d:.5" />
+              <path d="M41 0V38.5M39.6 1.4l2.8-2.8M39.6 39.9l2.8-2.8" pathLength="1" style="--d:.55" />
+            </g>
+            <text x="17.3" y="47.4" class="g2__t mono">34,6</text>
+            <text x="45" y="20" class="g2__t mono" transform="rotate(-90 45 20)">38,5</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">G3</p>
+          <h3 class="h3">Fotky v duotónu</h3>
+          <p>
+            Fotky v náhledech v grafitovo-oranžovém duotónu, při najetí se vrátí do barvy. Sjednotí různorodé fotky
+            (render, dron, mobil) do jedné rodiny. Na detailu vždy plná barva.
+          </p>
+          <p class="idea__where mono">kde: výpisy, oranžové pásy · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo g3">
+          <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+            <filter id="duo" color-interpolation-filters="sRGB">
+              <feColorMatrix type="matrix" values=".33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 1 0" />
+              <feComponentTransfer>
+                <feFuncR type="table" tableValues="0.114 0.961" />
+                <feFuncG type="table" tableValues="0.122 0.51" />
+                <feFuncB type="table" tableValues="0.129 0.125" />
+              </feComponentTransfer>
+            </filter>
+          </svg>
+          {
+            [r0, r1, r2].filter(Boolean).map((r) => (
+              <figure class="g3__item">
+                <Image src={r!.data.image} alt="" widths={[480]} sizes="240px" />
+                <figcaption>{r!.data.title}</figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </article>
+
+      <article class="idea">
+        <div class="idea__meta">
+          <p class="idea__id mono">G4</p>
+          <h3 class="h3">Severka a měřítko</h3>
+          <p>
+            Drobné výkresové značky jako ozdoba i navigace: severka u kontaktu a mapy, grafické měřítko u fotek
+            referencí, značka řezu (A–A) jako odkaz „podívat se dovnitř“.
+          </p>
+          <p class="idea__where mono">kde: kontakt, detail reference, odkazy · náročnost: nízká</p>
+        </div>
+        <div class="idea__demo g4">
+          <figure>
+            <svg viewBox="0 0 60 80" class="g4__north" aria-hidden="true">
+              <circle cx="30" cy="44" r="22" />
+              <path d="M30 14L40 58L30 50L20 58Z" class="fill" />
+              <text x="30" y="10" class="mono">S</text>
+            </svg>
+            <figcaption>severka</figcaption>
+          </figure>
+          <figure>
+            <svg viewBox="0 0 200 40" class="g4__scale" aria-hidden="true">
+              <path d="M10 20h180" />
+              <rect x="10" y="16" width="45" height="8" class="fill" />
+              <rect x="55" y="16" width="45" height="8" />
+              <rect x="100" y="16" width="45" height="8" class="fill" />
+              <rect x="145" y="16" width="45" height="8" />
+              <text x="10" y="38" class="mono">0</text>
+              <text x="100" y="38" class="mono">5</text>
+              <text x="190" y="38" class="mono">10 m</text>
+            </svg>
+            <figcaption>grafické měřítko</figcaption>
+          </figure>
+          <figure>
+            <a class="g4__cut" href="/sluzby/">
+              <svg viewBox="0 0 44 44" aria-hidden="true">
+                <circle cx="22" cy="22" r="16" />
+                <path d="M6 22h32" />
+                <path d="M22 6a16 16 0 0 1 0 32Z" class="fill" />
+              </svg>
+              <span>Podívat se dovnitř</span>
+            </a>
+            <figcaption>značka řezu jako odkaz</figcaption>
+          </figure>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <!-- S3: axis navigator for this page -->
+  <nav class="axisnav" aria-label="Skupiny nápadů">
+    <span class="axisnav__line" aria-hidden="true"></span>
+    {
+      groups.map((g) => (
+        <a href={`#${g.id}`} data-axis={g.id}>
+          <span class="axisnav__bubble mono">{g.n}</span>
+          <span class="axisnav__label">{g.title}</span>
+        </a>
+      ))
+    }
+  </nav>
+</Base>
+
+<style>
+  .ideas {
+    padding-block: var(--space-7) var(--space-9);
+  }
+
+  .ideas__head {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 62rem;
+    padding-bottom: var(--space-7);
+  }
+
+  .ideas__kicker {
+    color: var(--orange-ink);
+    font-size: var(--t-sm);
+  }
+
+  .ideas__title {
+    font-size: var(--t-2xl);
+  }
+
+  .ideas__toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--space-3);
+  }
+
+  .ideas__toc a {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    text-decoration: none;
+    font-weight: 560;
+  }
+
+  .ideas__toc a:hover {
+    background: var(--orange);
+  }
+
+  .ideas__toc .mono {
+    color: var(--muted);
+    font-size: var(--t-xs);
+  }
+
+  .group {
+    border-top: 1px solid var(--ink);
+    padding-top: var(--space-6);
+    margin-top: var(--space-7);
+    scroll-margin-top: calc(var(--header-h) + 2rem);
+  }
+
+  .group__title {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    margin-bottom: var(--space-5);
+  }
+
+  .group__title .mono {
+    color: var(--orange-ink);
+    font-size: 0.5em;
+  }
+
+  .idea {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+    align-items: start;
+  }
+
+  .idea + .idea {
+    border-top: 1px solid var(--line);
+  }
+
+  .idea:not(:has(.idea__demo, .stack, .pin)) {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  }
+
+  .idea__meta {
+    display: grid;
+    gap: 0.6rem;
+    position: sticky;
+    top: calc(var(--header-h) + 2.5rem);
+  }
+
+  .idea__meta p {
+    color: var(--ink-2);
+    max-width: 44ch;
+  }
+
+  .idea__id {
+    display: inline-grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    font-weight: 600;
+    color: var(--ink) !important;
+    background: var(--sheet);
+  }
+
+  .idea__where {
+    font-size: var(--t-xs);
+    color: var(--muted) !important;
+  }
+
+  .idea__demo {
+    position: relative;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    min-height: 280px;
+    overflow: hidden;
+  }
+
+  /* ---------- E1 progress ---------- */
+  .progress {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 20;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .progress__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 20px;
+  }
+
+  .progress__tick {
+    width: 1px;
+    height: 12px;
+    background: var(--orange-lo);
+  }
+
+  .progress__line {
+    height: 1.5px;
+    width: calc(var(--p, 0) * (100% - 6rem));
+    background: var(--orange-lo);
+    position: relative;
+  }
+
+  .progress__line::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, transparent 45%, var(--orange-lo) 45% 55%, transparent 55%);
+  }
+
+  .progress__label {
+    font-size: var(--t-xs);
+    margin-left: 0.6rem;
+    color: var(--orange-ink);
+    background: var(--paper);
+    padding: 0 0.3rem;
+  }
+
+  /* ---------- E2 plot ---------- */
+  .demo-plot {
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+  }
+
+  .plot {
+    width: 100%;
+    height: auto;
+  }
+
+  .plot path {
+    fill: none;
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - clamp(0, (var(--p, 1) - var(--d)) * 4, 1));
+    stroke-linecap: square;
+  }
+
+  .plot__ink path {
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+
+  .plot__ink .thin {
+    stroke-width: 1;
+  }
+
+  .plot__dim path {
+    stroke: var(--orange-lo);
+    stroke-width: 1.25;
+  }
+
+  .plot__txt {
+    font-size: 14px;
+    fill: var(--orange-ink);
+    text-anchor: middle;
+    opacity: clamp(0, (var(--p, 1) - var(--d)) * 8, 1);
+  }
+
+  /* ---------- E3 compare ---------- */
+  .compare {
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+  }
+
+  .compare :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .compare__draw {
+    position: absolute;
+    inset: 0;
+    background: var(--sheet);
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+
+  .compare__draw :global(img) {
+    mix-blend-mode: multiply;
+    opacity: 0.85;
+  }
+
+  .compare__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    background: var(--orange);
+    translate: -1px 0;
+    pointer-events: none;
+  }
+
+  .compare__handle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: var(--orange);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .compare__tag {
+    position: absolute;
+    bottom: 0.75rem;
+    background: var(--ink);
+    color: var(--on-dark);
+    font-size: var(--t-xs);
+    padding: 0.2rem 0.5rem;
+  }
+
+  .compare__tag--l {
+    left: 0.75rem;
+  }
+
+  .compare__tag--r {
+    right: 0.75rem;
+  }
+
+  .compare input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    margin: 0;
+  }
+
+  .compare:has(input:focus-visible) .compare__handle span {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  /* ---------- E4 CAD cursor ---------- */
+  .cad {
+    min-height: 320px;
+    cursor: none;
+    background-color: var(--sheet);
+    background-image:
+      linear-gradient(var(--grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+    background-size: var(--cell) var(--cell);
+  }
+
+  .cad__x,
+  .cad__y {
+    position: absolute;
+    background: var(--orange-lo);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+
+  .cad__x {
+    left: 0;
+    right: 0;
+    height: 1px;
+    top: var(--y, 50%);
+  }
+
+  .cad__y {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    left: var(--x, 50%);
+  }
+
+  .cad__box {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid var(--ink);
+    left: var(--x, 50%);
+    top: var(--y, 50%);
+    translate: -50% -50%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cad__read {
+    position: absolute;
+    left: calc(var(--x, 50%) + 12px);
+    top: calc(var(--y, 50%) + 10px);
+    font-size: var(--t-xs);
+    background: var(--ink);
+    color: var(--on-dark);
+    padding: 0.15rem 0.4rem;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .cad.is-on .cad__x,
+  .cad.is-on .cad__y,
+  .cad.is-on .cad__box,
+  .cad.is-on .cad__read {
+    opacity: 1;
+  }
+
+  .cad.is-on .cad__hint {
+    opacity: 0;
+  }
+
+  .cad__hint {
+    position: absolute;
+    inset: auto 0 1rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: var(--t-sm);
+    transition: opacity 0.2s;
+  }
+
+  /* ---------- E5 stack ---------- */
+  .stack {
+    display: grid;
+    gap: var(--space-6);
+    padding-bottom: 4rem;
+  }
+
+  .stack__sheet {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem + var(--i) * 3.25rem);
+    min-height: 300px;
+    padding: 1rem 1.5rem 2rem;
+    background: var(--sheet);
+    border: 1.5px solid var(--ink);
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    box-shadow: 0 -10px 30px -22px rgb(29 31 33 / 0.5);
+  }
+
+  .stack__sheet:nth-child(2) {
+    background: var(--paper-2);
+  }
+
+  .stack__sheet:nth-child(3) {
+    background: var(--orange);
+  }
+
+  .stack__head {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--t-xs);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.6rem;
+  }
+
+  .stack__sheet p {
+    max-width: 52ch;
+  }
+
+  /* ---------- E6 view transition ---------- */
+  .vt {
+    padding: var(--space-5);
+    display: grid;
+    place-items: center;
+    min-height: 380px;
+  }
+
+  .vt__card {
+    display: grid;
+    gap: 0.6rem;
+    width: min(320px, 100%);
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    padding: 0.75rem;
+    cursor: pointer;
+  }
+
+  .vt__card .vt__img {
+    view-transition-name: vt-photo;
+    aspect-ratio: 4 / 3;
+  }
+
+  .vt__img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+
+  .vt__card .vt__name {
+    font-weight: 620;
+    view-transition-name: vt-name;
+  }
+
+  .vt__cta {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: var(--t-xs);
+    color: var(--orange-ink);
+  }
+
+  .vt__detail {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    background: var(--sheet);
+  }
+
+  .vt__img--big {
+    height: 100%;
+    view-transition-name: vt-photo;
+  }
+
+  .vt__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .vt__body .mono {
+    flex-basis: 100%;
+    font-size: var(--t-xs);
+    color: var(--muted);
+  }
+
+  .vt__body .vt__name {
+    view-transition-name: vt-name;
+  }
+
+  .vt.is-open .vt__card .vt__img,
+  .vt.is-open .vt__card .vt__name {
+    view-transition-name: none;
+  }
+
+  .vt:not(.is-open) .vt__detail .vt__img,
+  .vt:not(.is-open) .vt__detail .vt__name {
+    view-transition-name: none;
+  }
+
+  :global(::view-transition-group(vt-photo)),
+  :global(::view-transition-group(vt-name)) {
+    animation-duration: 0.55s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ---------- E7 pinned history ---------- */
+  .idea--pin {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .idea--pin .idea__meta {
+    position: static;
+  }
+
+  .pin {
+    height: 260vh;
+    position: relative;
+  }
+
+  .pin__sticky {
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100svh - var(--header-h));
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    border-block: 1px solid var(--ink);
+  }
+
+  .pin__track {
+    position: relative;
+    display: flex;
+    align-items: start;
+    gap: 4rem;
+    padding-inline: 4vw 30vw;
+    translate: calc(var(--p, 0) * var(--max, 0px) * -1) 0;
+    will-change: translate;
+  }
+
+  .pin__axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(2.2rem + 0.8rem + 7px);
+    height: 1.5px;
+    background: var(--orange-lo);
+  }
+
+  .pin__item {
+    position: relative;
+    flex: 0 0 min(380px, 75vw);
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .pin__when {
+    white-space: nowrap;
+    font-size: var(--t-lg);
+    font-weight: 600;
+    height: 2.2rem;
+  }
+
+  .pin__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    border: 2px solid var(--ink);
+  }
+
+  .pin__item p {
+    color: var(--ink-2);
+  }
+
+  /* ---------- E8 numbers ---------- */
+  .nums {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    min-height: 0;
+  }
+
+  .num {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .num + .num {
+    border-left: 1px solid var(--line);
+  }
+
+  .num__val {
+    font-size: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .num__scale {
+    height: 12px;
+    background:
+      linear-gradient(90deg, var(--ink) 1.5px, transparent 1.5px) 0 100% / 25% 12px repeat-x,
+      linear-gradient(90deg, var(--ink) 1px, transparent 1px) 0 100% / 5% 6px repeat-x,
+      linear-gradient(var(--ink), var(--ink)) 0 100% / 100% 1px no-repeat;
+    clip-path: inset(0 calc(100% - var(--s, 1) * 100%) 0 0);
+  }
+
+  .num__label {
+    color: var(--muted);
+    font-size: var(--t-sm);
+  }
+
+  /* ---------- E9 pen ---------- */
+  .pen-demo {
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    gap: var(--space-5);
+    padding: var(--space-6);
+  }
+
+  .pen {
+    position: relative;
+    font-size: var(--t-xl);
+  }
+
+  .pen.is-run {
+    animation: pen-reveal 1.3s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  .pen.is-run::after {
+    content: '';
+    position: absolute;
+    top: -6%;
+    bottom: -6%;
+    width: 4px;
+    background: var(--orange);
+    animation: pen-move 1.3s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  @keyframes pen-reveal {
+    from {
+      clip-path: inset(-10% 100% -10% 0);
+    }
+    to {
+      clip-path: inset(-10% -2% -10% 0);
+    }
+  }
+
+  @keyframes pen-move {
+    from {
+      left: 0;
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    to {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+
+  /* ---------- K1 ---------- */
+  .k1-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem 3.5rem;
+    padding: 3rem 3.5rem 2rem 2rem;
+  }
+
+  .k1 {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .k1__photo {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--ink);
+  }
+
+  .k1__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.6s var(--ease-out);
+  }
+
+  .k1:hover .k1__photo :global(img) {
+    scale: 1.05;
+  }
+
+  .k1__name {
+    font-weight: 620;
+  }
+
+  .k1__dim {
+    position: absolute;
+    font-size: 0.6875rem;
+    color: var(--orange-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    opacity: 0;
+    transition: opacity 0.3s, clip-path 0.5s var(--ease-out);
+  }
+
+  .k1__dim--top {
+    left: 0;
+    right: 0;
+    top: -1.6rem;
+    height: 1.2rem;
+    clip-path: inset(0 50% 0 50%);
+    background:
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 0 50% / 100% 1px no-repeat,
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 0 0 / 1px 100% no-repeat,
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 100% 0 / 1px 100% no-repeat;
+  }
+
+  .k1__dim--side {
+    top: 0;
+    right: -2.2rem;
+    width: 1.2rem;
+    aspect-ratio: auto;
+    height: calc(100% - 2.2rem);
+    writing-mode: vertical-rl;
+    overflow: hidden;
+    clip-path: inset(50% 0 50% 0);
+    background:
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 50% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 0 0 / 100% 1px no-repeat,
+      linear-gradient(var(--orange-lo), var(--orange-lo)) 0 100% / 100% 1px no-repeat;
+  }
+
+  .k1__dim > span {
+    background: var(--sheet);
+    padding: 0.2rem;
+    white-space: nowrap;
+  }
+
+  .k1:hover .k1__dim,
+  .k1:focus-visible .k1__dim {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+
+  /* ---------- K2 fold ---------- */
+  .k2-wrap {
+    display: grid;
+    place-items: center;
+    padding: var(--space-6);
+    background: var(--paper);
+  }
+
+  .k2 {
+    --fold: 56px;
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    width: min(380px, 100%);
+    min-height: 260px;
+    padding: 1.5rem;
+    text-decoration: none;
+    background: var(--sheet);
+    border: 1px solid var(--ink);
+    clip-path: polygon(0 0, calc(100% - var(--fold)) 0, 100% var(--fold), 100% 100%, 0 100%);
+    transition: clip-path 0.45s var(--ease-out);
+  }
+
+  .k2__fold {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--fold);
+    height: var(--fold);
+    background: linear-gradient(225deg, transparent 50%, var(--paper-2) 50%);
+    border-left: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    transition: width 0.45s var(--ease-out), height 0.45s var(--ease-out), opacity 0.3s;
+  }
+
+  .k2:hover,
+  .k2:focus-visible {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .k2:hover .k2__fold,
+  .k2:focus-visible .k2__fold {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  .k2__date {
+    font-size: var(--t-xs);
+    color: var(--muted);
+  }
+
+  .k2__title {
+    max-width: 16ch;
+  }
+
+  .k2__stamp {
+    align-self: end;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: end;
+    gap: 0 0.75rem;
+    font-size: 0.6875rem;
+    border-top: 1px solid var(--ink);
+    padding-top: 0.6rem;
+    translate: 0 8px;
+    opacity: 0;
+    transition: translate 0.45s var(--ease-out), opacity 0.3s;
+  }
+
+  .k2__stamp span {
+    color: var(--muted);
+  }
+
+  .k2:hover .k2__stamp,
+  .k2:focus-visible .k2__stamp {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  /* ---------- K3 stamp ---------- */
+  .k3-wrap {
+    display: grid;
+    place-items: center;
+    gap: var(--space-5);
+    padding: var(--space-6);
+  }
+
+  .k3 {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    width: min(420px, 100%);
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+  }
+
+  .k3__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--t-xs);
+    color: var(--muted);
+  }
+
+  .k3__stamp {
+    position: absolute;
+    right: 1rem;
+    top: 40%;
+    padding: 0.35rem 0.8rem;
+    border: 3px solid var(--orange-lo);
+    color: var(--orange-lo);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    rotate: -12deg;
+    mix-blend-mode: multiply;
+    -webkit-mask: radial-gradient(circle at 30% 40%, #000 60%, rgb(0 0 0 / 0.75) 61%);
+  }
+
+  .k3.is-stamped .k3__stamp {
+    animation: stamp 0.45s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+
+  @keyframes stamp {
+    from {
+      scale: 2.4;
+      opacity: 0;
+    }
+    to {
+      scale: 1;
+      opacity: 1;
+    }
+  }
+
+  /* ---------- K4 axes ---------- */
+  .k4 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding: 3.5rem 1.25rem 1.25rem;
+  }
+
+  .k4__axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.6rem;
+    border-top: 1px dashed var(--line-strong);
+  }
+
+  .k4__card {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 1.25rem 1rem 1.25rem;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    text-decoration: none;
+  }
+
+  .k4__card::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    height: 0.9rem;
+    border-left: 1px dashed var(--line-strong);
+    transition: height 0.4s var(--ease-out), border-color 0.2s;
+  }
+
+  .k4__bubble {
+    position: absolute;
+    left: 50%;
+    top: -2.95rem;
+    translate: -50% 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--sheet);
+    font-size: var(--t-sm);
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .k4__card .h3 {
+    font-size: var(--t-md);
+  }
+
+  .k4__text {
+    color: var(--ink-2);
+    font-size: var(--t-sm);
+  }
+
+  .k4__card:hover .k4__bubble,
+  .k4__card:focus-visible .k4__bubble {
+    background: var(--orange);
+  }
+
+  .k4__card:hover::before,
+  .k4__card:focus-visible::before {
+    border-left: 1.5px solid var(--orange-lo);
+  }
+
+  .k4__card:hover {
+    border-color: var(--orange-lo);
+    box-shadow: inset 0 -4px 0 var(--orange);
+  }
+
+  /* ---------- S1 table ---------- */
+  .s1 {
+    min-height: 0;
+  }
+
+  .s1__row {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1.6fr) minmax(0, 1.4fr) 7rem;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    align-items: baseline;
+  }
+
+  .s1__row + .s1__row {
+    border-top: 1px solid var(--line);
+  }
+
+  .s1__row--head {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  a.s1__row:hover {
+    background: var(--orange);
+  }
+
+  .s1__row .mono {
+    font-size: var(--t-sm);
+  }
+
+  .s1__name {
+    font-weight: 600;
+  }
+
+  .s1__cat {
+    color: var(--ink-2);
+    font-size: var(--t-sm);
+  }
+
+  .s1__peek {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 220px;
+    aspect-ratio: 4 / 3;
+    pointer-events: none;
+    opacity: 0;
+    translate: var(--px, 0) var(--py, 0);
+    transition: opacity 0.2s;
+    border: 1.5px solid var(--ink);
+    z-index: 2;
+    background: var(--sheet);
+  }
+
+  .s1__peek :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+
+  .s1__peek :global(img.is-on) {
+    opacity: 1;
+  }
+
+  .s1.is-peek .s1__peek {
+    opacity: 1;
+  }
+
+  /* ---------- S2 floors ---------- */
+  .s2 {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-5);
+    padding: var(--space-5);
+    align-items: center;
+  }
+
+  .s2__building {
+    display: grid;
+  }
+
+  .s2__roof {
+    height: 64px;
+    margin-inline: -12px;
+    background: var(--ink);
+    clip-path: polygon(50% 0, 100% 100%, calc(100% - 3px) 100%, 50% 4px, 3px 100%, 0 100%);
+  }
+
+  .s2__floor {
+    display: grid;
+    gap: 0.2rem;
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font: inherit;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-top: 0;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .s2__floor:first-of-type {
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .s2__floor .mono {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .s2__floor:hover {
+    background: var(--paper-2);
+  }
+
+  .s2__floor[aria-selected='true'] {
+    background: var(--orange);
+  }
+
+  .s2__floor[aria-selected='true'] .mono {
+    color: var(--ink);
+  }
+
+  .s2__ground {
+    height: 18px;
+    margin-inline: -20px;
+    border-top: 2px solid var(--ink);
+    background: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 7px);
+  }
+
+  .s2__panel {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .s2__no {
+    color: var(--orange-ink);
+    font-size: var(--t-sm);
+  }
+
+  /* ---------- S4 ---------- */
+  .s4 {
+    display: grid;
+    align-content: center;
+    gap: var(--space-6);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    min-height: 360px;
+  }
+
+  .s4__draw {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+  }
+
+  .s4__draw :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .s4__quote {
+    position: relative;
+    font-size: var(--t-xl);
+    max-width: 16ch;
+  }
+
+  .s4 :global(.kota) {
+    position: relative;
+  }
+
+  /* ---------- G1 hatches ---------- */
+  .g1 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding: 1.25rem;
+    min-height: 0;
+  }
+
+  .g1 figure {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .g1 figcaption {
+    font-size: var(--t-sm);
+    color: var(--ink-2);
+  }
+
+  .hatch {
+    display: block;
+    height: 96px;
+    border: 1.5px solid var(--ink);
+  }
+
+  .hatch--brick {
+    background: repeating-linear-gradient(45deg, var(--ink) 0 1px, transparent 1px 8px);
+  }
+
+  .hatch--concrete {
+    background:
+      radial-gradient(circle at 30% 40%, var(--ink) 1.2px, transparent 1.6px) 0 0 / 14px 14px,
+      radial-gradient(circle at 70% 75%, var(--ink) 0.8px, transparent 1.2px) 0 0 / 10px 10px,
+      linear-gradient(60deg, transparent 46%, var(--ink-2) 46% 50%, transparent 50%) 3px 2px / 22px 22px;
+  }
+
+  .hatch--insul {
+    background:
+      linear-gradient(135deg, transparent 46%, var(--ink) 46% 54%, transparent 54%) 0 0 / 16px 48px,
+      linear-gradient(45deg, transparent 46%, var(--ink) 46% 54%, transparent 54%) 8px 0 / 16px 48px;
+    background-repeat: repeat-x;
+    background-position: 0 50%, 8px 50%;
+    background-size: 16px 16px;
+  }
+
+  .hatch--wood {
+    background:
+      repeating-radial-gradient(ellipse 160% 40% at 30% 50%, var(--ink) 0 1px, transparent 1px 7px);
+  }
+
+  .hatch--soil {
+    background:
+      repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 6px) 0 0 / 100% 50% no-repeat,
+      repeating-linear-gradient(45deg, var(--ink) 0 1px, transparent 1px 14px) 0 100% / 100% 50% no-repeat;
+  }
+
+  .hatch--orange {
+    background: repeating-linear-gradient(-45deg, var(--orange) 0 10px, var(--sheet) 10px 20px);
+  }
+
+  /* ---------- G2 construction ---------- */
+  .g2 {
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+  }
+
+  .g2__svg {
+    width: min(420px, 100%);
+    height: auto;
+    overflow: visible;
+  }
+
+  .g2__guides * {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 0.2;
+  }
+
+  .g2__guides .dash {
+    stroke-dasharray: 0.8 0.8;
+  }
+
+  .g2__guides :not(.dash),
+  .g2__dims path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - clamp(0, (var(--p, 1) - var(--d)) * 3, 1));
+  }
+
+  .g2__mark {
+    fill: var(--orange);
+    opacity: clamp(0, (var(--p, 1) - 0.35) * 5, 1);
+  }
+
+  .g2__dims path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 0.25;
+  }
+
+  .g2__t {
+    font-size: 2px;
+    fill: var(--ink);
+    text-anchor: middle;
+    opacity: clamp(0, (var(--p, 1) - 0.6) * 5, 1);
+  }
+
+  /* ---------- G3 duotone ---------- */
+  .g3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    min-height: 0;
+  }
+
+  .g3__item {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .g3__item :global(img) {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    filter: url(#duo);
+    transition: filter 0.5s;
+  }
+
+  .g3__item:hover :global(img) {
+    filter: none;
+  }
+
+  .g3__item figcaption {
+    font-size: var(--t-sm);
+    font-weight: 560;
+  }
+
+  /* ---------- G4 symbols ---------- */
+  .g4 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+    align-items: end;
+    min-height: 0;
+  }
+
+  .g4 figure {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: center;
+  }
+
+  .g4 figcaption {
+    font-size: var(--t-sm);
+    color: var(--muted);
+  }
+
+  .g4 svg * {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+
+  .g4 svg .fill {
+    fill: var(--ink);
+  }
+
+  .g4 svg text {
+    fill: var(--ink);
+    stroke: none;
+    font-size: 11px;
+    text-anchor: middle;
+  }
+
+  .g4__north {
+    width: 60px;
+  }
+
+  .g4__north .fill {
+    fill: var(--orange);
+  }
+
+  .g4__scale {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .g4__cut {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .g4__cut svg {
+    width: 40px;
+    transition: rotate 0.4s var(--ease-out);
+  }
+
+  .g4__cut:hover svg {
+    rotate: 90deg;
+  }
+
+  .g4__cut:hover svg .fill {
+    fill: var(--orange);
+  }
+
+  /* ---------- S3 axis navigator ---------- */
+  .axisnav {
+    position: fixed;
+    left: max(12px, calc((100vw - var(--wrap)) / 2 - 64px));
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    gap: 1.6rem;
+    z-index: 10;
+  }
+
+  .axisnav__line {
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    border-left: 1px dashed var(--line-strong);
+  }
+
+  .axisnav a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .axisnav__bubble {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--sheet);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .axisnav__label {
+    font-size: var(--t-sm);
+    font-weight: 560;
+    background: var(--paper);
+    padding: 0.1rem 0.35rem;
+    opacity: 0;
+    translate: -4px 0;
+    transition: opacity 0.2s, translate 0.2s;
+  }
+
+  .axisnav a:hover .axisnav__label,
+  .axisnav a:focus-visible .axisnav__label {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  .axisnav a.is-current .axisnav__bubble {
+    background: var(--orange);
+  }
+
+  @media (max-width: 1500px) {
+    .axisnav {
+      display: none;
+    }
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    .idea,
+    .idea:not(:has(.idea__demo, .stack, .pin)) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .idea__meta {
+      position: static;
+    }
+
+    .k1-wrap {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .k4,
+    .s2 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .k4 {
+      gap: 3.5rem;
+    }
+
+    .k4__axis {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .nums {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .num + .num {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .g1,
+    .g3,
+    .g4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .s1__row {
+      grid-template-columns: 2rem minmax(0, 1fr) auto;
+    }
+
+    .s1__cat {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pen.is-run,
+    .pen.is-run::after,
+    .k3.is-stamped .k3__stamp {
+      animation: none;
+    }
+
+    .pin {
+      height: auto;
+    }
+
+    .pin__sticky {
+      position: static;
+      height: auto;
+      overflow-x: auto;
+      padding-block: 2rem;
+    }
+
+    .pin__track {
+      translate: none;
+    }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+
+  // E1 progress kóta, E2/G2 plot drawing, E7 pinned track
+  const progLine = document.querySelector<HTMLElement>('[data-progress-line]');
+  const progLabel = document.querySelector<HTMLElement>('[data-progress-label]');
+  const plots = [...document.querySelectorAll<HTMLElement>('[data-plot]')];
+  const pin = document.querySelector<HTMLElement>('[data-pin]');
+  const track = document.querySelector<HTMLElement>('[data-pin-track]');
+
+  const measurePin = () => {
+    if (pin && track) track.style.setProperty('--max', `${Math.max(0, track.scrollWidth - pin.clientWidth)}px`);
+  };
+
+  const frame = () => {
+    const vh = window.innerHeight;
+    const doc = document.documentElement;
+    const p = clamp(window.scrollY / (doc.scrollHeight - vh));
+    progLine?.parentElement?.style.setProperty('--p', String(p));
+    progLine?.style.setProperty('--p', String(p));
+    if (progLabel) progLabel.textContent = `${Math.round(window.scrollY * 2.5).toLocaleString('cs-CZ')} mm`;
+
+    if (!reduce) {
+      for (const el of plots) {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--p', String(clamp((vh - r.top) / (vh * 0.55 + r.height * 0.6))));
+      }
+      if (pin && track) {
+        const r = pin.getBoundingClientRect();
+        track.style.setProperty('--p', String(clamp(-r.top / (r.height - vh))));
+      }
+    }
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      frame();
+      ticking = false;
+    });
+  };
+  measurePin();
+  frame();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => {
+    measurePin();
+    frame();
+  });
+
+  // E3 compare slider
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((el) => {
+    const range = el.querySelector<HTMLInputElement>('[data-compare-range]');
+    range?.addEventListener('input', () => el.style.setProperty('--pos', `${range.value}%`));
+  });
+
+  // E4 CAD crosshair, snapped to the 24px grid
+  document.querySelectorAll<HTMLElement>('[data-cad]').forEach((el) => {
+    const read = el.querySelector<HTMLElement>('[data-cad-read]');
+    el.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const r = el.getBoundingClientRect();
+      const x = Math.round((e.clientX - r.left) / 12) * 12;
+      const y = Math.round((e.clientY - r.top) / 12) * 12;
+      el.classList.add('is-on');
+      el.style.setProperty('--x', `${x}px`);
+      el.style.setProperty('--y', `${y}px`);
+      if (read) read.textContent = `X ${(x * 50).toLocaleString('cs-CZ')} · Y ${((r.height - y) * 50).toLocaleString('cs-CZ')}`;
+    });
+    el.addEventListener('pointerleave', () => el.classList.remove('is-on'));
+  });
+
+  // E6 view transition card → detail
+  document.querySelectorAll<HTMLElement>('[data-vt]').forEach((el) => {
+    const detail = el.querySelector<HTMLElement>('[data-vt-detail]');
+    const toggle = (open: boolean) => {
+      const apply = () => {
+        el.classList.toggle('is-open', open);
+        if (detail) detail.hidden = !open;
+      };
+      const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+      if (d.startViewTransition && !reduce) {
+        // name the source first so the browser snapshots the right element
+        el.classList.toggle('is-open', !open);
+        d.startViewTransition(apply);
+      } else apply();
+    };
+    el.querySelector('[data-vt-open]')?.addEventListener('click', () => toggle(true));
+    el.querySelector('[data-vt-close]')?.addEventListener('click', () => toggle(false));
+  });
+
+  // One-shot reveals: E8 counters, E9 pen, K3 stamp
+  const runCount = (group: Element) => {
+    group.querySelectorAll<HTMLElement>('[data-count]').forEach((n) => {
+      const target = Number(n.dataset.count);
+      const scale = n.nextElementSibling as HTMLElement | null;
+      if (reduce) return;
+      const t0 = performance.now();
+      const step = (t: number) => {
+        const k = clamp((t - t0) / 1400);
+        const e = 1 - Math.pow(1 - k, 3);
+        n.textContent = String(Math.round(target * e));
+        scale?.style.setProperty('--s', String(e));
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  };
+  const runPen = (el: Element) => {
+    el.classList.remove('is-run');
+    void (el as HTMLElement).offsetWidth;
+    if (!reduce) el.classList.add('is-run');
+  };
+  const runStamp = (el: Element) => {
+    el.classList.remove('is-stamped');
+    void (el as HTMLElement).offsetWidth;
+    el.classList.add('is-stamped');
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        io.unobserve(e.target);
+        if (e.target.hasAttribute('data-count-group')) runCount(e.target);
+        if (e.target.hasAttribute('data-pen')) runPen(e.target);
+        if (e.target.hasAttribute('data-stamp')) runStamp(e.target);
+      }
+    },
+    { threshold: 0.6 },
+  );
+  document.querySelectorAll('[data-count-group],[data-pen],[data-stamp]').forEach((el) => io.observe(el));
+  document.querySelector('[data-pen-replay]')?.addEventListener('click', () => {
+    const p = document.querySelector('[data-pen]');
+    if (p) runPen(p);
+  });
+  document.querySelector('[data-stamp-replay]')?.addEventListener('click', () => {
+    const s = document.querySelector('[data-stamp]');
+    if (s) runStamp(s);
+  });
+
+  // S1 photo peek next to the cursor
+  document.querySelectorAll<HTMLElement>('[data-peek]').forEach((el) => {
+    const box = el.querySelector<HTMLElement>('[data-peek-box]');
+    const imgs = [...el.querySelectorAll<HTMLElement>('[data-peek-img]')];
+    el.querySelectorAll<HTMLElement>('[data-peek-row]').forEach((row) => {
+      row.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        imgs.forEach((im) => im.classList.toggle('is-on', im.dataset.peekImg === row.dataset.peekRow));
+        el.classList.add('is-peek');
+      });
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!box) return;
+      const r = el.getBoundingClientRect();
+      const x = Math.min(e.clientX - r.left + 24, r.width - box.offsetWidth - 8);
+      box.style.setProperty('--px', `${x}px`);
+      box.style.setProperty('--py', `${e.clientY - r.top - box.offsetHeight / 2}px`);
+    });
+    el.addEventListener('pointerleave', () => el.classList.remove('is-peek'));
+  });
+
+  // S2 floors as tabs
+  document.querySelectorAll<HTMLElement>('[data-floors]').forEach((el) => {
+    const tabs = [...el.querySelectorAll<HTMLButtonElement>('[data-floor]')];
+    const panels = [...el.querySelectorAll<HTMLElement>('[data-floor-panel]')];
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+        panels.forEach((p) => (p.hidden = p.dataset.floorPanel !== t.dataset.floor));
+      }),
+    );
+  });
+
+  // S3 axis navigator: highlight the group in view
+  const axisLinks = [...document.querySelectorAll<HTMLElement>('[data-axis]')];
+  const axisIo = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        axisLinks.forEach((a) => a.classList.toggle('is-current', a.dataset.axis === e.target.id));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  document.querySelectorAll('.group').forEach((g) => axisIo.observe(g));
+</script>

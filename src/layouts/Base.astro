@@ -1,0 +1,102 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieBar from '../components/CookieBar.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Set false on pages that render their own contact section */
+  contact?: boolean;
+  contactKind?: 'dotaz' | 'cv';
+  contactTitle?: string;
+  contactText?: string;
+}
+const {
+  title,
+  description = 'IM Projekt – projekční a inženýrská kancelář v Mladé Boleslavi. Partner pro vaši ideu od roku 1992.',
+  contact = true,
+  contactKind,
+  contactTitle,
+  contactText,
+} = Astro.props;
+const fullTitle = title === 'IM Projekt' ? 'IM Projekt – partner pro vaši ideu' : `${title} – IM Projekt`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="cs" data-glass="plocha" data-accent="vyrazna" data-shape="ostre">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f6f7f5" />
+    <meta name="color-scheme" content="light" />
+    <slot name="head" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+      <filter id="duo" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values=".33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 1 0" />
+        <feComponentTransfer>
+          <feFuncR type="table" tableValues="0.114 0.82 0.93" />
+          <feFuncG type="table" tableValues="0.122 0.49 0.93" />
+          <feFuncB type="table" tableValues="0.129 0.27 0.92" />
+        </feComponentTransfer>
+      </filter>
+    </svg>
+    <a class="skip" href="#obsah">Přejít k obsahu</a>
+    <Header contactHref={contact ? '#kontaktujte-nas' : '/kontakty/#kontaktujte-nas'} />
+    <main id="obsah">
+      <slot />
+    </main>
+    {contact && <ContactSection kind={contactKind} title={contactTitle} text={contactText} />}
+    <Footer />
+    <CookieBar />
+    <script>
+      // Dimension lines draw themselves the first time they enter the viewport.
+      // They are fully drawn by default; JS only replays the drawing.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              const el = e.target as HTMLElement;
+              io.unobserve(el);
+              el.classList.add('pre');
+              requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('pre')));
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px' },
+        );
+        document.querySelectorAll('[data-draw]').forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .skip {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    background: var(--ink);
+    color: var(--on-dark);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+  }
+
+  .skip:focus {
+    top: 12px;
+  }
+</style>

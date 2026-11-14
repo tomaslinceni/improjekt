@@ -1,0 +1,250 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PlotHouse from '../../components/PlotHouse.astro';
+import Icon from '../../components/Icon.astro';
+import DrawingUnderlay from '../../components/DrawingUnderlay.astro';
+import { company } from '../../data/site';
+
+const jobs = (await getCollection('pozice')).filter((p) => p.data.open);
+const info = (j: (typeof jobs)[number], label: string) => j.data.info.find((x) => x.label === label)?.value;
+---
+<Base
+  title="Kariéra"
+  description="Tvořte s námi projekty, na které budete hrdí. Volná místa v projekční kanceláři IM Projekt v Mladé Boleslavi."
+  contactKind="cv"
+  contactTitle="Pošlete nám své CV"
+  contactText="Zaujala vás nějaká pozice anebo se chcete na něco zeptat? Vyplňte, prosíme, kontaktní formulář a my se vám obratem ozveme."
+>
+  <PageHead title="Tvořte s námi projekty, na které budete hrdí">
+    <p class="lead">
+      V IM Projektu věříme, že za každým úspěšným výkresem a realizovanou stavbou stojí lidé, které jejich práce baví.
+      Jsme tým, který si zakládá na vzájemném respektu, sdílení zkušeností a přátelské atmosféře. U nás nejste jen
+      „číslo“ v kanceláři, ale klíčový partner pro naše společné vize.
+    </p>
+    <div class="head-actions">
+      <a class="btn" href="#pozice">Aktuální příležitosti <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href="#kontaktujte-nas">Poslat CV</a>
+    </div>
+    <Fragment slot="aside">
+      <div class="plot-panel glass"><PlotHouse /></div>
+    </Fragment>
+  </PageHead>
+
+  <section class="section wrap why">
+    <p class="why__big">
+      Hledáme kolegy, kteří chtějí spojit svou odbornost s chutí neustále se rozvíjet.
+    </p>
+    <div class="why__text">
+      <p>
+        Nabízíme zázemí stabilní projekční kanceláře s tradicí přes tři desetiletí, kde dáváme prostor talentu i
+        zodpovědnému přístupu. Pokud hledáte místo, kde vaše práce dává smysl a kde se budete cítit dobře, rádi vás
+        poznáme.
+      </p>
+      <p>Pojďme společně měnit tvář okolního světa. Podívejte se na naše aktuální volné pozice.</p>
+    </div>
+  </section>
+
+  <section class="jobs orange-field" id="pozice" aria-labelledby="jobs-title">
+    <DrawingUnderlay />
+    <div class="wrap">
+      <h2 class="h2" id="jobs-title">Aktuální příležitosti</h2>
+      {jobs.length > 0 && (
+      <ul class="jobs__list">
+        {
+          jobs.map((j) => (
+            <li>
+              <a class="job" href={`/kariera/${j.id}/`}>
+                <span class="job__title">{j.data.title}</span>
+                <span class="job__lead">{j.data.lead}</span>
+                <dl class="job__facts">
+                  <div>
+                    <dt>Místo</dt>
+                    <dd>{info(j, 'Místo práce')}</dd>
+                  </div>
+                  <div>
+                    <dt>Úvazek</dt>
+                    <dd>{info(j, 'Typ pracovního poměru')}</dd>
+                  </div>
+                  <div>
+                    <dt>Software</dt>
+                    <dd>{info(j, 'Dovednosti a software')}</dd>
+                  </div>
+                  <div>
+                    <dt>Pro absolventy</dt>
+                    <dd>{info(j, 'Vhodné pro absolventy, studenty')}</dd>
+                  </div>
+                </dl>
+                <span class="job__cta">
+                  Více informací <Icon name="arrow" />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      )}
+
+      {jobs.length === 0 && (
+      <div class="open">
+        <h3 class="h3">Momentálně je náš tým kompletní, ale…</h3>
+        <div class="open__text">
+          <p>
+            Právě teď sice neobsazujeme konkrétní volné místo, ale dobré nápady a šikovné lidi u nás vítáme vždy.
+            Věříme, že ta nejlepší spolupráce často začíná prostým „dobrý den“. Pokud cítíte, že by vám to v našem týmu
+            sedlo, nenechte se odradit prázdnou tabulkou pozic. Napište nám o sobě, pošlete své portfolio nebo
+            životopis a my se vám ozveme zpět.
+          </p>
+          <p>
+            Zastavte se u nás v Mladé Boleslavi. Určitě si společně sedneme na kávu, probereme vaše vize a uvidíme, jestli
+            naše společná cesta nezačíná právě teď.
+          </p>
+          <p class="open__addr mono">{company.street}, {company.city}</p>
+          <a class="btn" href="#kontaktujte-nas">Poslat CV <Icon name="arrow" /></a>
+        </div>
+      </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .plot-panel {
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .head-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .why {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: start;
+  }
+
+  .why__big {
+    font-size: var(--t-xl);
+    font-stretch: 112%;
+    font-weight: 660;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .why__text {
+    display: grid;
+    gap: var(--space-4);
+    color: var(--ink-2);
+  }
+
+  .jobs {
+    padding-block: var(--space-8);
+  }
+
+  .jobs__list {
+    list-style: none;
+    margin-top: var(--space-6);
+  }
+
+  .job {
+    display: grid;
+    gap: var(--space-3);
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    text-decoration: none;
+    transition: background-color 0.25s var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .job:hover {
+      background: #fff;
+    }
+  }
+
+  .job__title {
+    font-size: var(--t-lg);
+    font-stretch: 110%;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .job__lead {
+    color: var(--ink-2);
+    font-size: var(--t-md);
+  }
+
+  .job__facts {
+    margin: var(--space-3) 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--ink);
+  }
+
+  .job__facts div {
+    padding: 0.5rem 0.75rem 0.6rem;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    min-width: 0;
+  }
+
+  .job__facts dt {
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .job__facts dd {
+    margin: 0;
+    font-weight: 560;
+  }
+
+  .job__cta {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 620;
+    border-bottom: 1.5px solid var(--orange);
+    width: fit-content;
+    margin-top: var(--space-2);
+  }
+
+  .open {
+    margin-top: var(--space-6);
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--space-6) var(--split-gap);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--ink);
+  }
+
+  .open__text {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .open__addr {
+    font-weight: 500;
+  }
+
+
+  @media (max-width: 980px) {
+    .why,
+    .open {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
+    .job__facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

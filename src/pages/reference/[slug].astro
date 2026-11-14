@@ -1,0 +1,363 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Sheet from '../../components/Sheet.astro';
+import StageBar from '../../components/StageBar.astro';
+import TitleBlock from '../../components/TitleBlock.astro';
+import RefCard from '../../components/RefCard.astro';
+import Icon from '../../components/Icon.astro';
+import { categories } from '../../content.config';
+import { realizaceLabel, plural, hasEngineering } from '../../lib/stages';
+
+export async function getStaticPaths() {
+  const refs = (await getCollection('reference')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'cs'));
+  return refs.map((item, i) => ({
+    params: { slug: item.id },
+    props: {
+      item,
+      prev: refs[(i - 1 + refs.length) % refs.length],
+      next: refs[(i + 1) % refs.length],
+      index: i + 1,
+      total: refs.length,
+      related: refs.filter((r) => r.data.category === item.data.category && r.id !== item.id).slice(0, 3),
+    },
+  }));
+}
+
+interface Props {
+  item: CollectionEntry<'reference'>;
+  prev: CollectionEntry<'reference'>;
+  next: CollectionEntry<'reference'>;
+  index: number;
+  total: number;
+  related: CollectionEntry<'reference'>[];
+}
+const { item, prev, next, index, total, related } = Astro.props;
+const d = item.data;
+const n = d.services.length;
+const pad = (x: number) => String(x).padStart(2, '0');
+---
+<Base
+  title={d.title}
+  description={`${d.title} – ${categories[d.category]}. Rozsah prací IM Projektu: ${d.services.join(', ')}.`}
+>
+  <div class="wrap detail">
+    <a class="back" href="/reference/"><Icon name="arrow-left" size={16} /> Všechny reference</a>
+
+    <Sheet underlay={false}>
+      <div class="detail__grid">
+        <figure class="detail__img frame">
+          <Image
+            src={d.image}
+            alt={d.title}
+            widths={[720, 1080, 1440, 1920]}
+            sizes="(min-width: 1100px) 62vw, 94vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+
+        <div class="detail__side">
+          <h1 class="detail__title">{d.title}</h1>
+          <TitleBlock
+            rows={[
+              { label: 'Kategorie', value: categories[d.category], wide: true },
+              { label: 'Realizace', value: d.realizace ? realizaceLabel[d.realizace] : '–' },
+              { label: 'Zpracovatel', value: 'IM Projekt' },
+              { label: 'Rozsah', value: `${n} ${plural(n, 'dokument', 'dokumenty', 'dokumentů')}`, mono: true },
+              { label: 'Inženýring', value: hasEngineering(d.services) ? 'ano' : 'ne', mono: true },
+              { label: 'List', value: `${pad(index)} / ${total}`, mono: true, wide: true },
+            ]}
+          />
+          {
+            d.notes.length > 0 && (
+              <ul class="detail__notes">
+                {d.notes.map((note) => (
+                  <li>{note}</li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="detail__scope">
+        <div class="detail__scope-path">
+          <h2 class="detail__h">Cesta projektu</h2>
+          <StageBar services={d.services} labels class="detail__stages" />
+        </div>
+        <div>
+          <h2 class="detail__h">Rozsah prací</h2>
+          <ol class="scope">
+            {
+              d.services.map((s) => (
+                <li>
+                  <Icon name="check" size={18} />
+                  <span>{s}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </Sheet>
+
+    <nav class="pager" aria-label="Další reference">
+      <a href={`/reference/${prev.id}/`} class="pager__link">
+        <Icon name="arrow-left" />
+        <span>
+          <span class="pager__dir">Předchozí</span>
+          <span class="pager__name">{prev.data.title}</span>
+        </span>
+      </a>
+      <a href={`/reference/${next.id}/`} class="pager__link pager__link--next">
+        <span>
+          <span class="pager__dir">Další</span>
+          <span class="pager__name">{next.data.title}</span>
+        </span>
+        <Icon name="arrow" />
+      </a>
+    </nav>
+  </div>
+
+  {
+    related.length > 0 && (
+      <section class="section wrap related" aria-labelledby="related-title">
+        <div class="related__head">
+          <h2 class="h2" id="related-title">
+            Další projekty: {categories[d.category].toLowerCase()}
+          </h2>
+          <a class="btn btn--ghost" href={`/reference/?kategorie=${d.category}`}>
+            Celá kategorie <Icon name="arrow" />
+          </a>
+        </div>
+        <div class="related__grid">
+          {related.map((r) => <RefCard item={r} />)}
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .detail {
+    padding-top: var(--space-5);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 560;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    margin-bottom: var(--space-4);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .back:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--orange);
+    }
+  }
+
+  .detail__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background: var(--sheet);
+  }
+
+  .detail__img {
+    margin: 0;
+    aspect-ratio: 1920 / 1194;
+  }
+
+  .detail__side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .detail__title {
+    font-size: var(--t-xl);
+    font-stretch: 112%;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .detail__notes {
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .detail__notes li {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    gap: 0.7rem;
+    padding: 0.75rem 0;
+    font-weight: 560;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .detail__notes li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .detail__notes li::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--orange-lo);
+    margin-top: 0.35em;
+  }
+
+  .detail__scope {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-7);
+    padding: clamp(1rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--ink);
+  }
+
+  .detail__scope-path {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .detail__h {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 620;
+    color: var(--muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .detail__scope :global(.detail__stages .stages__mark) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .detail__scope :global(.detail__stages .stages__track::before) {
+    top: 8px;
+  }
+
+  .detail__scope :global(.detail__stages .stages__label) {
+    font-size: 0.8125rem;
+  }
+
+  .scope {
+    list-style: none;
+  }
+
+  .scope li {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0.7rem 0;
+  }
+
+  .scope li:first-child {
+    padding-top: 0;
+  }
+
+  .scope li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .scope :global(svg) {
+    color: var(--orange-lo);
+    margin-top: 0.2rem;
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--ink);
+    border-top: 0;
+  }
+
+  .pager__link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    text-decoration: none;
+    transition: background-color 0.25s var(--ease-out);
+  }
+
+  .pager__link--next {
+    justify-content: flex-end;
+    text-align: right;
+    border-left: 1px solid var(--ink);
+  }
+
+  .pager__link > span {
+    display: grid;
+  }
+
+  .pager__dir {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .pager__name {
+    font-weight: 620;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pager__link:hover {
+      background: var(--sheet);
+    }
+  }
+
+  .related__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  @media (max-width: 1000px) {
+    .detail__grid,
+    .detail__scope {
+      grid-template-columns: 1fr;
+    }
+
+    .related__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pager {
+      grid-template-columns: 1fr;
+    }
+
+    .pager__link--next {
+      border-left: 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .related__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

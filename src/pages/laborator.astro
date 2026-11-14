@@ -1,0 +1,306 @@
+---
+/**
+ * Laboratoř – internal page for trying design variants with the client. Not linked from the
+ * site navigation, excluded from indexing. Remove (or protect) before launch.
+ */
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import Kota from '../components/Kota.astro';
+import StageBar from '../components/StageBar.astro';
+import Icon from '../components/Icon.astro';
+import vykres from '../assets/brand/vykres.png';
+import logoGlassOld from '../assets/brand/logo-glass.webp';
+import markPath from '../assets/brand/mark-path.txt?raw';
+
+const ref = await getEntry('reference', 'bytovy-dum-palackeho');
+---
+<Base title="Laboratoř" contact={false} description="Interní stránka pro zkoušení variant designu.">
+  <Fragment slot="head"><meta name="robots" content="noindex, nofollow" /></Fragment>
+
+  <div class="wrap lab">
+    <header class="lab__head">
+      <h1 class="display lab__title">Laboratoř</h1>
+      <p class="lead">
+        Interní stránka na zkoušení nových věcí. Rozhodnuto: ploché logo, bez skla, výrazná oranžová, ostré tvary.
+      </p>
+    </header>
+
+    <!-- LOGO -->
+    <section class="lab__section" aria-labelledby="l-logo">
+      <h2 class="h2" id="l-logo">Logo</h2>
+      <p class="lab__note">
+        Rozhodnuto: ploché logo, tvar beze změny ze souboru logo.svg. Níže je sada pro různá použití.
+      </p>
+
+      <div class="tiles">
+        <figure class="tile">
+          <div class="tile__stage tile__stage--paper"><Logo class="tile__logo" /></div>
+          <figcaption><b>Ploché logo</b> Nápis přebírá barvu podkladu: šedý na světlé, světlý na tmavé.</figcaption>
+        </figure>
+
+        <figure class="tile">
+          <div class="tile__stage tile__stage--white">
+            <Image src={logoGlassOld} alt="Původní 3D logo z hlavičky současného webu" widths={[800]} sizes="400px" class="tile__raster" />
+          </div>
+          <figcaption><b>Původní 3D logo</b> Obrázek s bílým pozadím z hlavičky dnešního webu, pro srovnání.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="h3 lab__sub">Sada pro použití</h3>
+      <div class="kit">
+        <figure>
+          <div class="kit__stage">
+            <svg viewBox="0 0 34.6 38.5" class="kit__mark" aria-hidden="true"><path d={markPath} fill="#f58220" /></svg>
+          </div>
+          <figcaption>samotná značka</figcaption>
+        </figure>
+        <figure>
+          <div class="kit__stage">
+            <svg viewBox="0 0 34.6 38.5" class="kit__mark" aria-hidden="true"><path d={markPath} fill="#1d1f21" /></svg>
+          </div>
+          <figcaption>jednobarevná – razítka, výkresy</figcaption>
+        </figure>
+        <figure>
+          <div class="kit__stage kit__stage--dark">
+            <Logo class="kit__logo" />
+          </div>
+          <figcaption>inverzní na tmavou</figcaption>
+        </figure>
+        <figure>
+          <div class="kit__stage kit__sizes">
+            {
+              [16, 24, 32, 48].map((s) => (
+                <svg viewBox="0 0 34.6 38.5" width={s} height={s} aria-hidden="true">
+                  <path d={markPath} fill="#f58220" />
+                </svg>
+              ))
+            }
+          </div>
+          <figcaption>favicona 16 / 24 / 32 / 48 px</figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- MOTION -->
+    <section class="lab__section" aria-labelledby="l-motion">
+      <h2 class="h2" id="l-motion">Pohyb</h2>
+      <p class="lab__note">
+        Jedna gramatika: věci „zapadají do registru“ jako list položený na výkres. Fotky a nadpisy jsou svázané přímo se
+        scrollem (Chrome, Edge, nové Safari); jinde je vše statické a nic nechybí.
+      </p>
+      <ul class="motions">
+        <li>
+          <div class="motion__demo"><Kota label="kóta se dokreslí" /></div>
+          <p><b>Kóty</b> se při prvním zobrazení dokreslí od středu.</p>
+        </li>
+        <li>
+          <div class="motion__demo"><StageBar services={ref?.data.services ?? []} labels /></div>
+          <p><b>Fáze projektu</b> se plní bod po bodu zleva doprava.</p>
+        </li>
+        <li>
+          <div class="motion__demo motion__demo--photo frame reveal">
+            {ref && <Image src={ref.data.image} alt="" widths={[640]} sizes="400px" />}
+          </div>
+          <p><b>Fotky</b> se otevírají od spodní hrany a obraz se usadí z mírného přiblížení.</p>
+        </li>
+        <li>
+          <div class="motion__demo"><p class="motion__drift">Výkres pod pauzákem plyne pomaleji než obsah.</p></div>
+          <p><b>Paralaxa</b> v úvodu každé stránky a v sekci kariéry.</p>
+        </li>
+      </ul>
+      <button type="button" class="btn" data-replay>Přehrát znovu <Icon name="arrow" /></button>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .lab {
+    padding-block: var(--space-7) var(--space-9);
+    display: grid;
+    gap: var(--space-9);
+  }
+
+  .lab__head {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .lab__title {
+    font-size: var(--t-2xl);
+  }
+
+  .lab__section {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .lab__note {
+    color: var(--ink-2);
+    max-width: 70ch;
+  }
+
+  .lab__sub {
+    margin-top: var(--space-5);
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figcaption {
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+    padding-top: var(--space-3);
+  }
+
+  figcaption b {
+    color: var(--ink);
+    display: block;
+  }
+
+  /* logo tiles */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .tile__stage {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--ink);
+    padding: var(--space-5);
+  }
+
+  .tile__stage--paper {
+    background: var(--paper);
+    color: var(--ink-2);
+  }
+
+  .tile__stage--dark {
+    background: var(--graphite);
+    color: var(--on-dark);
+  }
+
+  .tile__stage--white {
+    background: #fff;
+  }
+
+  .tile__stage :global(.tile__logo) {
+    width: 85%;
+    height: auto;
+  }
+
+  .tile__stage :global(.tile__raster) {
+    width: 90%;
+  }
+
+  .kit {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .kit__stage {
+    aspect-ratio: 3 / 2;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    color: var(--ink-2);
+  }
+
+  .kit__stage--dark {
+    background: var(--graphite);
+    color: var(--on-dark);
+  }
+
+  .kit__mark {
+    height: 56%;
+    width: auto;
+  }
+
+  .kit__stage :global(.kit__logo) {
+    width: 70%;
+    height: auto;
+  }
+
+  .kit__sizes {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    gap: 1.25rem;
+    padding-bottom: 18%;
+  }
+
+  /* motion */
+  .motions {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-5);
+  }
+
+  .motions li {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+  }
+
+  .motion__demo {
+    min-height: 120px;
+    display: grid;
+    align-items: center;
+    padding: var(--space-5);
+    border: 1px solid var(--line-strong);
+    background: var(--sheet);
+  }
+
+  .motion__demo--photo {
+    padding: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .motion__drift {
+    color: var(--muted);
+  }
+
+  .motions p b {
+    color: var(--ink);
+  }
+
+  .motions > li > p {
+    color: var(--ink-2);
+  }
+
+  [data-replay] {
+    justify-self: start;
+  }
+
+  @media (max-width: 1000px) {
+    .tiles,
+    .kit {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .motions {
+      grid-template-columns: 1fr;
+    }
+
+  }
+</style>
+
+<script>
+  document.querySelector('[data-replay]')?.addEventListener('click', () => {
+    document.querySelectorAll<HTMLElement>('.motions [data-draw]').forEach((el) => {
+      el.classList.add('pre');
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('pre')));
+    });
+  });
+</script>

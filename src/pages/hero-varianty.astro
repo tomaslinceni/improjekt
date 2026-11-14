@@ -1,0 +1,498 @@
+---
+/**
+ * Hero variants for the client to choose from. Internal, not indexed. Remove before launch.
+ * Every variant keeps the original hero picture, the claim, the lead, both actions and the kóta.
+ */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Sheet from '../components/Sheet.astro';
+import Kota from '../components/Kota.astro';
+import Icon from '../components/Icon.astro';
+import { FOUNDED, YEAR } from '../data/site';
+import heroImg from '../assets/brand/hero-old.webp';
+
+const years = YEAR - FOUNDED;
+const alt = 'Skica bytového domu s kótami, která plynule přechází ve fotografii hotové stavby';
+const variants = [
+  { id: 'h1', n: 'H1', name: 'Nápis na skice', note: 'Žádný panel. Velký titulek je napsaný přímo do tužkové skici vlevo, fotka stavby vpravo zůstává čistá.' },
+  { id: 'h2', n: 'H2', name: 'Rohové razítko', note: 'Fotka přes celý list, text v razítku v pravém dolním rohu – jako popisové pole výkresu.' },
+  { id: 'h3', n: 'H3', name: 'Rozdělený list', note: 'List rozdělený svisle: vlevo text na papíře, vpravo fotka na plnou výšku. Klidné a čitelné.' },
+  { id: 'h4', n: 'H4', name: 'Fotka a pruh', note: 'Fotka nahoře bez ničeho přes ni, pod ní pruh s titulkem a akcemi. Kóta leží přesně na švu.' },
+];
+---
+<Base title="Varianty hero" contact={false} description="Interní stránka s variantami úvodního banneru.">
+  <Fragment slot="head"><meta name="robots" content="noindex, nofollow" /></Fragment>
+
+  <div class="wrap intro">
+    <p class="mono intro__kicker">interní · varianty hero</p>
+    <h1 class="display intro__title">Varianty hero</h1>
+    <p class="lead">Stejný obrázek, stejné texty, čtyři různé kompozice. Stačí napsat číslo.</p>
+    <nav class="intro__toc" aria-label="Varianty">
+      {variants.map((v) => <a href={`#${v.id}`}><span class="mono">{v.n}</span>{v.name}</a>)}
+    </nav>
+  </div>
+
+  <!-- H1 -->
+  <section class="variant" id="h1" aria-labelledby="h1-t">
+    <header class="wrap variant__label">
+      <span class="mono variant__no">H1</span>
+      <div><h2 class="h3" id="h1-t">{variants[0].name}</h2><p>{variants[0].note}</p></div>
+    </header>
+    <div class="wrap">
+      <Sheet underlay={false}>
+        <div class="v1">
+          <Image src={heroImg} alt={alt} widths={[960, 1600, 1920]} sizes="(min-width: 1400px) 1360px, 96vw" class="v1__img" />
+          <div class="v1__veil" aria-hidden="true"></div>
+          <div class="v1__text">
+            <p class="display v1__title">Partner<br />pro vaši<br />ideu</p>
+            <p class="lead v1__lead">Projektování je o hledání cest. My je pro vás nacházíme již více než 30&nbsp;let.</p>
+            <div class="actions">
+              <a class="btn" href="#kontaktujte-nas">Konzultovat záměr <Icon name="arrow" /></a>
+              <a class="btn btn--ghost" href="/reference/">Prohlédnout reference</a>
+            </div>
+          </div>
+          <div class="v1__kota"><Kota start={String(FOUNDED)} label={`${years} let projektujeme`} end={String(YEAR)} tone="ink" /></div>
+        </div>
+      </Sheet>
+    </div>
+  </section>
+
+  <!-- H2 -->
+  <section class="variant" id="h2" aria-labelledby="h2-t">
+    <header class="wrap variant__label">
+      <span class="mono variant__no">H2</span>
+      <div><h2 class="h3" id="h2-t">{variants[1].name}</h2><p>{variants[1].note}</p></div>
+    </header>
+    <div class="wrap">
+      <Sheet underlay={false}>
+        <div class="v2">
+          <Image src={heroImg} alt={alt} widths={[960, 1600, 1920]} sizes="(min-width: 1400px) 1360px, 96vw" class="v2__img" />
+          <div class="v2__stamp">
+            <div class="v2__cell v2__cell--title">
+              <span class="v2__label">název</span>
+              <p class="display v2__title">Partner pro vaši ideu</p>
+            </div>
+            <div class="v2__cell v2__cell--lead">
+              <span class="v2__label">popis</span>
+              <p>Projektování je o hledání cest. My je pro vás nacházíme již více než 30&nbsp;let.</p>
+            </div>
+            <div class="v2__cell v2__cell--actions">
+              <a class="btn" href="#kontaktujte-nas">Konzultovat záměr <Icon name="arrow" /></a>
+              <a class="btn btn--ghost" href="/reference/">Reference</a>
+            </div>
+            <div class="v2__cell v2__meta"><span class="v2__label">od roku</span><span class="mono">{FOUNDED}</span></div>
+            <div class="v2__cell v2__meta"><span class="v2__label">projektujeme</span><span class="mono">{years} let</span></div>
+            <div class="v2__cell v2__meta"><span class="v2__label">list</span><span class="mono">01</span></div>
+          </div>
+        </div>
+      </Sheet>
+    </div>
+  </section>
+
+  <!-- H3 -->
+  <section class="variant" id="h3" aria-labelledby="h3-t">
+    <header class="wrap variant__label">
+      <span class="mono variant__no">H3</span>
+      <div><h2 class="h3" id="h3-t">{variants[2].name}</h2><p>{variants[2].note}</p></div>
+    </header>
+    <div class="wrap">
+      <Sheet underlay={false}>
+        <div class="v3">
+          <div class="v3__text">
+            <p class="display v3__title">Partner pro vaši ideu</p>
+            <p class="lead">Projektování je o hledání cest. My je pro vás nacházíme již více než 30&nbsp;let.</p>
+            <div class="actions">
+              <a class="btn" href="#kontaktujte-nas">Konzultovat záměr <Icon name="arrow" /></a>
+              <a class="btn btn--ghost" href="/reference/">Prohlédnout reference</a>
+            </div>
+            <Kota start={String(FOUNDED)} label={`${years} let projektujeme`} end={String(YEAR)} class="v3__kota" />
+          </div>
+          <div class="v3__img">
+            <Image src={heroImg} alt={alt} widths={[800, 1200, 1600]} sizes="(min-width: 980px) 60vw, 96vw" />
+          </div>
+        </div>
+      </Sheet>
+    </div>
+  </section>
+
+  <!-- H4 -->
+  <section class="variant" id="h4" aria-labelledby="h4-t">
+    <header class="wrap variant__label">
+      <span class="mono variant__no">H4</span>
+      <div><h2 class="h3" id="h4-t">{variants[3].name}</h2><p>{variants[3].note}</p></div>
+    </header>
+    <div class="wrap">
+      <Sheet underlay={false}>
+        <div class="v4">
+          <div class="v4__img">
+            <Image src={heroImg} alt={alt} widths={[960, 1600, 1920]} sizes="(min-width: 1400px) 1360px, 96vw" />
+          </div>
+          <div class="v4__seam"><Kota start={String(FOUNDED)} label={`${years} let projektujeme`} end={String(YEAR)} /></div>
+          <div class="v4__band">
+            <p class="display v4__title">Partner pro vaši ideu</p>
+            <div class="v4__side">
+              <p class="lead">Projektování je o hledání cest. My je pro vás nacházíme již více než 30&nbsp;let.</p>
+              <div class="actions">
+                <a class="btn" href="#kontaktujte-nas">Konzultovat záměr <Icon name="arrow" /></a>
+                <a class="btn btn--ghost" href="/reference/">Prohlédnout reference</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Sheet>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-7) var(--space-5);
+  }
+
+  .intro__kicker {
+    color: var(--orange-ink);
+    font-size: var(--t-sm);
+  }
+
+  .intro__title {
+    font-size: var(--t-2xl);
+  }
+
+  .intro__toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .intro__toc a {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    text-decoration: none;
+    font-weight: 560;
+  }
+
+  .intro__toc a:hover {
+    background: var(--orange);
+  }
+
+  .variant {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--ink);
+    scroll-margin-top: var(--header-h);
+  }
+
+  .variant__label {
+    display: flex;
+    gap: var(--space-4);
+    align-items: start;
+    margin-bottom: var(--space-5);
+  }
+
+  .variant__label p {
+    color: var(--ink-2);
+    max-width: 70ch;
+  }
+
+  .variant__no {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    font-weight: 600;
+    background: var(--orange);
+  }
+
+  .dot {
+    color: var(--orange);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .v1,
+  .v2,
+  .v3,
+  .v4 {
+    --h: clamp(560px, calc(100svh - var(--header-h) - 64px), 880px);
+  }
+
+  /* ---------- H1: written on the sketch ---------- */
+  .v1 {
+    position: relative;
+    height: var(--h);
+    overflow: hidden;
+  }
+
+  .v1 :global(.v1__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* push the photograph to the right so the pencil part carries the text */
+    object-position: 0% 45%;
+  }
+
+  /* lift the sketch to paper so the type reads; the photo side stays untouched */
+  .v1__veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(236 237 235 / 0.82) 0%, rgb(236 237 235 / 0.6) 34%, rgb(236 237 235 / 0) 58%);
+  }
+
+  .v1__text {
+    position: relative;
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+    justify-items: start;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    max-width: 44rem;
+  }
+
+  .v1__title {
+    font-size: clamp(3rem, 1.4rem + 6vw, 7.5rem);
+    line-height: 0.9;
+  }
+
+  .v1__lead {
+    max-width: 30ch;
+  }
+
+  .v1__kota {
+    position: absolute;
+    left: clamp(1.5rem, 4vw, 3.5rem);
+    right: clamp(1.5rem, 4vw, 3.5rem);
+    bottom: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .v1__kota :global(.kota) {
+    color: var(--sheet);
+  }
+
+  .v1__kota :global(.kota__label),
+  .v1__kota :global(.kota__end-label) {
+    background: var(--ink);
+    color: var(--sheet);
+    padding: 0.1rem 0.4rem;
+  }
+
+  /* ---------- H2: title block in the corner ---------- */
+  .v2 {
+    position: relative;
+    height: var(--h);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+
+  .v2 :global(.v2__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 32% 40%;
+  }
+
+  .v2__stamp {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(600px, 100%);
+    background: var(--sheet);
+    border-top: 1.5px solid var(--ink);
+    border-left: 1.5px solid var(--ink);
+  }
+
+  .v2__cell {
+    padding: 0.7rem 1rem 0.8rem;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    display: grid;
+    gap: 0.3rem;
+    align-content: start;
+  }
+
+  .v2__cell--title,
+  .v2__cell--lead,
+  .v2__cell--actions {
+    grid-column: 1 / -1;
+  }
+
+  .v2__cell--actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding-block: 1rem;
+  }
+
+  .v2__label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .v2__title {
+    font-size: clamp(2.2rem, 1.2rem + 2.6vw, 3.6rem);
+  }
+
+  .v2__cell--lead p {
+    color: var(--ink-2);
+    font-size: 1.0625rem;
+  }
+
+  .v2__meta .mono {
+    font-size: var(--t-sm);
+  }
+
+  /* ---------- H3: split sheet ---------- */
+  .v3 {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    min-height: var(--h);
+  }
+
+  .v3__text {
+    display: grid;
+    gap: var(--space-5);
+    align-content: end;
+    justify-items: start;
+    padding: clamp(1.5rem, 3.5vw, 3rem);
+    border-right: 1px solid var(--ink);
+  }
+
+  .v3__title {
+    font-size: clamp(2.75rem, 1.2rem + 4.4vw, 5.75rem);
+    line-height: 0.95;
+  }
+
+  .v3__text :global(.v3__kota) {
+    width: 100%;
+    margin-top: var(--space-4);
+  }
+
+  .v3__img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .v3__img :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% 45%;
+  }
+
+  /* ---------- H4: photo, seam, band ---------- */
+  .v4__img {
+    height: calc(var(--h) * 0.68);
+    overflow: hidden;
+  }
+
+  .v4__img :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 32% 42%;
+  }
+
+  .v4__seam {
+    padding: 0.5rem clamp(1.25rem, 3vw, 2.5rem);
+    border-block: 1px solid var(--ink);
+    background: var(--sheet);
+  }
+
+  .v4__band {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-6);
+    align-items: end;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+  }
+
+  .v4__title {
+    font-size: clamp(2.6rem, 1.2rem + 4vw, 5.25rem);
+    line-height: 0.95;
+  }
+
+  .v4__side {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 980px) {
+    .v3,
+    .v4__band {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .v3__text {
+      border-right: 0;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .v3__img {
+      order: -1;
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .v1 {
+      height: auto;
+      min-height: 620px;
+    }
+
+    .v1__veil {
+      background: linear-gradient(180deg, rgb(236 237 235 / 0.88) 0%, rgb(236 237 235 / 0.7) 55%, rgb(236 237 235 / 0) 85%);
+    }
+
+    .v1 :global(.v1__img) {
+      object-position: 12% 50%;
+    }
+
+    .v1__kota {
+      display: none;
+    }
+
+    .v2 {
+      height: auto;
+      display: block;
+    }
+
+    .v2 :global(.v2__img) {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      height: auto;
+      display: block;
+    }
+
+    .v2__stamp {
+      width: 100%;
+      border-left: 0;
+    }
+
+    .v4__img {
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

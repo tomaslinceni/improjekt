@@ -1,0 +1,325 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { company, nav, services, FOUNDED, YEAR } from '../data/site';
+/**
+ * The footer is the drawing sheet's title block (rohové razítko): one ruled table drawn in light lines on graphite.
+ */
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="razitko">
+      <div class="cell cell--brand">
+        <a href="/" class="brand"><Logo label="IM Projekt – úvodní stránka" /></a>
+        <ul class="legal" aria-label="Právní informace">
+          <li><a href="/zpracovani-osobnich-udaju/">Zásady ochrany osobních údajů</a></li>
+          <li><a href="/zasady-cookies/">Zásady cookies</a></li>
+          <li><button type="button" class="consent" data-cookie-open>Nastavení cookies</button></li>
+        </ul>
+      </div>
+
+      <nav class="cell cell--pages" aria-label="Stránky">
+        <h2 class="label">Stránky</h2>
+        <ul>
+          {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav class="cell cell--services" aria-label="Služby">
+        <h2 class="label">Služby</h2>
+        <ul>
+          {services.map((s) => <li><a href={`/sluzby/#${s.id}`}>{s.title}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="cell cell--contact">
+        <h2 class="label">Kontakt</h2>
+        <ul class="contact-list">
+          <li>
+            <Icon name="pin" size={18} />
+            <address>{company.name}<br />{company.street}<br />{company.city}</address>
+          </li>
+          <li>
+            <Icon name="phone" size={18} />
+            <a href={`tel:${company.phoneHref}`}>{company.phone}</a>
+          </li>
+          <li>
+            <Icon name="mail" size={18} />
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+          </li>
+          <li>
+            <Icon name="facebook" size={18} />
+            <a href={company.facebook} rel="noopener" target="_blank">Facebook</a>
+          </li>
+        </ul>
+      </div>
+
+      <dl class="meta">
+        <div class="cell"><dt class="label">IČ</dt><dd class="mono">{company.ic}</dd></div>
+        <div class="cell"><dt class="label">DIČ</dt><dd class="mono">{company.dic}</dd></div>
+        <div class="cell"><dt class="label">Od roku</dt><dd class="mono">{FOUNDED}</dd></div>
+        <div class="cell cell--wide"><dt class="label">Rejstřík</dt><dd>{company.register}</dd></div>
+        <div class="cell"><dt class="label">List</dt><dd class="mono">© {YEAR}</dd></div>
+      </dl>
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  /* dark sheet: the title block drawn in light lines on graphite */
+  .footer {
+    --rule: rgb(232 233 231 / 0.22);
+    --rule-strong: rgb(232 233 231 / 0.5);
+    padding-block: var(--space-8) var(--space-6);
+    background: var(--graphite);
+    color: var(--on-dark);
+  }
+
+  .razitko {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 2.5fr) minmax(0, 2.5fr) minmax(0, 3fr);
+    grid-template-areas:
+      'brand pages services contact'
+      'meta meta meta meta';
+    border: 1.5px solid var(--rule-strong);
+    background: var(--graphite-2);
+  }
+
+  .cell {
+    padding: 1rem 1.15rem 1.1rem;
+    min-width: 0;
+  }
+
+  .cell--brand {
+    grid-area: brand;
+    display: grid;
+    align-content: space-between;
+    gap: var(--space-6);
+    border-right: 1px solid var(--rule);
+  }
+
+  .cell--pages {
+    grid-area: pages;
+    border-right: 1px solid var(--rule);
+  }
+
+  .cell--services {
+    grid-area: services;
+    border-right: 1px solid var(--rule);
+  }
+
+  .cell--contact {
+    grid-area: contact;
+  }
+
+  .brand {
+    display: block;
+    color: var(--on-dark);
+    width: fit-content;
+  }
+
+  .brand :global(.logo) {
+    height: 46px;
+    width: auto;
+  }
+
+  .label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-dark-muted);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .cell ul {
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .cell a {
+    text-decoration: none;
+  }
+
+  .cell a,
+  address {
+    color: var(--on-dark);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .cell a:hover,
+    .legal a:hover,
+    .consent:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--orange);
+      text-decoration-thickness: 1.5px;
+    }
+  }
+
+  address {
+    font-style: normal;
+    line-height: 1.5;
+  }
+
+  .meta {
+    grid-area: meta;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 3fr 1fr;
+    border-top: 1px solid var(--rule);
+    font-size: 0.875rem;
+  }
+
+  .meta .cell {
+    padding: 0.55rem 1.15rem 0.65rem;
+  }
+
+  .meta .cell + .cell {
+    border-left: 1px solid var(--rule);
+  }
+
+  .meta .label {
+    margin-bottom: 0.15rem;
+  }
+
+  .meta dd {
+    margin: 0;
+  }
+
+  /* contact: one row per channel, same type and the same small icon column */
+  .contact-list {
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .contact-list li {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 0.6rem;
+    align-items: start;
+  }
+
+  .contact-list :global(svg) {
+    margin-top: 0.2rem;
+    color: var(--orange);
+  }
+
+  .contact-list address,
+  .contact-list a {
+    font-style: normal;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  /* legal links sit in the brand cell, under the logo */
+  .legal {
+    list-style: none;
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+  }
+
+  .legal a,
+  .consent {
+    color: var(--on-dark-muted);
+    text-decoration: none;
+  }
+
+  .consent {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+  }
+
+  @media (max-width: 980px) {
+    .razitko {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas:
+        'brand brand brand'
+        'pages services contact'
+        'meta meta meta';
+    }
+
+    .cell--brand {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+      grid-template-columns: auto 1fr;
+      align-items: center;
+    }
+
+    .legal {
+      justify-self: end;
+      text-align: right;
+    }
+
+    .meta {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .meta .cell {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .meta .cell:nth-child(4) {
+      border-left: 0;
+      border-bottom: 0;
+      grid-column: 1 / span 2;
+    }
+
+    .meta .cell:nth-child(5) {
+      border-bottom: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .razitko {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'brand' 'pages' 'services' 'contact' 'meta';
+    }
+
+    .cell--brand {
+      grid-template-columns: 1fr;
+    }
+
+    .legal {
+      justify-self: start;
+      text-align: left;
+    }
+
+    .cell--pages,
+    .cell--services {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .meta {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .meta .cell,
+    .meta .cell + .cell {
+      border-left: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .meta .cell:nth-child(even) {
+      border-left: 1px solid var(--rule);
+    }
+
+    .meta .cell:nth-child(4) {
+      grid-column: 1 / -1;
+      border-left: 0;
+    }
+
+    .meta .cell:nth-child(5) {
+      border-left: 0;
+      border-bottom: 0;
+    }
+  }
+</style>

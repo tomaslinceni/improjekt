@@ -1,0 +1,321 @@
+---
+import Icon from './Icon.astro';
+import TitleBlock from './TitleBlock.astro';
+import { company } from '../data/site';
+
+interface Props {
+  title?: string;
+  text?: string;
+  /** "dotaz" for general inquiries, "cv" for job applications */
+  kind?: 'dotaz' | 'cv';
+}
+const {
+  title = 'Kontaktujte nás',
+  text = 'Nebojte se nás na cokoli zeptat anebo si rovnou objednejte osobní schůzku.',
+  kind = 'dotaz',
+} = Astro.props;
+const uid = kind;
+---
+<section class="contact" id="kontaktujte-nas" aria-labelledby={`contact-title-${uid}`}>
+  <div class="wrap contact__grid">
+    <div class="contact__intro">
+      <h2 class="h2" id={`contact-title-${uid}`}>{title}</h2>
+      <p class="lead">{text}</p>
+
+      <TitleBlock
+        class="contact__tb"
+        rows={[
+          { label: 'Společnost', value: company.name, wide: true },
+          { label: 'Adresa', value: `${company.street}, ${company.city}`, wide: true },
+          { label: 'Telefon', value: company.phone, mono: true },
+          { label: 'E-mail', value: company.email, mono: true },
+        ]}
+      />
+      <div class="contact__direct">
+        <a class="link-arrow" href={`tel:${company.phoneHref}`}><Icon name="phone" />Zavolat</a>
+        <a class="link-arrow" href={`mailto:${company.email}`}><Icon name="mail" />Napsat e-mail</a>
+      </div>
+    </div>
+
+    <form class="form glass" novalidate data-form data-kind={kind}>
+      <div class="form__row">
+        <div class="field">
+          <label for={`f-name-${uid}`}>Jméno a příjmení <span aria-hidden="true">*</span></label>
+          <input id={`f-name-${uid}`} name="name" type="text" autocomplete="name" required />
+          <p class="field__error" data-error>Vyplňte prosím jméno a příjmení.</p>
+        </div>
+        <div class="field">
+          <label for={`f-email-${uid}`}>E-mailová adresa <span aria-hidden="true">*</span></label>
+          <input id={`f-email-${uid}`} name="email" type="email" autocomplete="email" required />
+          <p class="field__error" data-error>Zadejte e-mail ve tvaru jmeno@domena.cz.</p>
+        </div>
+        <div class="field">
+          <label for={`f-phone-${uid}`}>Telefonní číslo <span aria-hidden="true">*</span></label>
+          <input id={`f-phone-${uid}`} name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9 +()\-]{9,}" />
+          <p class="field__error" data-error>Zadejte telefon alespoň s 9 číslicemi.</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for={`f-msg-${uid}`}>{kind === 'cv' ? 'Napište nám o sobě' : 'Vaše zpráva'}</label>
+        <textarea id={`f-msg-${uid}`} name="message" rows="5"></textarea>
+      </div>
+
+      <div class="field field--file">
+        <span class="field__label" id={`f-file-label-${uid}`}>{kind === 'cv' ? 'Životopis nebo portfolio' : 'Vložit přílohu'}</span>
+        <label class="file" for={`f-file-${uid}`}>
+          <Icon name="file" />
+          <span data-file-name>Vybrat soubor (PDF, DWG, obrázek)</span>
+        </label>
+        <input
+          id={`f-file-${uid}`}
+          class="visually-hidden"
+          name="attachment"
+          type="file"
+          aria-labelledby={`f-file-label-${uid}`}
+          accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png,.doc,.docx,.zip"
+        />
+      </div>
+
+      <div class="form__foot">
+        <button class="btn" type="submit">
+          Odeslat formulář
+          <Icon name="arrow" />
+        </button>
+        <p class="form__note">
+          Odesláním formuláře beru na vědomí zpracování osobních údajů za účelem vyřízení mého dotazu. Více informací
+          v <a href="/zpracovani-osobnich-udaju/">Zásadách ochrany osobních údajů</a>.
+        </p>
+      </div>
+
+      <div class="form__done" hidden data-done role="status" tabindex="-1">
+        <Icon name="check" size={28} />
+        <div>
+          <p class="form__done-title">Děkujeme, zpráva je odeslaná.</p>
+          <p>Ozveme se vám obratem.</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-block: var(--space-9);
+    border-top: 1px solid var(--ink);
+  }
+
+  .contact__grid {
+    display: grid;
+    grid-template-columns: var(--split);
+    gap: var(--split-gap);
+    align-items: start;
+  }
+
+  .contact__intro {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .contact__tb {
+    margin-top: var(--space-3);
+  }
+
+  .contact__direct {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+  }
+
+  .form {
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    display: grid;
+    gap: var(--space-5);
+    position: relative;
+  }
+
+  .form__row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+    min-width: 0;
+    align-content: start;
+  }
+
+  .field label,
+  .field__label {
+    font-size: 0.875rem;
+    font-weight: 580;
+  }
+
+  .field label span {
+    color: var(--orange-ink);
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--sheet);
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
+    padding: 0.7rem 0.8rem;
+    min-height: 48px;
+    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .field input:hover,
+    .field textarea:hover {
+      border-color: var(--ink);
+    }
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--orange-lo);
+    box-shadow: 0 0 0 3px rgb(245 130 32 / 0.25);
+  }
+
+  .field__error {
+    display: none;
+    font-size: 0.8125rem;
+    color: var(--error);
+  }
+
+  .field.is-invalid input {
+    border-color: var(--error);
+  }
+
+  .field.is-invalid .field__error {
+    display: block;
+  }
+
+  .file {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 56px;
+    padding: 0.7rem 0.9rem;
+    border: 1px dashed var(--line-strong);
+    background: rgb(246 247 245 / 0.6);
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .file:hover {
+      border-color: var(--orange-lo);
+      color: var(--ink);
+    }
+  }
+
+  .field--file input:focus-visible + .file,
+  .field--file:focus-within .file {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+  }
+
+  .form__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-5);
+  }
+
+  .form__note {
+    flex: 1 1 260px;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .form__done {
+    display: flex;
+    gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--ok);
+    background: var(--sheet);
+    color: var(--ok);
+  }
+
+  .form__done p {
+    color: var(--ink-2);
+  }
+
+  .form__done .form__done-title {
+    color: var(--ink);
+    font-weight: 620;
+  }
+
+  @media (max-width: 980px) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-7);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .form__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Front-end only for the design phase: validates and shows the confirmation state.
+  // The submit endpoint (serverless function) is wired up at deploy time.
+  document.querySelectorAll<HTMLFormElement>('[data-form]').forEach((form) => {
+    const fileInput = form.querySelector<HTMLInputElement>('input[type=file]');
+    const fileName = form.querySelector<HTMLElement>('[data-file-name]');
+    fileInput?.addEventListener('change', () => {
+      if (fileName && fileInput.files?.[0]) fileName.textContent = fileInput.files[0].name;
+    });
+
+    const check = (el: HTMLInputElement) => {
+      const field = el.closest('.field');
+      const ok = el.checkValidity();
+      field?.classList.toggle('is-invalid', !ok);
+      el.setAttribute('aria-invalid', String(!ok));
+      return ok;
+    };
+
+    form.querySelectorAll<HTMLInputElement>('input[required]').forEach((el) => {
+      el.addEventListener('blur', () => el.value && check(el));
+      el.addEventListener('input', () => el.closest('.field')?.classList.contains('is-invalid') && check(el));
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fields = [...form.querySelectorAll<HTMLInputElement>('input[required]')];
+      const results = fields.map(check);
+      const firstBad = fields[results.indexOf(false)];
+      if (firstBad) {
+        firstBad.focus();
+        return;
+      }
+      const done = form.querySelector<HTMLElement>('[data-done]');
+      if (done) {
+        done.hidden = false;
+        done.focus();
+      }
+      form.reset();
+      if (fileName) fileName.textContent = 'Vybrat soubor (PDF, DWG, obrázek)';
+    });
+  });
+</script>

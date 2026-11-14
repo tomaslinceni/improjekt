@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import vykres from '../assets/brand/vykres.png';
+/** IM Projekt's own floor plan, laid under an orange band. The band must be `position: relative; overflow: hidden`. */
+---
+<div class="band-drawing parallax-view" aria-hidden="true">
+  <Image src={vykres} alt="" widths={[1400, 1800]} sizes="100vw" />
+</div>
+
+<style>
+  .band-drawing {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .band-drawing :global(img) {
+    position: absolute;
+    width: max(1400px, 110%);
+    max-width: none;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>

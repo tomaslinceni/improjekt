@@ -1,0 +1,95 @@
+---
+/**
+ * E1 – a dimension line under the header that measures how far the reader is through `target`.
+ * Decorative: the article itself is the content.
+ */
+interface Props {
+  target: string;
+}
+const { target } = Astro.props;
+---
+<div class="readkota" aria-hidden="true" data-readkota={target}>
+  <div class="wrap readkota__inner">
+    <span class="readkota__tick"></span>
+    <span class="readkota__line"></span>
+    <span class="readkota__label mono" data-readkota-label>0 mm</span>
+  </div>
+</div>
+
+<style>
+  .readkota {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 20;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .readkota__inner {
+    display: flex;
+    align-items: center;
+    height: 20px;
+  }
+
+  .readkota__tick {
+    flex: none;
+    width: 1px;
+    height: 12px;
+    background: var(--orange-lo);
+  }
+
+  .readkota__line {
+    position: relative;
+    height: 1.5px;
+    width: calc(var(--p, 0) * (100% - 7rem));
+    background: var(--orange-lo);
+  }
+
+  .readkota__line::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 11px;
+    height: 11px;
+    background: linear-gradient(135deg, transparent 45%, var(--orange-lo) 45% 55%, transparent 55%);
+  }
+
+  .readkota__label {
+    margin-left: 0.6rem;
+    font-size: var(--t-xs);
+    color: var(--orange-ink);
+    background: var(--paper);
+    padding: 0 0.3rem;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-readkota]').forEach((bar) => {
+    const target = document.querySelector<HTMLElement>(bar.dataset.readkota!);
+    const label = bar.querySelector<HTMLElement>('[data-readkota-label]');
+    if (!target) return;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = target.getBoundingClientRect();
+      const header = 68;
+      const total = r.height - (window.innerHeight - header) * 0.6;
+      const read = Math.min(Math.max(header - r.top, 0), Math.max(total, 1));
+      const p = read / Math.max(total, 1);
+      bar.style.setProperty('--p', String(p));
+      // 1 px of reading = 2.5 mm on the drawing
+      if (label) label.textContent = `${Math.round(read * 2.5).toLocaleString('cs-CZ')} mm`;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  });
+</script>

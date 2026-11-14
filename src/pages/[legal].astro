@@ -1,0 +1,54 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('stranky');
+  return pages.map((page) => ({ params: { legal: page.id }, props: { page } }));
+}
+interface Props {
+  page: CollectionEntry<'stranky'>;
+}
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+<Base title={page.data.title} contact={false}>
+  <article class="wrap legal">
+    <h1 class="legal__title">{page.data.title}</h1>
+    <div class="prose legal__body">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .legal {
+    padding-block: var(--space-7) var(--space-9);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  .legal__title {
+    font-size: var(--t-xl);
+    font-stretch: 112%;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .legal__body {
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
+    max-width: none;
+  }
+
+  .legal__body > :global(*) {
+    max-width: 75ch;
+  }
+
+  .legal__body :global(a),
+  .legal__body :global(p) {
+    overflow-wrap: anywhere;
+  }
+</style>
