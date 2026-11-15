@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # local screenshots
 shots/
+
+# local design archive (not deployed)
+src/archiv/
+src/pages/archiv/
+
+# local tooling
+.playwright-cli/

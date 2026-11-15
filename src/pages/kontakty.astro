@@ -11,26 +11,11 @@ const tel = (p: string) => p.replace(/\s/g, '');
     <div class="central">
       <a class="central__big" href={`tel:${company.phoneHref}`}><Icon name="phone" size={22} />{company.phone}</a>
       <a class="central__big" href={`mailto:${company.email}`}><Icon name="mail" size={22} />{company.email}</a>
+      <a class="central__big central__addr" href={company.maps} target="_blank" rel="noopener">
+        <Icon name="pin" size={22} />
+        <address>{company.street}, {company.city}</address>
+      </a>
     </div>
-    <Fragment slot="aside">
-      <div class="seat glass">
-        <svg class="seat__north" viewBox="0 0 60 80" aria-hidden="true">
-          <circle cx="30" cy="44" r="22" />
-          <path d="M30 14L40 58L30 50L20 58Z" />
-          <text x="30" y="10">S</text>
-        </svg>
-        <p class="seat__label">Sídlo společnosti</p>
-        <p class="seat__name">{company.name}</p>
-        <address>
-          {company.street}<br />
-          {company.city}
-        </address>
-        <a class="link-arrow" href={company.mapy} target="_blank" rel="noopener">
-          <Icon name="pin" />
-          Otevřít v Mapy.cz
-        </a>
-      </div>
-    </Fragment>
   </PageHead>
 
   <section class="section wrap people" aria-labelledby="people-title">
@@ -97,57 +82,20 @@ const tel = (p: string) => p.replace(/\s/g, '');
     }
   }
 
-  .seat {
-    padding: var(--space-5);
-    display: grid;
-    gap: var(--space-2);
-    justify-items: start;
+  /* the address is the third contact line; it opens Google Maps */
+  .central__addr {
+    align-items: flex-start;
+    font-family: inherit;
+    font-weight: 500;
   }
 
-  .seat {
-    position: relative;
+  .central__addr :global(svg) {
+    flex: none;
+    margin-top: 0.2em;
   }
 
-  /* G4: north arrow on the address, as on a site plan */
-  .seat__north {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 48px;
-    height: auto;
-    fill: none;
-    stroke: var(--ink);
-    stroke-width: 1.5;
-  }
-
-  .seat__north path {
-    fill: var(--orange);
-  }
-
-  .seat__north text {
-    fill: var(--ink);
-    stroke: none;
-    font-family: var(--f-mono);
-    font-size: 12px;
-    text-anchor: middle;
-  }
-
-  .seat__label {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 620;
-    color: var(--muted);
-  }
-
-  .seat__name {
-    font-weight: 650;
-    font-size: 1.125rem;
-  }
-
-  .seat address {
+  .central__addr address {
     font-style: normal;
-    margin-bottom: var(--space-3);
   }
 
   .people {
@@ -161,14 +109,19 @@ const tel = (p: string) => p.replace(/\s/g, '');
     grid-column: 1;
   }
 
+  /* one shared pair of columns for all people, so the contact links line up under each other */
   .people__list {
     grid-column: 1;
     list-style: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: start;
   }
 
   .person {
+    grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: subgrid;
     gap: 0.2rem var(--space-5);
     padding: var(--space-5) 0;
   }
@@ -238,6 +191,7 @@ const tel = (p: string) => p.replace(/\s/g, '');
   }
 
   @media (max-width: 560px) {
+    .people__list,
     .person {
       grid-template-columns: 1fr;
     }

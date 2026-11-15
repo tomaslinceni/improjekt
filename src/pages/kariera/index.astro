@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
-import PlotHouse from '../../components/PlotHouse.astro';
 import Icon from '../../components/Icon.astro';
 import DrawingUnderlay from '../../components/DrawingUnderlay.astro';
 import { company } from '../../data/site';
@@ -27,9 +26,6 @@ const info = (j: (typeof jobs)[number], label: string) => j.data.info.find((x) =
       <a class="btn" href="#pozice">Aktuální příležitosti <Icon name="arrow" /></a>
       <a class="btn btn--ghost" href="#kontaktujte-nas">Poslat CV</a>
     </div>
-    <Fragment slot="aside">
-      <div class="plot-panel glass"><PlotHouse /></div>
-    </Fragment>
   </PageHead>
 
   <section class="section wrap why">
@@ -110,10 +106,6 @@ const info = (j: (typeof jobs)[number], label: string) => j.data.info.find((x) =
 </Base>
 
 <style>
-  .plot-panel {
-    padding: clamp(1rem, 2.5vw, 1.75rem);
-  }
-
   .head-actions {
     display: flex;
     flex-wrap: wrap;

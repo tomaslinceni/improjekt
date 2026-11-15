@@ -21,6 +21,7 @@ export const company = {
   account: '420546181/0100',
   register: 'Společnost je zapsána v OR u Městského soudu v Praze, oddíl C, vložka 6793.',
   facebook: 'https://www.facebook.com/share/1EeFqEnJt7/?mibextid=wwXIfr',
+  maps: 'https://www.google.com/maps/search/?api=1&query=IM%20Projekt%2C%20n%C3%A1m%C4%9Bst%C3%AD%20M%C3%ADru%2013%2C%20Mlad%C3%A1%20Boleslav',
   mapy: 'https://mapy.cz/zakladni?q=n%C3%A1m%C4%9Bst%C3%AD%20M%C3%ADru%2013%2C%20Mlad%C3%A1%20Boleslav',
 };
 

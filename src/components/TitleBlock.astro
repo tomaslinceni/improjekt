@@ -8,6 +8,9 @@ interface Row {
   value: string;
   mono?: boolean;
   wide?: boolean;
+  /** makes the value itself the link (tel:, mailto:, map) */
+  href?: string;
+  external?: boolean;
 }
 interface Props {
   rows: Row[];
@@ -21,7 +24,15 @@ const { rows, class: cls = '', dark = false } = Astro.props;
     rows.map((r) => (
       <div class:list={['tb__cell', { 'tb__cell--wide': r.wide }]}>
         <dt class="tb__label">{r.label}</dt>
-        <dd class:list={['tb__value', { mono: r.mono }]}>{r.value}</dd>
+        <dd class:list={['tb__value', { mono: r.mono }]}>
+          {r.href ? (
+            <a class="tb__link" href={r.href} {...(r.external ? { target: '_blank', rel: 'noopener' } : {})}>
+              {r.value}
+            </a>
+          ) : (
+            r.value
+          )}
+        </dd>
       </div>
     ))
   }
@@ -70,6 +81,51 @@ const { rows, class: cls = '', dark = false } = Astro.props;
   .tb__value.mono {
     font-weight: 500;
     font-size: 0.875rem;
+  }
+
+  .tb__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .tb__link:focus-visible {
+    outline: none;
+  }
+
+  /* the whole cell is the hit area */
+  .tb__cell:has(.tb__link) {
+    position: relative;
+  }
+
+  .tb__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .tb__cell:has(.tb__link) {
+    transition: background-color 0.2s var(--ease-out);
+  }
+
+  /* the cell turns orange: hover, and keyboard focus with the ring around the whole cell */
+  .tb__cell:has(.tb__link:focus-visible) {
+    background: var(--orange);
+    outline: 2px solid var(--ink);
+    outline-offset: -2px;
+  }
+
+  .tb__cell:has(.tb__link:focus-visible) .tb__label {
+    color: var(--ink);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tb__cell:has(.tb__link):hover {
+      background: var(--orange);
+    }
+
+    .tb__cell:has(.tb__link):hover .tb__label {
+      color: var(--ink);
+    }
   }
 
   .tb--dark {

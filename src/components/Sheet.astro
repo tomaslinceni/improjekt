@@ -11,21 +11,29 @@ interface Props {
   underlayPosition?: 'right' | 'center';
   /** move the floor plan on scroll (opening sheets only) */
   drift?: boolean;
+  /** grid-reference zones and the drafting crosshair; only the home hero carries them */
+  zones?: boolean;
 }
-const { class: cls = '', underlay = true, underlayPosition = 'right', drift = true } = Astro.props;
+const { class: cls = '', underlay = true, underlayPosition = 'right', drift = true, zones = false } = Astro.props;
 const cols = ['A', 'B', 'C', 'D', 'E', 'F'];
 const rows = ['1', '2', '3', '4'];
 ---
-<div class:list={['sheet', cls]} data-sheet>
-  <span class="sheet__corner mono" aria-hidden="true" data-sheet-zone></span>
-  <div class="sheet__zones sheet__zones--top" aria-hidden="true">
-    {cols.map((c) => <span data-col>{c}</span>)}
-  </div>
-  <div class="sheet__zones sheet__zones--left" aria-hidden="true">
-    {rows.map((r) => <span data-row>{r}</span>)}
-  </div>
-  <span class="sheet__cx" aria-hidden="true"></span>
-  <span class="sheet__cy" aria-hidden="true"></span>
+<div class:list={['sheet', { 'sheet--plain': !zones }, cls]} data-sheet={zones ? '' : undefined}>
+  {
+    zones && (
+      <>
+        <span class="sheet__corner mono" aria-hidden="true" data-sheet-zone />
+        <div class="sheet__zones sheet__zones--top" aria-hidden="true">
+          {cols.map((c) => <span data-col>{c}</span>)}
+        </div>
+        <div class="sheet__zones sheet__zones--left" aria-hidden="true">
+          {rows.map((r) => <span data-row>{r}</span>)}
+        </div>
+        <span class="sheet__cx" aria-hidden="true" />
+        <span class="sheet__cy" aria-hidden="true" />
+      </>
+    )
+  }
   <div class="sheet__inner">
     {
       underlay && (
@@ -45,6 +53,10 @@ const rows = ['1', '2', '3', '4'];
     border: 1px solid var(--ink);
     padding: var(--z) 0 0 var(--z);
     background: var(--paper);
+  }
+
+  .sheet--plain {
+    padding: 0;
   }
 
   .sheet__zones {

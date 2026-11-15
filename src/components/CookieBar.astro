@@ -36,6 +36,25 @@
     min-height: 42px;
     font-size: 0.9375rem;
   }
+
+  /* wide screens: one low strip along the bottom edge, so it covers as little of the page as possible */
+  @media (min-width: 1000px) {
+    .cookie {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: min(1040px, calc(100vw - 24px));
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.7rem 0.75rem 0.7rem 1.1rem;
+    }
+
+    .cookie .btn {
+      min-height: 38px;
+      padding-block: 0.4rem;
+    }
+  }
 </style>
 
 <script>

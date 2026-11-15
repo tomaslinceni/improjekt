@@ -26,15 +26,11 @@ const uid = kind;
         class="contact__tb"
         rows={[
           { label: 'Společnost', value: company.name, wide: true },
-          { label: 'Adresa', value: `${company.street}, ${company.city}`, wide: true },
-          { label: 'Telefon', value: company.phone, mono: true },
-          { label: 'E-mail', value: company.email, mono: true },
+          { label: 'Adresa', value: `${company.street}, ${company.city}`, wide: true, href: company.maps, external: true },
+          { label: 'Telefon', value: company.phone, mono: true, href: `tel:${company.phoneHref}` },
+          { label: 'E-mail', value: company.email, mono: true, href: `mailto:${company.email}` },
         ]}
       />
-      <div class="contact__direct">
-        <a class="link-arrow" href={`tel:${company.phoneHref}`}><Icon name="phone" />Zavolat</a>
-        <a class="link-arrow" href={`mailto:${company.email}`}><Icon name="mail" />Napsat e-mail</a>
-      </div>
     </div>
 
     <form class="form glass" novalidate data-form data-kind={kind}>
@@ -119,12 +115,6 @@ const uid = kind;
 
   .contact__tb {
     margin-top: var(--space-3);
-  }
-
-  .contact__direct {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-5);
   }
 
   .form {

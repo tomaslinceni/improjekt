@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { categories } from '../content.config';
 import { realizaceLabel } from '../lib/stages';
 import StageBar from './StageBar.astro';
+import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
   item: CollectionEntry<'reference'>;
@@ -31,7 +32,7 @@ const d = item.data;
     <div class="ref__body">
       <h3 class="ref__title">{d.title}</h3>
       <p class="ref__meta">
-        <span>{categories[d.category]}</span>
+        <span class="ref__cat"><CategoryIcon id={d.category} size={16} />{categories[d.category]}</span>
         {d.realizace && <span>{realizaceLabel[d.realizace]}</span>}
       </p>
       <StageBar services={d.services} />
@@ -82,6 +83,12 @@ const d = item.data;
     gap: 0.15rem 0.9rem;
     font-size: 0.8125rem;
     color: var(--muted);
+  }
+
+  .ref__cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
   }
 
   .ref__meta span + span::before {

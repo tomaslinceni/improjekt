@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { company, nav, services, FOUNDED, YEAR } from '../data/site';
+import { company, nav, services, YEAR } from '../data/site';
 /**
  * The footer is the drawing sheet's title block (rohové razítko): one ruled table drawn in light lines on graphite.
  */
@@ -54,13 +54,12 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
         </ul>
       </div>
 
-      <dl class="meta">
-        <div class="cell"><dt class="label">IČ</dt><dd class="mono">{company.ic}</dd></div>
-        <div class="cell"><dt class="label">DIČ</dt><dd class="mono">{company.dic}</dd></div>
-        <div class="cell"><dt class="label">Od roku</dt><dd class="mono">{FOUNDED}</dd></div>
-        <div class="cell cell--wide"><dt class="label">Rejstřík</dt><dd>{company.register}</dd></div>
-        <div class="cell"><dt class="label">List</dt><dd class="mono">© {YEAR}</dd></div>
-      </dl>
+      <div class="meta">
+        <dl class="cell"><dt class="label">IČ</dt><dd class="mono">{company.ic}</dd></dl>
+        <dl class="cell"><dt class="label">DIČ</dt><dd class="mono">{company.dic}</dd></dl>
+        <dl class="cell cell--register"><dt class="label">Rejstřík</dt><dd>{company.register}</dd></dl>
+        <p class="cell cell--copy">© {YEAR} {company.name}</p>
+      </div>
     </div>
 
   </div>
@@ -83,6 +82,12 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
       'brand pages services contact'
       'meta meta meta meta';
     border: 1.5px solid var(--rule-strong);
+    /* separators come from the 1px gaps showing the rule colour: every cell is a closed window */
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .cell {
     background: var(--graphite-2);
   }
 
@@ -96,17 +101,14 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
     display: grid;
     align-content: space-between;
     gap: var(--space-6);
-    border-right: 1px solid var(--rule);
   }
 
   .cell--pages {
     grid-area: pages;
-    border-right: 1px solid var(--rule);
   }
 
   .cell--services {
     grid-area: services;
-    border-right: 1px solid var(--rule);
   }
 
   .cell--contact {
@@ -167,8 +169,8 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
     grid-area: meta;
     margin: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 3fr 1fr;
-    border-top: 1px solid var(--rule);
+    grid-template-columns: 2fr 1fr 1fr 3fr;
+    gap: 1px;
     font-size: 0.875rem;
   }
 
@@ -176,23 +178,31 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
     padding: 0.55rem 1.15rem 0.65rem;
   }
 
-  .meta .cell + .cell {
-    border-left: 1px solid var(--rule);
-  }
-
   .meta .label {
     margin-bottom: 0.15rem;
+  }
+
+  .meta dl {
+    margin: 0;
   }
 
   .meta dd {
     margin: 0;
   }
 
+  /* copyright opens the row on the left, under the logo */
+  .cell--copy {
+    order: -1;
+    display: flex;
+    align-items: center;
+    color: var(--on-dark-muted);
+  }
+
   /* contact: one row per channel, same type and the same small icon column */
   .contact-list {
     list-style: none;
     display: grid;
-    gap: 0.6rem;
+    gap: 0.85rem;
   }
 
   .contact-list li {
@@ -203,14 +213,14 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
   }
 
   .contact-list :global(svg) {
-    margin-top: 0.2rem;
+    margin-top: 0.3rem;
     color: var(--orange);
   }
 
   .contact-list address,
   .contact-list a {
     font-style: normal;
-    line-height: 1.45;
+    line-height: 1.6;
     overflow-wrap: anywhere;
   }
 
@@ -247,8 +257,6 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
     }
 
     .cell--brand {
-      border-right: 0;
-      border-bottom: 1px solid var(--rule);
       grid-template-columns: auto 1fr;
       align-items: center;
     }
@@ -262,64 +270,49 @@ import { company, nav, services, FOUNDED, YEAR } from '../data/site';
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .meta .cell {
-      border-bottom: 1px solid var(--rule);
-    }
 
-    .meta .cell:nth-child(4) {
-      border-left: 0;
-      border-bottom: 0;
-      grid-column: 1 / span 2;
-    }
-
-    .meta .cell:nth-child(5) {
-      border-bottom: 0;
+    .cell--register {
+      grid-column: 1 / -1;
+      order: 1;
     }
   }
 
   @media (max-width: 600px) {
     .razitko {
       grid-template-columns: 1fr;
-      grid-template-areas: 'brand' 'pages' 'services' 'contact' 'meta';
+      grid-template-areas: 'brand' 'pages' 'services' 'contact' 'meta' 'legal';
     }
 
+    /* the legal links are the least needed: on phones they drop to the very end of the block */
     .cell--brand {
-      grid-template-columns: 1fr;
+      display: contents;
+    }
+
+    .brand,
+    .legal {
+      width: auto;
+      padding: 1rem 1.15rem 1.1rem;
+      background: var(--graphite-2);
+    }
+
+    .brand {
+      grid-area: brand;
     }
 
     .legal {
-      justify-self: start;
+      grid-area: legal;
+      justify-self: stretch;
       text-align: left;
-    }
-
-    .cell--pages,
-    .cell--services {
-      border-right: 0;
-      border-bottom: 1px solid var(--rule);
     }
 
     .meta {
       grid-template-columns: 1fr 1fr;
     }
 
-    .meta .cell,
-    .meta .cell + .cell {
-      border-left: 0;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .meta .cell:nth-child(even) {
-      border-left: 1px solid var(--rule);
-    }
-
-    .meta .cell:nth-child(4) {
+    /* IČ DIČ / rejstřík across / © across: no empty window */
+    .cell--copy {
       grid-column: 1 / -1;
-      border-left: 0;
-    }
-
-    .meta .cell:nth-child(5) {
-      border-left: 0;
-      border-bottom: 0;
+      order: 2;
     }
   }
 </style>

@@ -5,9 +5,10 @@ import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
 import AudienceIcon from '../components/AudienceIcon.astro';
 import DrawingUnderlay from '../components/DrawingUnderlay.astro';
+import PlotHouse from '../components/PlotHouse.astro';
 import { audiences } from '../data/site';
-import imgInzenyring from '../assets/sluzby/inzenyrska-cinnost.webp';
-import imgMarketing from '../assets/sluzby/marketing.webp';
+import imgInzenyring from '../assets/ilustrace/inzenyrska-cinnost.svg';
+import imgMarketing from '../assets/ilustrace/marketing.svg';
 
 const engineering = [
   'koordinaci povolovacích procesů staveb',
@@ -57,17 +58,20 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
       <a href="#inzenyrska-cinnost">Inženýrská činnost</a>
       <a href="#marketing-a-branding">Marketing a branding</a>
     </nav>
+    <Fragment slot="aside">
+      <div class="plot-panel glass"><PlotHouse /></div>
+    </Fragment>
   </PageHead>
 
   <section class="section wrap intro">
-    <p class="lead">IM Projekt poskytuje komplexní projekční a inženýrské služby pro všechny typy investorů.</p>
-    <div class="intro__body">
-      <p class="lead">
+    <p class="intro__big">IM Projekt poskytuje komplexní projekční a inženýrské služby pro všechny typy investorů.</p>
+    <div class="intro__text">
+      <p>
         Naše práce stojí na preciznosti a dlouholetých zkušenostech v oblasti projektování, inženýrské činnosti a
         autorského dozoru. Spolupracujeme s developery, investory, městy i projektanty či architekty a vždy hledáme
         řešení, která propojují kvalitu, funkčnost a ekonomickou efektivitu.
       </p>
-      <p class="lead">Ke každé spolupráci přistupujeme individuálně, s respektem k cíli projektu i jeho budoucímu uživateli.</p>
+      <p>Ke každé spolupráci přistupujeme individuálně, s respektem k cíli projektu i jeho budoucímu uživateli.</p>
     </div>
   </section>
 
@@ -133,7 +137,6 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     </div>
   </section>
 
-  <div class="hatch-rule hatch-rule--zdivo" aria-hidden="true"></div>
   <section class="svc-block" id="inzenyrska-cinnost" aria-labelledby="inz-title">
     <div class="wrap eng">
       <div class="eng__intro">
@@ -151,7 +154,7 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
         </p>
       </div>
       <figure class="frame eng__img reveal">
-        <Image src={imgInzenyring} alt="Projektová dokumentace a razítka na stole" widths={[600, 1000, 1344]} sizes="(min-width: 980px) 56vw, 92vw" />
+        <Image src={imgInzenyring} alt="Situace stavby s přípojkami vodovodu, kanalizace, plynu a elektřiny" widths={[600, 1000, 1344]} sizes="(min-width: 980px) 56vw, 92vw" />
       </figure>
       <div class="checklist eng__list">
         <h3 class="checklist__title">V rámci inženýrské činnosti zajišťujeme zejména:</h3>
@@ -181,7 +184,7 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
           </div>
         </div>
         <figure class="frame mkt__img reveal">
-          <Image src={imgMarketing} alt="Kreativní kompozice s logem IM Projekt, tiskovinami a zařízeními" widths={[600, 1000, 1344]} sizes="(min-width: 900px) 45vw, 92vw" />
+          <Image src={imgMarketing} alt="Ukázka vizuální identity: konstrukce značky, barvy, písmo, vizitka a web" widths={[600, 1000, 1344]} sizes="(min-width: 900px) 45vw, 92vw" />
         </figure>
       </div>
 
@@ -233,6 +236,10 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 </Base>
 
 <style>
+  .plot-panel {
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
   .jump {
     display: flex;
     flex-wrap: wrap;
@@ -244,18 +251,28 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     text-decoration-thickness: 1.5px;
   }
 
+  /* same split as Kariéra: statement left, text right */
   .intro {
     display: grid;
     grid-template-columns: var(--split);
     gap: var(--split-gap);
+    align-items: start;
     padding-block: var(--space-9);
   }
 
-  .intro__body {
+  .intro__big {
+    font-size: var(--t-xl);
+    font-stretch: 112%;
+    font-weight: 660;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  .intro__text {
     display: grid;
     gap: var(--space-4);
     color: var(--ink-2);
-    max-width: 64ch;
   }
 
   .svc-block {
@@ -620,7 +637,11 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 
 
   @media (max-width: 980px) {
-    .intro,
+    .intro {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+
     .eng,
     .mkt__head,
     .mkt__dev,

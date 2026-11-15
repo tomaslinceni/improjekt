@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/pages/v5/index.astro"
+        ],
+        "createdAt": "2026-11-14T21:10:33.038Z",
+        "reason": "Claude: .payoff::after is the 4px orange wipe line at the end of the sketch-to-photo scroll reveal (v5 signature), not a card accent"
+      }
+    ]
+  }
+}

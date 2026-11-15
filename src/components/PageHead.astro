@@ -10,7 +10,7 @@ interface Props {
 }
 const { title, lead, crumb, underlay = true } = Astro.props;
 ---
-<div class="wrap page-head">
+<div class="wrap bleed page-head">
   <Sheet underlay={underlay}>
     <div class="page-head__body">
       <div class="page-head__panel glass">
@@ -42,7 +42,8 @@ const { title, lead, crumb, underlay = true } = Astro.props;
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: var(--space-6);
-    padding: clamp(1.25rem, 4vw, 3.5rem);
+    --pad: clamp(1.25rem, 4vw, 3.5rem);
+    padding: var(--pad) max(var(--pad), var(--col-inset));
     min-height: clamp(300px, 34vw, 440px);
     align-items: end;
   }

@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
 import RefCard from '../../components/RefCard.astro';
-import Kota from '../../components/Kota.astro';
 import { categories } from '../../content.config';
+import CategoryIcon from '../../components/CategoryIcon.astro';
 import { plural } from '../../lib/stages';
 
 const refs = (await getCollection('reference')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'cs'));
@@ -35,6 +35,7 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
               <label class="chip">
                 <input type="radio" name="kategorie" value={id} />
                 <span>
+                  <CategoryIcon id={id} size={18} />
                   {name} <b class="mono">{count(id)}</b>
                 </span>
               </label>
@@ -62,16 +63,16 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
     </form>
 
     <div class="refs__count" aria-live="polite">
-      <Kota tone="ink" label={label(refs.length)} />
-      <span class="visually-hidden" data-count-text>Zobrazeno {label(refs.length)}</span>
+      <p class="refs__total">Zobrazeno <span data-count-text>{label(refs.length)}</span></p>
     </div>
 
     <div class="refs__grid" data-grid>
       {refs.map((r) => <RefCard item={r} />)}
     </div>
-    <p class="refs__empty" hidden data-empty>
-      V této kombinaci nemáme žádný projekt. Zkuste jinou kategorii nebo typ realizace.
-    </p>
+    <div class="refs__empty" hidden data-empty>
+      <span class="refs__empty-hatch" aria-hidden="true"></span>
+      <p>V této kombinaci nemáme žádný projekt. Zkuste jinou kategorii nebo typ realizace.</p>
+    </div>
   </section>
 </Base>
 
@@ -178,6 +179,18 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
 
   .refs__count {
     margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .refs__total {
+    color: var(--muted);
+    font-size: var(--t-sm);
+  }
+
+  .refs__total span {
+    color: var(--ink);
+    font-weight: 600;
   }
 
 
@@ -191,11 +204,28 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
     display: none;
   }
 
+  /* empty state: an unbuilt plot – a hatched void in the sheet */
   .refs__empty {
-    padding: var(--space-7);
-    border: 1px dashed var(--line-strong);
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border: 1px solid var(--ink);
+    background: var(--sheet);
     color: var(--ink-2);
+    text-align: center;
+  }
+
+  .refs__empty[hidden] {
+    display: none;
+  }
+
+  .refs__empty-hatch {
+    height: 120px;
+    border-bottom: 1px solid var(--ink);
+    background: repeating-linear-gradient(-45deg, var(--line-strong) 0 1px, transparent 1px 10px);
+  }
+
+  .refs__empty p {
+    padding: var(--space-5);
   }
 
   @media (max-width: 1100px) {
@@ -220,9 +250,7 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
   const form = document.querySelector<HTMLFormElement>('[data-filters]');
   const cards = [...document.querySelectorAll<HTMLElement>('[data-grid] .ref')];
   const empty = document.querySelector<HTMLElement>('[data-empty]');
-  const kotaLabel = document.querySelector<HTMLElement>('.refs__count .kota__label');
   const srText = document.querySelector<HTMLElement>('[data-count-text]');
-  const kota = document.querySelector<HTMLElement>('.refs__count .kota');
   const word = (n: number) => (n === 1 ? 'projekt' : n >= 2 && n <= 4 ? 'projekty' : 'projektů');
 
   const apply = () => {
@@ -236,13 +264,8 @@ const label = (n: number) => `${n} ${plural(n, 'projekt', 'projekty', 'projektů
       c.hidden = !ok;
       if (ok) n++;
     });
-    if (kotaLabel) kotaLabel.textContent = `${n} ${word(n)}`;
-    if (srText) srText.textContent = `Zobrazeno ${n} ${word(n)}`;
+    if (srText) srText.textContent = `${n} ${word(n)}`;
     if (empty) empty.hidden = n > 0;
-    if (kota && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      kota.classList.add('pre');
-      requestAnimationFrame(() => requestAnimationFrame(() => kota.classList.remove('pre')));
-    }
     const params = new URLSearchParams();
     if (cat) params.set('kategorie', cat);
     if (real) params.set('realizace', real);

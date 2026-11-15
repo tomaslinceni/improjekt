@@ -3,19 +3,20 @@ import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import Kota from '../components/Kota.astro';
 import Icon from '../components/Icon.astro';
 import RefCard from '../components/RefCard.astro';
 import AudienceIcon from '../components/AudienceIcon.astro';
 import { audiences, services, clients } from '../data/site';
-import { formatDate, plural } from '../lib/stages';
-import imgProjekce from '../assets/sluzby/projekcni-kancelar.webp';
-import imgInzenyring from '../assets/sluzby/inzenyrska-cinnost.webp';
-import imgMarketing from '../assets/sluzby/marketing.webp';
+import { formatDate } from '../lib/stages';
+import imgProjekce from '../assets/ilustrace/projekcni-kancelar.svg';
+import imgInzenyring from '../assets/ilustrace/inzenyrska-cinnost.svg';
+import imgMarketing from '../assets/ilustrace/marketing.svg';
 import DrawingUnderlay from '../components/DrawingUnderlay.astro';
 import { FOUNDED, YEAR } from '../data/site';
 
 const allRefs = await getCollection('reference');
+// referenced projects where we also handled the permitting (inženýring)
+const withEngineering = allRefs.filter((r) => r.data.services.some((s) => s.includes('inženýring'))).length;
 // Six projects with the widest scope, one or two per category, not already in the hero.
 const pool = allRefs
   .filter((r) => r.data.featured < 0)
@@ -40,22 +41,22 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     <div class="about__text">
       <h2 class="h2" id="about-title">Jsme IM Projekt</h2>
       <p class="lead">Naše projekční kancelář působí na českém trhu od roku 1992.</p>
-      <p class="lead about__body">
+      <p class="lead">
         Během více než tří desetiletí jsme navrhli a projektovali stovky staveb různých typů – od velkých developerských
         projektů přes nemocnice a veřejné budovy až po rodinné a bytové domy.
       </p>
-      <div class="nums" data-count-group>
+      <div class="nums">
         <div class="num">
-          <p class="num__val mono" data-count={YEAR - FOUNDED}>{YEAR - FOUNDED}</p>
+          <p class="num__val mono">{YEAR - FOUNDED}</p>
           <p class="num__label">let na trhu</p>
         </div>
         <div class="num">
-          <p class="num__val mono" data-count={allRefs.length}>{allRefs.length}</p>
+          <p class="num__val mono">{allRefs.length}</p>
           <p class="num__label">projektů v referencích</p>
         </div>
         <div class="num">
-          <p class="num__val mono" data-count={audiences.length}>{audiences.length}</p>
-          <p class="num__label">skupiny klientů</p>
+          <p class="num__val mono">{withEngineering}</p>
+          <p class="num__label">z nich i s inženýringem</p>
         </div>
       </div>
       <a class="btn btn--ghost" href="/o-nas/">O společnosti <Icon name="arrow" /></a>
@@ -83,7 +84,6 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     </nav>
   </section>
 
-  <div class="hatch-rule hatch-rule--zdivo" aria-hidden="true"></div>
   <section class="section services" aria-labelledby="services-title">
     <div class="wrap">
       <div class="section-head">
@@ -94,7 +94,7 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
         </p>
       </div>
 
-      <div class="stack">
+      <div class="stack" style={`--n:${services.length}`}>
         {
           services.map((s, i) => (
             <a class="sheetcard" href={`/sluzby/#${s.id}`} style={`--i:${i}`}>
@@ -127,34 +127,12 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     </div>
   </section>
 
-  <section class="section refs section-rule" aria-labelledby="refs-title">
-    <div class="wrap">
-      <div class="refs__head">
-        <div class="section-head">
-          <h2 class="h2" id="refs-title">Reference</h2>
-          <p class="lead">
-            Důvěra klientů je pro nás největší potvrzení dobře odvedené práce. Spolupracujeme s veřejnými institucemi,
-            developery i soukromými investory.
-          </p>
-        </div>
-        <a class="btn btn--ghost" href="/reference/">
-          Zobrazit všechny reference
-          <Icon name="arrow" />
-        </a>
-      </div>
-      <Kota tone="ink" label={`${allRefs.length} ${plural(allRefs.length, 'projekt', 'projekty', 'projektů')} v referencích`} class="refs__kota" />
-      <div class="refs__grid">
-        {picked.map((r) => <RefCard item={r} />)}
-      </div>
-    </div>
-  </section>
-
   <section class="clients" aria-labelledby="clients-title">
     <div class="wrap clients__grid">
       <div class="clients__text">
         <h2 class="h2" id="clients-title">Naši klienti</h2>
-        <p>Spolupracujeme s firmami všech velikostí, městy i obcemi.</p>
-        <p>
+        <p class="lead">Spolupracujeme s firmami všech velikostí, městy i obcemi.</p>
+        <p class="lead">
           Naše zkušenosti sahají od velkých developerských a průmyslových projektů až po řadu rodinných domů, které jsme
           pomohli proměnit ve skutečnost.
         </p>
@@ -171,12 +149,33 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     </div>
   </section>
 
+  <section class="section refs section-rule" aria-labelledby="refs-title">
+    <div class="wrap">
+      <div class="refs__head">
+        <div class="section-head">
+          <h2 class="h2" id="refs-title">Reference</h2>
+          <p class="lead">
+            Důvěra klientů je pro nás největší potvrzení dobře odvedené práce. Spolupracujeme s veřejnými institucemi,
+            developery i soukromými investory.
+          </p>
+        </div>
+        <a class="btn btn--ghost" href="/reference/">
+          Zobrazit všechny reference
+          <Icon name="arrow" />
+        </a>
+      </div>
+      <div class="refs__grid">
+        {picked.map((r) => <RefCard item={r} />)}
+      </div>
+    </div>
+  </section>
+
   <section class="career orange-field" aria-labelledby="career-title">
     <DrawingUnderlay />
     <div class="wrap career__grid">
       <div class="career__text">
         <h2 class="h2 career__title" id="career-title">Tvořte s námi projekty, na které budete hrdí</h2>
-        <p>
+        <p class="lead">
           V IM Projektu věříme, že za každým úspěšným výkresem a realizovanou stavbou stojí lidé, které jejich práce baví.
           Jsme tým, který si zakládá na vzájemném respektu, sdílení zkušeností a přátelské atmosféře.
         </p>
@@ -188,7 +187,6 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     </div>
   </section>
 
-  <div class="hatch-rule hatch-rule--izolace" aria-hidden="true"></div>
   <section class="section news wrap" aria-labelledby="news-title">
     <div class="news__head">
       <div class="section-head">
@@ -233,11 +231,6 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     justify-items: start;
     position: sticky;
     top: calc(var(--header-h) + var(--space-6));
-  }
-
-  .about__body {
-    color: var(--ink-2);
-    max-width: 52ch;
   }
 
   .legend {
@@ -315,14 +308,12 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .legend a:hover .legend__name,
-    .sheetcard:hover .h3 {
+    .legend a:hover .legend__name {
       color: var(--orange-lo);
     }
   }
 
   .legend__name,
-  .sheetcard .h3,
   .news-row__title {
     transition: color 0.25s var(--ease-out);
   }
@@ -368,20 +359,43 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
 
   /* services (E5): sheets laid one on another while scrolling; only the title strip stays visible */
   .stack {
+    --head: 3.1rem;
     display: grid;
     gap: var(--space-6);
+    /* gives back the space the last sheet's negative margin takes away (padding is outside the sticky area) */
+    padding-bottom: calc((var(--n) - 1) * var(--head));
   }
 
   .sheetcard {
-    --head: 3.1rem;
     position: sticky;
     top: calc(var(--header-h) + var(--space-5) + var(--i) * var(--head));
     display: grid;
     text-decoration: none;
-    background: var(--sheet);
+    --bg: var(--sheet);
+    background: var(--bg);
     border: 1.5px solid var(--ink);
     box-shadow: 0 -14px 32px -26px rgb(29 31 33 / 0.55);
-    transition: background-color 0.3s var(--ease-out);
+    /* sheet i ends i title strips early, so every sheet lets go at the moment the last one lands
+       and the stack leaves together instead of the last sheet sliding up over the titles */
+    margin-bottom: calc(var(--i) * var(--head) * -1);
+    margin-top: calc(max(var(--i) - 1, 0) * var(--head));
+  }
+
+  /* three sheets, three papers: white, grey, and the orange one on top */
+  .sheetcard:nth-child(2) {
+    --bg: var(--paper-2);
+  }
+
+  .sheetcard:nth-child(3) {
+    --bg: var(--orange);
+  }
+
+  .sheetcard:nth-child(3) :is(.sheetcard__no, .sheetcard__list, .sheetcard__p) {
+    color: var(--ink);
+  }
+
+  .sheetcard:nth-child(3) .svc__more {
+    border-bottom-color: var(--ink);
   }
 
   .sheetcard__head {
@@ -437,12 +451,6 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .sheetcard:hover {
-      background: #fff;
-    }
-  }
-
-  @media (hover: hover) and (pointer: fine) {
     .sheetcard:hover .sheetcard__img :global(img) {
       transform: scale(1.04);
     }
@@ -470,10 +478,6 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
 
   .refs__head .section-head {
     margin-bottom: 0;
-  }
-
-  .refs :global(.refs__kota) {
-    margin-bottom: var(--space-5);
   }
 
   .refs__grid {
@@ -504,6 +508,10 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
 
   .clients__text h2 {
     color: var(--on-dark);
+  }
+
+  .clients__text .lead {
+    color: var(--on-dark-muted);
   }
 
   .clients__logos {
@@ -564,10 +572,8 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     max-width: 16ch;
   }
 
-  .career__text p {
-    max-width: 52ch;
-    font-size: var(--t-md);
-    line-height: 1.5;
+  .career__text .lead {
+    color: inherit;
   }
 
   /* news */
@@ -670,6 +676,11 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
 
     .sheetcard {
       position: static;
+      margin: 0;
+    }
+
+    .stack {
+      padding-bottom: 0;
     }
 
     /* not stacked on phones, so the strip only needs the sheet number, not the title again */
@@ -721,31 +732,3 @@ const serviceImg = { 'projekcni-kancelar': imgProjekce, 'inzenyrska-cinnost': im
     }
   }
 </style>
-
-<script>
-  // E8: numbers count up once when they come into view.
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (!e.isIntersecting) continue;
-          io.unobserve(e.target);
-          e.target.querySelectorAll<HTMLElement>('[data-count]').forEach((n) => {
-            const target = Number(n.dataset.count);
-            const t0 = performance.now();
-            const step = (t: number) => {
-              const k = Math.min(1, (t - t0) / 1400);
-              const eased = 1 - Math.pow(1 - k, 3);
-              n.textContent = String(Math.round(target * eased));
-              if (k < 1) requestAnimationFrame(step);
-            };
-            requestAnimationFrame(step);
-          });
-        }
-      },
-      { threshold: 0.6 },
-    );
-    document.querySelectorAll('[data-count-group]').forEach((el) => io.observe(el));
-  }
-</script>

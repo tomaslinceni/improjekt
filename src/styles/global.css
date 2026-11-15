@@ -241,6 +241,16 @@ button {
   padding-right: var(--gutter-r);
 }
 
+/* opening sheets (hero, page heads) run edge to edge; their content keeps to the page column
+   via --col-inset: the gap between the sheet's inner edge and the column (23px = sheet zone + border) */
+.wrap.bleed {
+  max-width: none;
+}
+
+:root {
+  --col-inset: calc((100vw - var(--wrap)) / 2 - var(--gutter) - 23px);
+}
+
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -906,6 +916,42 @@ a:focus-visible .fold::after {
     radial-gradient(circle at 70% 75%, var(--ink-2) 0.7px, transparent 1.1px) 0 0 / 7px 7px;
 }
 
+/* Section hatches (G1): coloured bands carry a material hatch instead of the drawing grid.
+   --hatch-ink is the line colour; dark bands switch it to a light line. */
+.hatch-bg {
+  --hatch-ink: rgb(29 31 33 / 0.09);
+  background-image: var(--hatch-img) !important;
+  background-size: var(--hatch-size) !important;
+}
+
+/* orange bands draw their grid with a stronger selector; the hatch replaces it */
+:root[data-accent='vyrazna'] .orange-field.hatch-bg {
+  background-image: var(--hatch-img) !important;
+  background-size: var(--hatch-size) !important;
+}
+
+.hatch-bg--light {
+  --hatch-ink: rgb(232 233 231 / 0.07);
+}
+
+.hatch-bg--zdivo {
+  --hatch-img: repeating-linear-gradient(45deg, var(--hatch-ink) 0 1px, transparent 1px 12px);
+  --hatch-size: auto;
+}
+
+.hatch-bg--beton {
+  --hatch-img: radial-gradient(circle at 30% 40%, var(--hatch-ink) 1.3px, transparent 1.8px),
+    radial-gradient(circle at 70% 75%, var(--hatch-ink) 0.9px, transparent 1.3px),
+    linear-gradient(60deg, transparent 47%, var(--hatch-ink) 47% 50%, transparent 50%);
+  --hatch-size: 19px 19px, 12px 12px, 31px 31px;
+}
+
+.hatch-bg--izolace {
+  --hatch-img: linear-gradient(135deg, transparent 46%, var(--hatch-ink) 46% 54%, transparent 54%),
+    linear-gradient(45deg, transparent 46%, var(--hatch-ink) 46% 54%, transparent 54%);
+  --hatch-size: 18px 18px;
+}
+
 /* mobile-native: on touch screens every text link that stands on its own line is at least 44 px tall */
 @media (pointer: coarse) {
   .footer li a,
@@ -928,5 +974,44 @@ a:focus-visible .fold::after {
 
   .footer .contact-list li:first-child {
     align-items: start;
+  }
+}
+
+/*
+ * Page change: cross-document view transition (no router, plain links).
+ * The header stays put; the page underneath cross-fades instead of a hard cut (no movement,
+ * the hero must stand still). Browsers without support simply navigate as before.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  .site-header {
+    view-transition-name: site-header;
+  }
+
+  ::view-transition-old(root) {
+    animation: vt-out 0.18s ease-in both;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-in 0.32s ease-out 0.06s both;
+  }
+
+  ::view-transition-group(site-header) {
+    animation: none;
+  }
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
   }
 }

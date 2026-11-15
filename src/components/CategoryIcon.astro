@@ -1,0 +1,27 @@
+---
+/** Line pictograms for the four reference categories, drawn on a 24px grid in the icon stroke. */
+interface Props {
+  id: string;
+  size?: number;
+}
+const { id, size = 18 } = Astro.props;
+const art: Record<string, string> = {
+  'bytove-domy':
+    '<path d="M5 21V4h14v17M2.5 21h19"/><path d="M8.5 7.5h2M13.5 7.5h2M8.5 11h2M13.5 11h2M8.5 14.5h2M13.5 14.5h2M10.5 21v-3h3v3"/>',
+  komercni: '<path d="M3.5 21V10h7v11M10.5 21V3h10v18M2 21h20"/><path d="M14 6.5h3.5M14 10h3.5M14 13.5h3.5M14 17h3.5M6 13.5h2M6 17h2"/>',
+  rodinne: '<path d="M3 11.5L12 4l9 7.5M5.5 9.5V21h13V9.5M2 21h20"/><path d="M10 21v-5.5h4V21"/>',
+  verejne: '<path d="M3 9l9-5 9 5M3.5 9h17M6 11.5v6.5M10 11.5v6.5M14 11.5v6.5M18 11.5v6.5M3.5 18h17M2 21h20"/>',
+};
+---
+<svg
+  class="cat-icon"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="square"
+  aria-hidden="true"
+  set:html={art[id] ?? ''}
+/>

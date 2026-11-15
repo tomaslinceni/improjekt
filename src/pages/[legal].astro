@@ -27,6 +27,8 @@ const { Content } = await render(page);
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
+    /* one narrow reading column, centred; the text fills it (no image here to widen the column) */
+    max-width: calc(760px + var(--gutter) + var(--gutter-r));
   }
 
   .legal__title {
@@ -37,14 +39,42 @@ const { Content } = await render(page);
   }
 
   .legal__body {
-    padding: clamp(1.25rem, 3vw, 2.5rem);
-    border: 1px solid var(--ink);
-    background: var(--sheet);
+    font-size: 1.125rem;
+    line-height: 1.7;
     max-width: none;
   }
 
-  .legal__body > :global(*) {
-    max-width: 75ch;
+  /* cookie lists: one ruled table per service */
+  .legal__body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    margin-block: var(--space-3) var(--space-5);
+  }
+
+  .legal__body :global(th),
+  .legal__body :global(td) {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.55rem 0.75rem 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .legal__body :global(th) {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 620;
+    color: var(--muted);
+    border-bottom-color: var(--ink);
+  }
+
+  .legal__body :global(td:first-child) {
+    font-family: var(--f-mono);
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
+    width: 42%;
   }
 
   .legal__body :global(a),
