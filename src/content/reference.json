@@ -7,6 +7,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/administrativni-budova-vyrtych.webp",
     "featured": -1,
@@ -26,6 +27,7 @@
       "dokumentace skutečného provedení",
       "dokumentace změny stavby před jejím dokončením"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytove-domy-bezdecin.webp",
     "featured": -1,
@@ -41,6 +43,7 @@
       "dokumentace pro územní rozhodnutí a inženýring",
       "dokumentace skutečného provedení stavby"
     ],
+    "autor": "Ing. arch. Petr Brabec",
     "notes": [],
     "image": "../assets/reference/bytove-domy-svatovitska.webp",
     "featured": -1,
@@ -56,6 +59,7 @@
       "dokumentace pro povolení záměru a inženýring",
       "dokumentace pro provádění stavby"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytove-domy-vranovice.webp",
     "featured": -1,
@@ -70,6 +74,7 @@
       "dokumentace pro stavební povolení a inženýring",
       "dokumentace pro územní rozhodnutí a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-debr.webp",
     "featured": -1,
@@ -89,6 +94,7 @@
       "dokumentace skutečného provedení",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-husova.webp",
     "featured": -1,
@@ -102,6 +108,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-chocen.webp",
     "featured": -1,
@@ -117,6 +124,7 @@
       "dokumentace pro stavební povolení a inženýring",
       "dokumentace pro územní rozhodnutí a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-kino-bela.webp",
     "featured": -1,
@@ -131,6 +139,7 @@
       "architektonická studie",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-kovadlina.webp",
     "featured": -1,
@@ -148,6 +157,7 @@
       "dokumentace skutečného provedení stavby",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-na-kozine.webp",
     "featured": -1,
@@ -167,6 +177,7 @@
       "dokumentace skutečného provedení",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-palackeho.webp",
     "featured": 4,
@@ -182,6 +193,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-tovacovskeho-ptacka.webp",
     "featured": 5,
@@ -197,6 +209,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/bytovy-dum-trida-vaclava-klementa.webp",
     "featured": 2,
@@ -210,6 +223,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/dreveny-dum-08.webp",
     "featured": -1,
@@ -225,6 +239,7 @@
       "autorský dozor",
       "dokumentace změny stavby před jejím dokončením"
     ],
+    "autor": "Project A plus",
     "notes": [
       "zpracovatel předchozích stupňů dokumentace: TRIEN s.r.o."
     ],
@@ -244,6 +259,7 @@
       "dokumentace pro společné povolení stavby a inženýring",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "Ing. arch. Petr Brabec a IM Projekt",
     "notes": [],
     "image": "../assets/reference/farsky-dvur-v-predmericich.webp",
     "featured": 0,
@@ -259,6 +275,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace skutečného provedení"
     ],
+    "autor": "Milena Tomková, Ondřej Tomek / Tomek architekti s.r.o.",
     "notes": [
       "oceněná stavba soutěže STAVBA ROKU STŘEDOČESKÉHO KRAJE 2025",
       "dokumentace pro společné povolení: Ing. Josef Fuk"
@@ -275,6 +292,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/hobbyhouse-hole-vrchy.webp",
     "featured": -1,
@@ -288,6 +306,7 @@
     "services": [
       "dokumentace pro provádění stavby – část architektonicko-stavební"
     ],
+    "autor": null,
     "notes": [
       "nositel zakázky: Ingpro Praha s.r.o."
     ],
@@ -305,6 +324,7 @@
       "dokumentace pro společné povolení stavby",
       "dokumentace změny stavby před jejím dokončením"
     ],
+    "autor": null,
     "notes": [
       "autor a nositel zakázky: Studio Anarchitekt s.r.o."
     ],
@@ -320,6 +340,7 @@
     "services": [
       "dokumentace pro provádění stavby"
     ],
+    "autor": "Ing. arch. Robert Fišera",
     "notes": [],
     "image": "../assets/reference/jidelna-m2-skoda-auto.webp",
     "featured": -1,
@@ -333,6 +354,7 @@
     "services": [
       "dokumentace pro provádění stavby"
     ],
+    "autor": "Ing. arch. Robert Fišera",
     "notes": [],
     "image": "../assets/reference/jidelna-v6-skoda-auto.webp",
     "featured": -1,
@@ -347,6 +369,7 @@
       "architektonická studie",
       "dokumentace pro územní rozhodnutí"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/kancelare-erbenova.webp",
     "featured": -1,
@@ -360,6 +383,7 @@
     "services": [
       "dokumentace pro provádění stavby"
     ],
+    "autor": "Ing. arch. Robert Fišera",
     "notes": [],
     "image": "../assets/reference/kiosek-h3-skoda-auto.webp",
     "featured": -1,
@@ -378,6 +402,7 @@
       "dokumentace skutečného provedení stavby",
       "dokumentace změny stavby před jejím dokončením"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/kuchyn-a-vydejna-jidel-oblastni-nemocnice-mlada-boleslav.webp",
     "featured": -1,
@@ -394,6 +419,7 @@
       "dokumentace pro společné povolení stavby a inženýring",
       "dokumentace skutečného provedení"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/materska-skolka-markvartice.webp",
     "featured": -1,
@@ -411,6 +437,7 @@
       "dokumentace pro společné povolení stavby",
       "dokumentace pro výběr zhotovitele"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/materska-skolka-radlicka.webp",
     "featured": -1,
@@ -427,6 +454,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro stavební povolení"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/modernizace-vyukoveho-strediska.webp",
     "featured": -1,
@@ -441,6 +469,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/nastavba-bytoveho-domu-kosmonosy.webp",
     "featured": -1,
@@ -454,6 +483,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/outlet-radouc.webp",
     "featured": -1,
@@ -471,6 +501,7 @@
       "dokumentace pro společné povolení stavby",
       "studie proveditelnosti"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/plavecky-bazen-mlada-boleslav.webp",
     "featured": -1,
@@ -485,6 +516,7 @@
       "architektonická studie",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/podkrovni-byty-kovadlina.webp",
     "featured": -1,
@@ -498,6 +530,7 @@
     "services": [
       "architektonická studie a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/polyfunkcni-dum-debr.webp",
     "featured": -1,
@@ -511,6 +544,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/porotherm-06.webp",
     "featured": -1,
@@ -524,6 +558,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/porotherm-07.webp",
     "featured": -1,
@@ -537,6 +572,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/porotherm-08.webp",
     "featured": -1,
@@ -550,6 +586,7 @@
     "services": [
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/pristavba-baumax-mlada-boleslav.webp",
     "featured": -1,
@@ -563,6 +600,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/pristavba-haly-m2-skoda-auto.webp",
     "featured": -1,
@@ -578,6 +616,7 @@
       "dokumentace pro územní rozhodnutí a inženýring",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "Ing. arch. Petr Brabec",
     "notes": [],
     "image": "../assets/reference/restaurace-na-ruzku.webp",
     "featured": -1,
@@ -591,6 +630,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rezidence-bradlec.webp",
     "featured": -1,
@@ -605,6 +645,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "Delicode s.r.o.",
     "notes": [],
     "image": "../assets/reference/rezidence-michalovice.webp",
     "featured": -1,
@@ -618,6 +659,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rockhouse.webp",
     "featured": -1,
@@ -637,6 +679,7 @@
       "dokumentace skutečného provedení stavby",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "Ing. arch. Richard Héger a Ing. arch. Veronika Hégerová",
     "notes": [],
     "image": "../assets/reference/rodinne-domy-laskov.webp",
     "featured": -1,
@@ -654,6 +697,7 @@
       "dokumentace pro stavební povolení a inženýring",
       "dokumentace pro územní rozhodnutí a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-bousov.webp",
     "featured": -1,
@@ -668,6 +712,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-bradlec.webp",
     "featured": -1,
@@ -683,6 +728,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-crookston.webp",
     "featured": -1,
@@ -699,6 +745,7 @@
       "dokumentace pro společné povolení stavby a inženýring",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-kosmonosy.webp",
     "featured": -1,
@@ -714,6 +761,7 @@
       "dokumentace pro povolení záměru a inženýring",
       "dokumentace pro provádění stavby"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-lipovka.webp",
     "featured": -1,
@@ -728,6 +776,7 @@
       "architektonická studie",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-michalovice.webp",
     "featured": 1,
@@ -742,6 +791,7 @@
       "architektonická studie",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-na-dubcich.webp",
     "featured": -1,
@@ -756,6 +806,7 @@
       "architektonická studie",
       "dokumentace pro povolení záměru a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-slunecnice.webp",
     "featured": -1,
@@ -769,6 +820,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-sternberk.webp",
     "featured": -1,
@@ -785,6 +837,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dum-zelena.webp",
     "featured": -1,
@@ -800,6 +853,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/rodinny-dvojdum-neprevazka.webp",
     "featured": -1,
@@ -813,6 +867,7 @@
     "services": [
       "architektonická studie a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/radove-domy-brodce.webp",
     "featured": -1,
@@ -826,6 +881,7 @@
     "services": [
       "architektonická studie a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/radove-domy-dobrovice.webp",
     "featured": -1,
@@ -839,6 +895,7 @@
     "services": [
       "architektonická studie a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/seniorske-bydleni-klasterec-nad-ohri.webp",
     "featured": -1,
@@ -854,6 +911,7 @@
       "dokumentace pro provádění stavby",
       "dokumentace pro společné povolení stavby a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/soukromy-bazen-klasicky.webp",
     "featured": -1,
@@ -867,6 +925,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/soukromy-bazen-moderni.webp",
     "featured": -1,
@@ -880,6 +939,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/soukromy-bazen-podzemni.webp",
     "featured": -1,
@@ -898,6 +958,7 @@
       "dokumentace pro výběr zhotovitele",
       "dokumentace změny stavby před jejím dokončením a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/stavba-pro-deti-a-mladez-zahorskeho.webp",
     "featured": -1,
@@ -914,6 +975,7 @@
       "dokumentace pro stavební povolení a inženýring",
       "dokumentace pro územní rozhodnutí a inženýring"
     ],
+    "autor": "Ing. arch. Jindřich Zítka",
     "notes": [],
     "image": "../assets/reference/vila-bradlec.webp",
     "featured": -1,
@@ -930,6 +992,7 @@
       "dokumentace pro společné povolení stavby a inženýring",
       "dokumentace pro územní rozhodnutí a inženýring"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/vila-michalovice.webp",
     "featured": -1,
@@ -943,6 +1006,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/motorest-perna.webp",
     "featured": -1,
@@ -956,6 +1020,7 @@
     "services": [
       "architektonická studie"
     ],
+    "autor": "IM Projekt",
     "notes": [],
     "image": "../assets/reference/vila-picasso.webp",
     "featured": -1,

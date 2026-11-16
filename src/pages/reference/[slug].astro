@@ -8,7 +8,7 @@ import TitleBlock from '../../components/TitleBlock.astro';
 import RefCard from '../../components/RefCard.astro';
 import Icon from '../../components/Icon.astro';
 import { categories } from '../../content.config';
-import { realizaceLabel, plural, hasEngineering } from '../../lib/stages';
+import { realizaceLabel } from '../../lib/stages';
 
 export async function getStaticPaths() {
   const refs = (await getCollection('reference')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'cs'));
@@ -35,7 +35,6 @@ interface Props {
 }
 const { item, prev, next, index, total, related } = Astro.props;
 const d = item.data;
-const n = d.services.length;
 const pad = (x: number) => String(x).padStart(2, '0');
 ---
 <Base
@@ -46,18 +45,13 @@ const pad = (x: number) => String(x).padStart(2, '0');
     <div class="detail__top">
       <a class="back" href="/reference/"><Icon name="arrow-left" size={16} /> Všechny reference</a>
       <nav class="pager" aria-label="Další reference">
-        <a href={`/reference/${prev.id}/`} class="pager__link">
+        <a href={`/reference/${prev.id}/`} class="pager__link" title={prev.data.title} aria-label={`Předchozí reference: ${prev.data.title}`}>
           <Icon name="arrow-left" />
-          <span>
-            <span class="pager__dir">Předchozí</span>
-            <span class="pager__name">{prev.data.title}</span>
-          </span>
+          <span class="pager__dir">Předchozí</span>
         </a>
-        <a href={`/reference/${next.id}/`} class="pager__link pager__link--next">
-          <span>
-            <span class="pager__dir">Další</span>
-            <span class="pager__name">{next.data.title}</span>
-          </span>
+        <span class="pager__count mono">{pad(index)} / {total}</span>
+        <a href={`/reference/${next.id}/`} class="pager__link" title={next.data.title} aria-label={`Další reference: ${next.data.title}`}>
+          <span class="pager__dir">Další</span>
           <Icon name="arrow" />
         </a>
       </nav>
@@ -91,25 +85,28 @@ const pad = (x: number) => String(x).padStart(2, '0');
               }
             </ol>
           </div>
-          <TitleBlock
-            rows={[
-              { label: 'Kategorie', value: categories[d.category], wide: true },
-              { label: 'Realizace', value: d.realizace ? realizaceLabel[d.realizace] : '–' },
-              { label: 'Zpracovatel', value: 'IM Projekt' },
-              { label: 'Rozsah', value: `${n} ${plural(n, 'dokument', 'dokumenty', 'dokumentů')}`, mono: true },
-              { label: 'Inženýring', value: hasEngineering(d.services) ? 'ano' : 'ne', mono: true },
-              { label: 'List', value: `${pad(index)} / ${total}`, mono: true, wide: true },
-            ]}
-          />
           {
             d.notes.length > 0 && (
-              <ul class="detail__notes">
-                {d.notes.map((note) => (
-                  <li>{note}</li>
-                ))}
-              </ul>
+              <div class="detail__scope-list">
+                <h2 class="detail__h">Poznámka</h2>
+                <ul class="detail__notes">
+                  {d.notes.map((note) => (
+                    <li>{note}</li>
+                  ))}
+                </ul>
+              </div>
             )
           }
+        </div>
+
+        <div class="detail__meta">
+          <TitleBlock
+            rows={[
+              { label: 'Autor návrhu', value: d.autor ?? '–' },
+              { label: 'Kategorie', value: categories[d.category] },
+              { label: 'Realizace', value: d.realizace ? realizaceLabel[d.realizace] : '–' },
+            ]}
+          />
         </div>
       </div>
 
@@ -181,12 +178,40 @@ const pad = (x: number) => String(x).padStart(2, '0');
     background: var(--sheet);
   }
 
+  /* photo with the title block under it, title and scope beside both: the long scope list
+     no longer leaves a hole under the photo */
+  .detail__grid {
+    grid-template-areas:
+      'img side'
+      'meta side';
+    grid-template-rows: auto 1fr;
+    row-gap: var(--space-6);
+  }
+
   .detail__img {
+    grid-area: img;
     margin: 0;
     aspect-ratio: 1920 / 1194;
   }
 
+  .detail__meta {
+    grid-area: meta;
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  /* author gets the most room: names run long */
+  .detail__meta :global(.tb) {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+
+  .detail__meta :global(.tb__cell) {
+    align-content: start;
+  }
+
   .detail__side {
+    grid-area: side;
     display: grid;
     gap: var(--space-5);
     align-content: start;
@@ -304,41 +329,23 @@ const pad = (x: number) => String(x).padStart(2, '0');
     transition: background-color 0.2s var(--ease-out);
   }
 
-  .pager__link--next {
-    border-left: 1px solid var(--ink);
-    text-align: right;
-  }
-
-  .pager__link > span {
-    display: grid;
-  }
-
   .pager__dir {
     font-weight: 620;
   }
 
-  .pager__name {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    max-width: 22ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  /* sheet number between the arrows, like the list number in a drawing set */
+  .pager__count {
+    display: flex;
+    align-items: center;
+    padding: 0.45rem 1rem;
+    border-inline: 1px solid var(--ink);
+    font-size: 0.875rem;
     white-space: nowrap;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .pager__link:hover {
       background: var(--orange);
-    }
-
-    .pager__link:hover .pager__name {
-      color: var(--ink);
-    }
-  }
-
-  @media (max-width: 600px) {
-    .pager__name {
-      display: none;
     }
   }
 
@@ -363,19 +370,19 @@ const pad = (x: number) => String(x).padStart(2, '0');
       grid-template-columns: 1fr;
     }
 
+    .detail__grid {
+      grid-template-areas: 'img' 'side' 'meta';
+      grid-template-rows: none;
+    }
+
     .related__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 640px) {
-    .pager {
+    .detail__meta :global(.tb) {
       grid-template-columns: 1fr;
-    }
-
-    .pager__link--next {
-      border-left: 0;
-      border-top: 1px solid var(--ink);
     }
 
     .related__grid {

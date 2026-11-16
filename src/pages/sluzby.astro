@@ -77,12 +77,16 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 
   <section class="svc-block svc-block--line" id="projekcni-kancelar" aria-labelledby="projekce-title">
     <div class="wrap">
-      <div class="svc-block__head">
-        <h2 class="h2" id="projekce-title">Projekční kancelář</h2>
-        <p class="lead">
-          Poskytujeme komplexní projekční a konzultační služby pro bytové, občanské i průmyslové stavby, včetně koordinace
-          všech přidružených profesí.
-        </p>
+      <div class="svc-head svc-head--solo">
+        <div class="svc-head__text">
+          <h2 class="h2" id="projekce-title">Projekční kancelář</h2>
+          <div class="prose">
+            <p>
+              Poskytujeme komplexní projekční a konzultační služby pro bytové, občanské i průmyslové stavby, včetně
+              koordinace všech přidružených profesí.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div class="aud" data-tabs>
@@ -109,7 +113,7 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
         <div class="aud__panels">
           {
             audiences.map((a) => (
-              <article class="aud__panel" id={a.id} role="tabpanel" aria-labelledby={`tab-${a.id}`} data-panel tabindex="0">
+              <article class="aud__panel" id={a.id} role="tabpanel" aria-labelledby={`tab-${a.id}`} data-panel>
                 <div class="aud__intro">
                   <p class="aud__who">
                     <AudienceIcon id={a.id} size={32} />
@@ -137,27 +141,39 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     </div>
   </section>
 
-  <section class="svc-block" id="inzenyrska-cinnost" aria-labelledby="inz-title">
-    <div class="wrap eng">
-      <div class="eng__intro">
-        <h2 class="h2" id="inz-title">Inženýrská činnost</h2>
-        <p class="lead">
-          Inženýrská činnost představuje klíčovou fázi přípravy každého stavebního záměru. Zajišťuje, aby byl projekt v souladu s legislativními požadavky a mohl bez komplikací postoupit do realizační fáze. IM Projekt zajišťuje kompletní koordinaci procesů spojených s povolováním staveb. Součástí této činnosti je komunikace s dotčenými orgány státní správy, správci technické infrastruktury i dalšími účastníky řízení, stejně jako zajištění potřebných stanovisek, vyjádření a rozhodnutí.
-        </p>
+  <section class="svc-block svc-block--line" id="inzenyrska-cinnost" aria-labelledby="inz-title">
+    <div class="wrap">
+      <div class="svc-head">
+        <div class="svc-head__text">
+          <h2 class="h2" id="inz-title">Inženýrská činnost</h2>
+          <div class="prose">
+            <p>
+              Inženýrská činnost představuje klíčovou fázi přípravy každého stavebního záměru. Zajišťuje, aby byl projekt
+              v souladu s legislativními požadavky a mohl bez komplikací postoupit do realizační fáze.
+            </p>
+            <p>
+              IM Projekt zajišťuje kompletní koordinaci procesů spojených s povolováním staveb. Součástí této činnosti je
+              komunikace s dotčenými orgány státní správy, správci technické infrastruktury i dalšími účastníky řízení,
+              stejně jako zajištění potřebných stanovisek, vyjádření a rozhodnutí.
+            </p>
+            <p>
+              Díky zkušenostem s administrativními procesy a systematickému přístupu dokážeme jednotlivé kroky efektivně
+              koordinovat a minimalizovat riziko prodlev. Pro investora tak celý proces představuje přehlednou a řízenou
+              cestu od projektového záměru k realizaci.
+            </p>
+            <p>
+              Naším cílem je, aby povolovací proces probíhal plynule, s jasnou koordinací všech účastníků a s důrazem na
+              kvalitu přípravy projektu.
+            </p>
+          </div>
+        </div>
+        <figure class="frame svc-head__img reveal">
+          <Image src={imgInzenyring} alt="Situace stavby s přípojkami vodovodu, kanalizace, plynu a elektřiny" widths={[600, 1000, 1600]} sizes="(min-width: 980px) 56vw, 92vw" />
+        </figure>
       </div>
-      <div class="eng__more">
-        <p class="lead">
-          Díky zkušenostem s administrativními procesy a systematickému přístupu dokážeme jednotlivé kroky efektivně koordinovat a minimalizovat riziko prodlev. Pro investora tak celý proces představuje přehlednou a řízenou cestu od projektového záměru k realizaci.
-        </p>
-        <p class="lead">
-          Naším cílem je, aby povolovací proces probíhal plynule, s jasnou koordinací všech účastníků a s důrazem na kvalitu přípravy projektu.
-        </p>
-      </div>
-      <figure class="frame eng__img reveal">
-        <Image src={imgInzenyring} alt="Situace stavby s přípojkami vodovodu, kanalizace, plynu a elektřiny" widths={[600, 1000, 1344]} sizes="(min-width: 980px) 56vw, 92vw" />
-      </figure>
-      <div class="checklist eng__list">
-        <h3 class="checklist__title">V rámci inženýrské činnosti zajišťujeme zejména:</h3>
+
+      <div class="svc-card eng__table">
+        <h3 class="card-label eng__table-head">V rámci inženýrské činnosti zajišťujeme zejména</h3>
         <ol>
           {engineering.map((e) => <li><Icon name="check" size={18} /><span>{e}</span></li>)}
         </ol>
@@ -188,15 +204,21 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
         </figure>
       </div>
 
+      <div class="svc-card mkt__card">
       <div class="mkt__cols">
         {
-          marketing.map((m) => (
+          marketing.map((m, i) => (
             <article class="mkt__col">
-              <h3 class="h3">{m.title}</h3>
-              {m.intro.map((p) => <p>{p}</p>)}
-              <ul>
-                {m.items.map((it) => <li>{it}</li>)}
-              </ul>
+              <header class="mkt__col-head">
+                <span class="mkt__num mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="h3">{m.title}</h3>
+              </header>
+              <div class="mkt__body">
+                <div class="mkt__col-intro">{m.intro.map((p) => <p>{p}</p>)}</div>
+                <ul>
+                  {m.items.map((it) => <li><Icon name="check" size={18} /><span>{it}</span></li>)}
+                </ul>
+              </div>
               <p class="mkt__outro">{m.outro}</p>
             </article>
           ))
@@ -213,11 +235,12 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
           <p>Marketing proto nevzniká odděleně. Je součástí celkové strategie projektu.</p>
         </div>
         <div>
-          <h4 class="mkt__for">Pro koho pracujeme</h4>
+          <h4 class="card-label">Pro koho pracujeme</h4>
           <ul class="tags">
             {forWhom.map((f) => <li>{f}</li>)}
           </ul>
         </div>
+      </div>
       </div>
     </div>
   </section>
@@ -285,13 +308,6 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 
   .svc-block > .wrap {
     position: relative;
-  }
-
-  .svc-block__head {
-    display: grid;
-    gap: var(--space-4);
-    max-width: 60ch;
-    margin-bottom: var(--space-7);
   }
 
   /* audience tabs */
@@ -373,10 +389,6 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     margin-top: 0;
   }
 
-  .aud__panel:focus-visible {
-    outline-offset: -4px;
-  }
-
   .aud__intro {
     display: grid;
     gap: var(--space-4);
@@ -404,8 +416,7 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     list-style: none;
   }
 
-  .aud__list li,
-  .checklist li {
+  .aud__list li {
     display: grid;
     grid-template-columns: 22px minmax(0, 1fr);
     gap: 0.6rem;
@@ -416,66 +427,84 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
     padding-top: 0;
   }
 
-  .aud__list li + li,
-  .checklist li + li {
+  .aud__list li + li {
     border-top: 1px solid var(--line);
   }
 
-  .aud__list :global(svg),
-  .checklist :global(svg) {
+  .aud__list :global(svg) {
     color: var(--orange-lo);
     margin-top: 0.2rem;
   }
 
-  /* engineering: text row above, picture + checklist row of equal height below */
-  .eng {
+  /* engineering: text left, picture right, then the checklist as one table row */
+  .svc-head {
     display: grid;
     grid-template-columns: var(--split);
-    gap: var(--space-7) var(--split-gap);
+    gap: var(--split-gap);
+    align-items: center;
+    margin-bottom: var(--space-8);
   }
 
-  .eng__intro,
-  .eng__more {
+  .svc-head--solo {
+    grid-template-columns: minmax(0, 60ch);
+  }
+
+  .svc-head__text {
     display: grid;
     gap: var(--space-5);
-    align-content: start;
   }
 
-  .eng__more {
-    padding-top: calc(var(--t-xl) * 1.1 + var(--space-5));
+  .svc-head__text .prose {
+    display: grid;
+    gap: var(--space-3);
   }
 
-  .eng__img {
-    position: relative;
-    margin: 0;
-    aspect-ratio: auto;
-    min-height: 340px;
-  }
-
-  .eng__img :global(img) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .checklist {
+  /* the same sheet card as the audience panel above */
+  .svc-card {
     border: 1px solid var(--ink);
     background: var(--sheet);
-    padding: var(--space-5);
   }
 
-  .checklist__title {
-    font-size: 1rem;
-    font-weight: 640;
-    margin-bottom: var(--space-2);
+  .card-label {
+    font-family: var(--f-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
-  .checklist ol {
+  .svc-head__img {
+    margin: 0;
+    aspect-ratio: 1600 / 1000;
+  }
+
+  .eng__table-head {
+    padding: var(--space-4) clamp(1.25rem, 2.4vw, 2rem);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .eng__table ol {
     list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
+  .eng__table li {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: var(--space-5) clamp(1rem, 1.8vw, 1.5rem);
+    color: var(--ink);
+  }
+
+  .eng__table li + li {
+    border-left: 1px solid var(--line);
+  }
+
+  .eng__table :global(svg) {
+    color: var(--orange-lo);
+  }
 
   /* marketing */
   .mkt__head {
@@ -507,62 +536,88 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
   .mkt__cols {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--ink);
+    grid-template-rows: auto 1fr auto;
   }
 
+  /* heads and closing notes share one line across the three pillars */
   .mkt__col {
+    grid-row: span 3;
     display: grid;
-    gap: var(--space-3);
-    align-content: start;
-    padding: var(--space-6) var(--space-6) var(--space-6) 0;
+    grid-template-rows: subgrid;
+    row-gap: 0;
     color: var(--ink-2);
   }
 
   .mkt__col + .mkt__col {
-    border-left: 1px solid var(--line);
-    padding-left: var(--space-6);
+    border-left: 1px solid var(--ink);
+  }
+
+  .mkt__col > * {
+    padding-inline: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  .mkt__col-head {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mkt__num {
+    font-size: 0.8125rem;
+    color: var(--orange-ink);
   }
 
   .mkt__col h3 {
     color: var(--ink);
     font-size: var(--t-md);
+    text-wrap: balance;
+  }
+
+  .mkt__col-intro {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-5);
   }
 
   .mkt__col ul {
     list-style: none;
-    display: grid;
-    gap: 0.35rem;
+    padding-block: var(--space-4) var(--space-5);
   }
 
   .mkt__col li {
-    padding-left: 1.4rem;
-    position: relative;
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 0.6rem;
+    padding: 0.55rem 0;
     color: var(--ink);
   }
 
-  .mkt__col li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.8em;
-    width: 0.8rem;
-    height: 1.5px;
-    background: var(--orange);
+  .mkt__col li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .mkt__col li :global(svg) {
+    color: var(--orange-lo);
+    margin-top: 0.2rem;
   }
 
   .mkt__outro {
-    font-style: italic;
+    padding-block: var(--space-4) var(--space-5);
+    border-top: 1px solid var(--line);
+    background: var(--paper);
     font-size: 0.9375rem;
+    line-height: 1.5;
   }
 
   .mkt__dev {
     display: grid;
     grid-template-columns: var(--split);
     gap: var(--space-7) var(--split-gap);
-    padding: var(--space-6);
-    border: 1px solid var(--ink);
-    background: var(--sheet);
-    margin-top: var(--space-6);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--ink);
   }
 
   .mkt__dev > div {
@@ -574,14 +629,6 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 
   .mkt__dev h3 {
     color: var(--ink);
-  }
-
-  .mkt__for {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 620;
-    color: var(--muted);
   }
 
   .tags {
@@ -642,7 +689,7 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
       gap: var(--space-5);
     }
 
-    .eng,
+    .svc-head,
     .mkt__head,
     .mkt__dev,
     .cta__inner {
@@ -654,13 +701,19 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .eng__more {
-      padding-top: 0;
+    .eng__table ol {
+      grid-template-columns: 1fr;
     }
 
-    .eng__img {
-      min-height: 0;
-      aspect-ratio: 16 / 9;
+    .eng__table li {
+      grid-template-columns: 22px minmax(0, 1fr);
+      gap: 0.6rem;
+      padding-block: var(--space-3);
+    }
+
+    .eng__table li + li {
+      border-left: 0;
+      border-top: 1px solid var(--line);
     }
 
     .aud__tabs button:nth-child(3) {
@@ -674,16 +727,17 @@ const forWhom = ['developeři', 'investoři', 'vlastníci nemovitostí', 'archit
 
     .mkt__cols {
       grid-template-columns: 1fr;
+      grid-template-rows: none;
     }
 
-    .mkt__col,
+    .mkt__col {
+      grid-row: auto;
+      grid-template-rows: none;
+    }
+
     .mkt__col + .mkt__col {
-      padding: var(--space-5) 0;
       border-left: 0;
-    }
-
-    .mkt__col + .mkt__col {
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--ink);
     }
   }
 

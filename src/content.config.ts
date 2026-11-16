@@ -21,6 +21,8 @@ const reference = defineCollection({
       category: z.enum(['bytove-domy', 'komercni', 'rodinne', 'verejne']),
       realizace: z.enum(['novostavba', 'rekonstrukce']).nullable(),
       services: z.array(z.string()),
+      /** "Autor návrhu" from the old site; null where it was left empty. */
+      autor: z.string().nullable().default(null),
       notes: z.array(z.string()).default([]),
       image: image(),
       /** Position in the home-page hero; -1 = not featured. */
